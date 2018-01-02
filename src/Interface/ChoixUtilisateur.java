@@ -3,30 +3,17 @@ package Interface;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.lang.management.LockInfo;
 
-public class Login extends JDialog {
+public class ChoixUtilisateur extends JDialog {
     private JPanel contentPane;
-    private JButton buttonOK;
-    private JButton buttonCancel;
-    private JTextField textField1;
-    private JTextField textField2;
-    private JButton inscriptionButton;
+    private JButton utilisateurDuCampusButton;
+    private JButton serviceAdministratifOuTechniqueButton;
 
-    public Login() {
+
+    public ChoixUtilisateur() {
         setContentPane(contentPane);
         setModal(true);
-        getRootPane().setDefaultButton(buttonOK);
-        buttonOK.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onOK();
-            }
-        });
-
-        buttonCancel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        });
 
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -42,12 +29,18 @@ public class Login extends JDialog {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
+        utilisateurDuCampusButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                Login log = new Login();
+                log.pack();
+                log.setVisible(true);
+            }
+        });
     }
 
-    private void onOK() {
-        // add your code here
-        dispose();
-    }
 
     private void onCancel() {
         // add your code here if necessary
@@ -55,7 +48,7 @@ public class Login extends JDialog {
     }
 
     public static void main(String[] args) {
-        Login dialog = new Login();
+        ChoixUtilisateur dialog = new ChoixUtilisateur();
         dialog.pack();
         dialog.setVisible(true);
     }

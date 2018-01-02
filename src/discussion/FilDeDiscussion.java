@@ -2,6 +2,8 @@ package discussion;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.log4j.Logger;
 import utilisateurs.GroupeNomme;
 import utilisateurs.Utilisateur;
 
@@ -9,6 +11,7 @@ import utilisateurs.Utilisateur;
 public class FilDeDiscussion extends GroupeNomme{
     private String sujet;
     private List<Message> filsdediscussion = new ArrayList<>();
+    private static Logger LOGGER = Logger.getLogger(FilDeDiscussion.class);
 
     public FilDeDiscussion(String sujet) {
         super("Conversation : " + sujet);
@@ -22,20 +25,21 @@ public class FilDeDiscussion extends GroupeNomme{
             filsdediscussion.add(messageajoute);
         }
         else{
-            System.err.println("ERREUR : " + u.getPrenom().toString() + " ne participe pas à cette conversation");
+            LOGGER.error("ERREUR : " + u.getPrenom() + " ne participe pas à cette conversation");
             System.exit(1);
         }
         return messageajoute;
     }
 
     public String toString(){
-        String cat = super.getNom()+ "\n";
+        StringBuilder cat = new StringBuilder();
+        cat.append(super.getNom()+ "\n");
         Message m;
         for (int i=0; i<filsdediscussion.size();i++){
             m = filsdediscussion.get(i);
-            cat += m.getFrom().getPrenom()+ " " + m.getFrom().getNom() + " : " + m.getMesage() + "\n" + "Recu par : "+ m ;
+            cat.append(m.getFrom().getPrenom()+ " " + m.getFrom().getNom() + " : " + m.getMesage() + "\n" + "Recu par : "+ m );
         }
-        return cat;
+        return cat.toString();
     }
 
     public Message lireLeMessage(int indice){
@@ -45,8 +49,7 @@ public class FilDeDiscussion extends GroupeNomme{
             message = filsdediscussion.get(size - indice -1);
         }
         else {
-            System.err.println("ATTENTION: lireMessage() : la file de discussion est vide ! ");
-           // System.exit(2);
+            LOGGER.error("ATTENTION: lireMessage() : la file de discussion est vide ! ");
         }
         return message;
     }

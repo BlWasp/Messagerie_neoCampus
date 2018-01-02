@@ -33,7 +33,9 @@ public class Test_FilDeDiscussion1 {
         // Envoi d'un Message
         Message cur;
         cur = pbedt.ajouterMessage(nadege,"Bonjour, nouveau cours : 5 h de Maths  dans 5 min, Présence obligatoire ! ");
-        if(cur == null) System.out.println("Violation d'accés"); // Peut arriver si nadege n'appartient pas au fil de discussion pbedt
+        if(cur == null){
+            System.out.println("Violation d'accés"); // Peut arriver si nadege n'appartient pas au fil de discussion pbedt
+        }
 
         //Réception d'un message
         Message rcp;

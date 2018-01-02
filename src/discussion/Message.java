@@ -1,11 +1,11 @@
 
 package discussion;
 
+import org.apache.log4j.Logger;
 import utilisateurs.Groupe;
 import utilisateurs.Utilisateur;
 
-import java.util.NavigableSet;
-import java.util.TreeSet;
+
 
 public class Message {
     private Utilisateur from;
@@ -14,6 +14,7 @@ public class Message {
     private Groupe recu = new Groupe();
     private Groupe lu = new Groupe();
     private Etat etat;
+    private static Logger LOGGER = Logger.getLogger(Message.class);
     enum Etat{
         ENVOIE_SERVEUR, // [GRIS] le message n'est pas encore recu par le serveur
         PAS_RECU_PAR_TOUS, // [ROUGE] le message n'est pas recu par tout les destinataires
@@ -36,11 +37,11 @@ public class Message {
     public void recu(Utilisateur u){
 
         if( ! enAttente.estMembre(u) ){
-            System.err.println("ERREUR : recu() l'utilisateur " + u.getPrenom() + " n'est pas en attente du message ");
+            LOGGER.error("ERREUR : recu() l'utilisateur " + u.getPrenom() + " n'est pas en attente du message ");
             System.exit(3);
         }
         if( recu.estMembre(u)){
-            System.err.println("ERREUR : recu() : l'utilisateur est déja dans recu");
+            LOGGER.error("ERREUR : recu() : l'utilisateur est déja dans recu");
             System.exit(4);
         }
 
@@ -50,11 +51,11 @@ public class Message {
     public void lu(Utilisateur u){
 
         if( ! recu.estMembre(u) ){
-            System.err.println("ERREUR : lu() l'utilisateur désigné n'est pas dans la liste des messages recus");
+            LOGGER.error("ERREUR : lu() l'utilisateur désigné n'est pas dans la liste des messages recus");
             System.exit(5);
         }
         if( lu.estMembre(u)){
-            System.err.println("ERREUR : lu() : l'utilisateur est déja dans lu ");
+            LOGGER.error("ERREUR : lu() : l'utilisateur est déja dans lu ");
             System.exit(6);
         }
 

@@ -11,12 +11,14 @@ public class GroupeNomme extends Groupe implements Comparable<GroupeNomme>{
         return nom;
     }
 
+    @Override
     public String _listeUtisateurToString(){
-        String cat = "Groupe Nommé (" +nom+")"  + this + " :";
+        StringBuilder cat = new StringBuilder();
+        cat.append("Groupe Nommé (" +nom+")"  + this + " :");
         for(Utilisateur u : super.getMembres()){
-            cat += u.getNom() + ", ";
+            cat.append(u.getNom() + ", ");
         }
-        return cat;
+        return cat.toString();
     }
 
     @Override

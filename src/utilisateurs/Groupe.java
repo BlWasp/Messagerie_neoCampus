@@ -75,10 +75,11 @@ public class Groupe {
     }
 
     public String _listeUtisateurToString(){
-        String cat = "Groupe " + this + " :";
+        StringBuilder cat = new StringBuilder();
+        cat.append("Groupe " + this + " :");
         for(Utilisateur u : membres){
-            cat += u.getNom() + ", ";
+            cat.append(u.getNom() + ", ");
         }
-        return cat;
+        return cat.toString();
     }
 }

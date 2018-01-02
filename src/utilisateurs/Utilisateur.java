@@ -1,10 +1,7 @@
 
 package utilisateurs;
 
-import discussion.FilDeDiscussion;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class Utilisateur implements Comparable<Utilisateur>{
     private String nom;
@@ -17,7 +14,8 @@ public class Utilisateur implements Comparable<Utilisateur>{
         this.nom = nom;
         this.prenom = prenom;
         this.identifiant = identifiant;
-        this.motDePasse = motDePasse;
+
+        this.motDePasse = EncodePasswd.encode(motDePasse);
         this.type = type;
     }
 
@@ -60,7 +58,6 @@ public class Utilisateur implements Comparable<Utilisateur>{
                 "nom='" + nom + '\'' +
                 ", prenom='" + prenom + '\'' +
                 ", identifiant=" + identifiant +
-                ", MotDePasse='" + motDePasse + '\'' +
                 ", type=" + type ;
 
         str += "}";
