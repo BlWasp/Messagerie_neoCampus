@@ -23,7 +23,7 @@ public class testLectureBDD {
             //Création d'un objet Statement
             Statement state = conn.createStatement();
             //L'objet ResultSet contient le résultat de la requête SQL
-            ResultSet result = state.executeQuery("SELECT * FROM utilisateur");
+            ResultSet result = state.executeQuery("SELECT * FROM users");
             //On récupère les MetaData
             ResultSetMetaData resultMeta = result.getMetaData();
 
