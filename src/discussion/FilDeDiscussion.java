@@ -45,12 +45,13 @@ public class FilDeDiscussion extends GroupeNomme{
             message = filsdediscussion.get(size - indice -1);
         }
         else {
-            System.err.println("ERREUR : lireMessage() : la file de discussion est vide ! ");
-            System.exit(2);
+            System.err.println("ATTENTION: lireMessage() : la file de discussion est vide ! ");
+           // System.exit(2);
         }
         return message;
     }
 
+        /*
     public void printFil(){
         for (Message m : filsdediscussion){
             System.out.println(m.getFrom().getPrenom() + ": " + m.getMesage());
@@ -73,5 +74,6 @@ public class FilDeDiscussion extends GroupeNomme{
             System.out.println("\n");
         }
     }
+        */
 
 }

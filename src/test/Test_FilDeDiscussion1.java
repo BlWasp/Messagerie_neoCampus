@@ -38,7 +38,7 @@ public class Test_FilDeDiscussion1 {
         //Réception d'un message
         Message rcp;
         rcp = pbedt.lireLeMessage(0); // Lit le dernier message de la file, si index =1 avant-dernier message , index =2 avavnt-avant dernier etc ...
-
+        if(rcp==null) System.err.println("Pas de message dans la file ou pas de message à l'index indiqué");
         // Exemple avec Sylvain (mais à faire ppour tout les membres de la conversation) :
         // le message est dans l'état "en-attente" pour sylvain
         rcp.recu(sylvain);
