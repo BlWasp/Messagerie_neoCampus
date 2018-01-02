@@ -1,0 +1,100 @@
+
+package discussion;
+
+import utilisateurs.Groupe;
+import utilisateurs.Utilisateur;
+
+import java.util.NavigableSet;
+import java.util.TreeSet;
+
+public class Message {
+    private Utilisateur from;
+    private String message;
+    private Groupe enAttente = new Groupe();
+    private Groupe recu = new Groupe();
+    private Groupe lu = new Groupe();
+    private Etat etat;
+    enum Etat{
+        ENVOIE_SERVEUR, // [GRIS] le message n'est pas encore recu par le serveur
+        PAS_RECU_PAR_TOUS, // [ROUGE] le message n'est pas recu par tout les destinataires
+        PAS_LU_PAR_TOUS,// [ORANGE] le message n'est pas lu par tout les destinataires
+        LU_PAR_TOUS, // [VERT] le message est lu par tout les destinataires
+    }
+
+
+    public Message(Utilisateur from, Groupe to, String message) {
+        this.from = from;
+        this.message = message;
+        enAttente.ajouterMembres(to);
+        enAttente.ajouterMembres(from);
+        etat = Etat.ENVOIE_SERVEUR;
+    }
+
+    public Utilisateur getFrom() {
+        return from;
+    }
+    public void recu(Utilisateur u){
+
+        if( ! enAttente.estMembre(u) ){
+            System.err.println("ERREUR : recu() l'utilisateur " + u.getPrenom() + " n'est pas en attente du message ");
+            System.exit(3);
+        }
+        if( recu.estMembre(u)){
+            System.err.println("ERREUR : recu() : l'utilisateur est déja dans recu");
+            System.exit(4);
+        }
+
+        this.enAttente.retirerMembres(u);
+        this.recu.ajouterMembres(u);
+    }
+    public void lu(Utilisateur u){
+
+        if( ! recu.estMembre(u) ){
+            System.err.println("ERREUR : lu() l'utilisateur désigné n'est pas dans la liste des messages recus");
+            System.exit(5);
+        }
+        if( lu.estMembre(u)){
+            System.err.println("ERREUR : lu() : l'utilisateur est déja dans lu ");
+            System.exit(6);
+        }
+
+        this.recu.retirerMembres(u);
+        this.lu.ajouterMembres(u);
+    }
+
+    public Etat getEtat() {
+        return etat;
+    }
+
+    public void setEtat(Etat etat) {
+        this.etat = etat;
+    }
+
+    public String getMesage() {
+        return message;
+    }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "from=" + from.getPrenom() +
+                ", message='" + message + '\'' +
+                ", enAttente=" + enAttente._listeUtisateurToString() +
+                ", recu=" + recu._listeUtisateurToString() +
+                ", lu=" + lu._listeUtisateurToString() +
+                ", etat=" + etat +
+                '}';
+    }
+
+    public Groupe getEnAttente() {
+        return enAttente;
+    }
+
+    public Groupe getRecu() {
+        return recu;
+    }
+
+    public Groupe getLu() {
+        return lu;
+    }
+}
