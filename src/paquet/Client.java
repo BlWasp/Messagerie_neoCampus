@@ -7,19 +7,32 @@ import utilisateurs.Utilisateur;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Client {
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
+    public static void main(String[] args) throws IOException {
         List<GroupeNomme> listeGrroupe = new ArrayList<>();
         Groupe global = new Groupe();
+        Utilisateur utilisateurCourant = null;
 
-        Socket clientSocket = new Socket("127.0.0.1", 6791);
-        ObjectOutputStream outToServer = new ObjectOutputStream(clientSocket.getOutputStream());
-        outToServer.writeObject(new Connexion(21400536,"0000"));
+        Socket clientSocket = null;
+        ObjectOutputStream outToServer=null;
+        try {
+            clientSocket = new Socket("127.0.0.1", 6791);
+            outToServer = new ObjectOutputStream(clientSocket.getOutputStream());
+            outToServer.writeObject(new Connexion(0,"admin"));
+            utilisateurCourant = authentification(clientSocket, 0,"admin") ;
+        } catch (IOException e) {
+            System.out.println("Server off");
+        }
+
+
+
+        // Authentification
+        if(utilisateurCourant==null) System.out.println("Echec d'authentification");
+        else System.out.println("Connecté en tant que: "+ utilisateurCourant);
 
 
 
@@ -36,4 +49,48 @@ public class Client {
 
 
     }
+    static Utilisateur authentification(Socket s, int id, String mdp) {
+        Utilisateur user = null;
+        ObjectOutputStream outToServer = null;
+
+        try {
+            outToServer = new ObjectOutputStream(s.getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            outToServer.writeObject(new Connexion(id, mdp));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ObjectInputStream in = null;
+        try {
+            in = new ObjectInputStream(s.getInputStream());
+            try {
+                Object instruction = in.readObject();
+                if (instruction.getClass() == Connexion.class) {
+                    Connexion cx = (Connexion) instruction;
+                    if (cx.getUtilisateur() != null) {
+                        user =  cx.getUtilisateur();
+                    }
+                }
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+
+
+
+
+
+
+
+
+
+
 }
+

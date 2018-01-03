@@ -22,7 +22,7 @@ public class Serveur {
         // Fin partie BDD
 
         global.ajouterMembres(
-           new Utilisateur("Deker","Sylvain",21400536,"0000", TypeUtilisateur.ETUDIANT));
+           new Utilisateur("admin","admin",0,"admin", null));
         ServerSocket sSocket = new ServerSocket(6791);
 
         while (true) {
@@ -34,21 +34,36 @@ public class Serveur {
             System.out.println(instruction.getClass());
             if(instruction.getClass() == Connexion.class){
                 Connexion requester = (Connexion) instruction;
-               //  System.out.println(requester.getIdentifiant()+ requester.getMdp());
-               for(Utilisateur u : global.getMembres()){
-
-                   if(u.equals(new Utilisateur("","",requester.getIdentifiant(),requester.getMdp(),null)) ){
-                       // Authentification réussi
-                      // out.writeObject(u);
-                       System.out.println("Authetification réussi");
-                   }
-               }
-
+                authentification(global,requester,out);
             }
 
 
         }
     }
+
+    static void authentification(Groupe global, Connexion requester, ObjectOutputStream out){
+        for(Utilisateur u : global.getMembres()){
+
+            if(u.equals(new Utilisateur("","",requester.getIdentifiant(),requester.getMdp(),null)) ){
+                // Authentification réussi
+                try {
+                    out.writeObject(new Connexion(u));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("Authetification réussi");
+            }
+        }
+
+    }
+
+
+
+
+
+
+
+
 
 
 }

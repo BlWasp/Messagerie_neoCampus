@@ -2,8 +2,9 @@
 package utilisateurs;
 
 
+import java.io.Serializable;
 
-public class Utilisateur implements Comparable<Utilisateur>{
+public class Utilisateur implements Comparable<Utilisateur>,Serializable{
     private String nom;
     private String prenom;
     private int identifiant;

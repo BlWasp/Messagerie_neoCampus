@@ -29,6 +29,10 @@ public class Connexion implements Serializable {
         return mdp;
     }
 
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
+
     @Override
     public String toString() {
         return "Connexion{" +
