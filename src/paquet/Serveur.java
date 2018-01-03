@@ -1,5 +1,6 @@
 package paquet;
 
+import discussion.FilDeDiscussion;
 import utilisateurs.Groupe;
 import utilisateurs.GroupeNomme;
 import utilisateurs.TypeUtilisateur;
@@ -18,6 +19,7 @@ public class Serveur {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         // Partie BDD
         List<GroupeNomme> listeGrroupe = new ArrayList<>();
+        List<FilDeDiscussion> listeFilDeDiscussion = new ArrayList<>();
         Groupe global = new Groupe();
         // Fin partie BDD
 
@@ -35,6 +37,10 @@ public class Serveur {
             if(instruction.getClass() == Connexion.class){
                 Connexion requester = (Connexion) instruction;
                 authentification(global,requester,out);
+            }else if(instruction.getClass() == FilDeDiscussion.class){
+                FilDeDiscussion f = (FilDeDiscussion) instruction;
+                listeFilDeDiscussion.add(f);
+                // TODO
             }
 
 

@@ -23,16 +23,24 @@ public class Client {
             clientSocket = new Socket("127.0.0.1", 6791);
             outToServer = new ObjectOutputStream(clientSocket.getOutputStream());
             outToServer.writeObject(new Connexion(0,"admin"));
+
+            // Authentification
             utilisateurCourant = authentification(clientSocket, 0,"admin") ;
+            if(utilisateurCourant==null) System.out.println("Echec d'authentification");
+            else System.out.println("Connecté en tant que: "+ utilisateurCourant);
+
+
+
+
+
         } catch (IOException e) {
             System.out.println("Server off");
         }
 
 
 
-        // Authentification
-        if(utilisateurCourant==null) System.out.println("Echec d'authentification");
-        else System.out.println("Connecté en tant que: "+ utilisateurCourant);
+
+
 
 
 
