@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import utilisateurs.Groupe;
 import utilisateurs.Utilisateur;
 
+import java.util.UUID;
 
 
 public class Message {
@@ -13,6 +14,7 @@ public class Message {
     private Groupe enAttente = new Groupe();
     private Groupe recu = new Groupe();
     private Groupe lu = new Groupe();
+    private final UUID id = UUID.randomUUID();
     private Etat etat;
     private static Logger LOGGER = Logger.getLogger(Message.class);
     enum Etat{
@@ -97,5 +99,9 @@ public class Message {
 
     public Groupe getLu() {
         return lu;
+    }
+
+    public UUID getId() {
+        return id;
     }
 }
