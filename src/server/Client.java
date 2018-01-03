@@ -21,6 +21,7 @@ public class Client implements Runnable{
     }
 
     public void run() {
+
         try {
             String serverMsg = "";
             while((serverMsg = reader.readLine()) != null) {

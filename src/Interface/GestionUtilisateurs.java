@@ -3,16 +3,20 @@ package Interface;
 import javax.swing.*;
 import java.awt.event.*;
 
-public class ChoixUtilisateur extends JDialog {
+public class GestionUtilisateurs extends JDialog {
     private JPanel contentPane;
-    private JButton utilisateurDuCampusButton;
-    private JButton serviceAdministratifOuTechniqueButton;
-    private JButton administrateurButton;
+    private JTable table1;
+    private JTextField rechercherTextField;
+    private JButton rechercherButton;
+    private JToolBar tools;
+    private JButton ajouterUnUtilisateurButton;
 
 
-    public ChoixUtilisateur() {
+    public GestionUtilisateurs() {
         setContentPane(contentPane);
         setModal(true);
+
+
 
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -28,17 +32,8 @@ public class ChoixUtilisateur extends JDialog {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-
-        utilisateurDuCampusButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-                Login log = new Login();
-                log.pack();
-                log.setVisible(true);
-            }
-        });
     }
+
 
 
     private void onCancel() {
@@ -47,8 +42,9 @@ public class ChoixUtilisateur extends JDialog {
     }
 
     public static void main(String[] args) {
-        ChoixUtilisateur dialog = new ChoixUtilisateur();
+        GestionUtilisateurs dialog = new GestionUtilisateurs();
         dialog.pack();
         dialog.setVisible(true);
+        System.exit(0);
     }
 }

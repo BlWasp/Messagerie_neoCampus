@@ -24,7 +24,7 @@ public class Server implements Runnable{
 
             clients.add(writer);
 
-            while(true) {
+            while(1 == 1) {
                 String data1 = reader.readLine().trim();
                 System.out.println("Recu : " + data1);
 
