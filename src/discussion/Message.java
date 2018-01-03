@@ -16,7 +16,7 @@ public class Message {
     private Etat etat;
     private static Logger LOGGER = Logger.getLogger(Message.class);
     enum Etat{
-        ENVOIE_SERVEUR, // [GRIS] le message n'est pas encore recu par le serveur
+        ENVOIE_SERVEUR, // [GRIS] le message n'est pas encore recu par le server
         PAS_RECU_PAR_TOUS, // [ROUGE] le message n'est pas recu par tout les destinataires
         PAS_LU_PAR_TOUS,// [ORANGE] le message n'est pas lu par tout les destinataires
         LU_PAR_TOUS, // [VERT] le message est lu par tout les destinataires

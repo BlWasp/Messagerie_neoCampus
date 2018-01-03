@@ -33,7 +33,7 @@ public class Chat extends JDialog {
         sendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //Envoyer le message au serveur
+                //Envoyer le message au server
                 chatField.setText("");
             }
         });
