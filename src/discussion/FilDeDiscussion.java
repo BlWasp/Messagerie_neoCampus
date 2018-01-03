@@ -2,6 +2,7 @@ package discussion;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.apache.log4j.Logger;
 import utilisateurs.GroupeNomme;
@@ -11,6 +12,7 @@ import utilisateurs.Utilisateur;
 public class FilDeDiscussion extends GroupeNomme{
     private String sujet;
     private List<Message> filsdediscussion = new ArrayList<>();
+    private final UUID id = UUID.randomUUID();
     private static Logger LOGGER = Logger.getLogger(FilDeDiscussion.class);
 
     public FilDeDiscussion(String sujet) {
@@ -52,6 +54,9 @@ public class FilDeDiscussion extends GroupeNomme{
             LOGGER.error("ATTENTION: lireMessage() : la file de discussion est vide ! ");
         }
         return message;
+    }
+    public UUID getId() {
+        return id;
     }
 
         /*
