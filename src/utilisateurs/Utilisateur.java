@@ -15,7 +15,8 @@ public class Utilisateur implements Comparable<Utilisateur>{
         this.prenom = prenom;
         this.identifiant = identifiant;
 
-        this.motDePasse = EncodePasswd.encode(motDePasse);
+        // this.motDePasse = EncodePasswd.encode(motDePasse);
+        this.motDePasse = motDePasse;
         this.type = type;
     }
 
