@@ -1,7 +1,7 @@
+package server;
+
 import java.io.*;
 import java.net.*;
-
-package server;
 
 public class Server implements Runnable{
     Socket connectionSocket;

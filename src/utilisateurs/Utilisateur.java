@@ -64,5 +64,4 @@ public class Utilisateur implements Comparable<Utilisateur>{
         return str;
     }
 
-
 }

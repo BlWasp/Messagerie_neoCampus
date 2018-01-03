@@ -1,6 +1,6 @@
-import java.net.*;
-
 package server;
+
+import java.net.*;
 
 public class TestServer {
     public static void main(String argv[]) throws Exception {
