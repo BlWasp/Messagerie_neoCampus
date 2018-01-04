@@ -16,7 +16,7 @@ import java.util.List;
 public class Client {
     public static void main(String[] args) throws IOException {
         String host = "127.0.0.1";
-        int port = 6791;
+        int port = 6792;
         List<GroupeNomme> listeGrroupe = new ArrayList<>();
         Groupe global = new Groupe();
         Utilisateur utilisateurCourant = null;

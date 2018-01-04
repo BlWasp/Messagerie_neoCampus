@@ -60,7 +60,7 @@ public class Serveur implements Runnable{
     }
 
 
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
+    /*public static void main(String[] args) throws IOException, ClassNotFoundException {
         // Partie BDD
         List<GroupeNomme> listeGrroupe = new ArrayList<>();
         List<FilDeDiscussion> listeFilDeDiscussion = new ArrayList<>();
@@ -83,7 +83,7 @@ public class Serveur implements Runnable{
             Thread serveurThread = new Thread(server);
             serveurThread.start();
         }
-    }
+    }*/
 
 
     static void authentification(Groupe global, Connexion requester, ObjectOutputStream out){
