@@ -23,6 +23,9 @@ public class Test_FilDeDiscussion2 {
         GroupeNomme l3 = new GroupeNomme("L3");
         l3.ajouterMembres(sylvain,salim,guillaume);
 
+        System.out.println("L3 :");
+        System.out.println(l3);
+
         GroupeNomme secreteria = new GroupeNomme("Secretaria");
         secreteria.ajouterMembres(nadege,nadege2,nadege3);
 

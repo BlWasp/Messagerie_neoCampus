@@ -28,13 +28,17 @@ public class Serveur {
         ServerSocket sSocket = new ServerSocket(6791);
 
         while (true) {
+            ///////////////////ZONE DE TEST
+            System.out.println("Utilisateurs : ");
+            System.out.println(global);
+
+
+            ///////////////////FIN ZONE DE TEST
             Socket socket = sSocket.accept();
             ObjectInputStream in =
                     new ObjectInputStream(socket.getInputStream());
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
             Object instruction = in.readObject();
-            System.out.println(instruction.getClass());
-
 
             if(instruction.getClass() == Connexion.class){ // Demande d'authentification
                 Connexion requester = (Connexion) instruction;
@@ -65,6 +69,7 @@ public class Serveur {
     }
 
     static void gestionPaquet(Paquet p, List<FilDeDiscussion> listeFilDeDiscussion, List<GroupeNomme>  listeGrroupe ,Groupe global){
+
         if(p.getObject().getClass()== FilDeDiscussion.class){
             FilDeDiscussion f = (FilDeDiscussion) p.getObject();
             gestionFilDeDiscussion(f,p.getAction(),listeFilDeDiscussion,listeGrroupe,global);
@@ -81,6 +86,7 @@ public class Serveur {
     static void gestionUtilisateur(Utilisateur u, Paquet.Action action, List<FilDeDiscussion> listeFilDeDiscussion, List<GroupeNomme>  listeGrroupe , Groupe global){
         if(action == Paquet.Action.ADD){
             global.ajouterMembres(u);
+            System.out.println("Ajout de l'utilisateur recu");
         }else if(action == Paquet.Action.MAJ){
             // TODO
         }else if(action == Paquet.Action.SUPP){
