@@ -21,8 +21,6 @@ public class Client {
         ObjectOutputStream outToServer=null;
         try {
             clientSocket = new Socket("127.0.0.1", 6791);
-            outToServer = new ObjectOutputStream(clientSocket.getOutputStream());
-            outToServer.writeObject(new Connexion(0,"admin"));
 
             // Authentification
             utilisateurCourant = authentification(clientSocket, 0,"admin") ;
