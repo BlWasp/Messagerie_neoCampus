@@ -16,19 +16,23 @@ import java.util.Queue;
 
 public class Serveur implements Runnable{
     Socket socket;
+    List<GroupeNomme> listeGrroupe;
+    List<FilDeDiscussion> listeFilDeDiscussion;
+    Groupe global;
 
-    // Partie BDD
-    List<GroupeNomme> listeGrroupe = new ArrayList<>();
-    List<FilDeDiscussion> listeFilDeDiscussion = new ArrayList<>();
-    static Groupe global = new Groupe();
-    // Fin partie BDD
-
-    public Serveur(Socket s) {
-        try{
-            System.out.println("Le client peut se connecter ");
-            socket = s;
-        }catch(Exception e){e.printStackTrace();}
+    public Serveur(Socket socket, List<GroupeNomme> listeGrroupe, List<FilDeDiscussion> listeFilDeDiscussion, Groupe global) {
+        this.socket = socket;
+        this.listeGrroupe = listeGrroupe;
+        this.listeFilDeDiscussion = listeFilDeDiscussion;
+        this.global = global;
     }
+//
+//    public Serveur(Socket s) {
+//        try{
+//            System.out.println("Le client peut se connecter ");
+//            socket = s;
+//        }catch(Exception e){e.printStackTrace();}
+//    }
 
     public void run() {
         try {
@@ -57,6 +61,12 @@ public class Serveur implements Runnable{
 
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
+        // Partie BDD
+        List<GroupeNomme> listeGrroupe = new ArrayList<>();
+        List<FilDeDiscussion> listeFilDeDiscussion = new ArrayList<>();
+        Groupe global = new Groupe();
+        // Fin partie BDD
+
         global.ajouterMembres(
                 new Utilisateur("admin", "admin", 0, "admin", null));
         ServerSocket sSocket = new ServerSocket(6791);
@@ -69,7 +79,7 @@ public class Serveur implements Runnable{
 
             ///////////////////FIN ZONE DE TEST
             Socket socket = sSocket.accept();
-            Serveur server = new Serveur(socket);
+            Serveur server = new Serveur(socket,listeGrroupe,listeFilDeDiscussion,global);
             Thread serveurThread = new Thread(server);
             serveurThread.start();
         }
