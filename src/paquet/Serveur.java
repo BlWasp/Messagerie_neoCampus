@@ -14,36 +14,61 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Serveur {
+public class Serveur implements Runnable{
+    Socket socket;
 
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
-        // Partie BDD
-        List<GroupeNomme> listeGrroupe = new ArrayList<>();
-        List<FilDeDiscussion> listeFilDeDiscussion = new ArrayList<>();
-        Groupe global = new Groupe();
-        // Fin partie BDD
+    // Partie BDD
+    List<GroupeNomme> listeGrroupe = new ArrayList<>();
+    List<FilDeDiscussion> listeFilDeDiscussion = new ArrayList<>();
+    static Groupe global = new Groupe();
+    // Fin partie BDD
 
-        global.ajouterMembres(
-           new Utilisateur("admin","admin",0,"admin", null));
-        ServerSocket sSocket = new ServerSocket(6791);
+    public Serveur(Socket s) {
+        try{
+            System.out.println("Le client peut se connecter ");
+            socket = s;
+        }catch(Exception e){e.printStackTrace();}
+    }
 
-        while (true) {
-            Socket socket = sSocket.accept();
+    @Override
+    public void run() {
+        try {
             ObjectInputStream in =
                     new ObjectInputStream(socket.getInputStream());
-            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-            Object instruction = in.readObject();
+            ObjectOutputStream out =
+                    new ObjectOutputStream(socket.getOutputStream());
+
+            Object instruction = null;
+            try {
+                instruction = in.readObject();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
             System.out.println(instruction.getClass());
-            if(instruction.getClass() == Connexion.class){
+            if (instruction.getClass() == Connexion.class) {
                 Connexion requester = (Connexion) instruction;
-                authentification(global,requester,out);
-            }else if(instruction.getClass() == FilDeDiscussion.class){
+                authentification(global, requester, out);
+            } else if (instruction.getClass() == FilDeDiscussion.class) {
                 FilDeDiscussion f = (FilDeDiscussion) instruction;
                 listeFilDeDiscussion.add(f);
                 // TODO
             }
+        }catch(IOException e){e.printStackTrace();}
+    }
 
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
 
+        global.ajouterMembres(
+           new Utilisateur("admin","admin",0,"admin", null));
+
+        ServerSocket sSocket = new ServerSocket(6791);
+
+        while (true) {
+            Socket socket = sSocket.accept();
+            Serveur server = new Serveur(socket);
+            Thread serveurThread = new Thread(server);
+            serveurThread.start();
         }
     }
 
