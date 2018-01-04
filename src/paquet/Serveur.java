@@ -92,7 +92,7 @@ public class Serveur implements Runnable{
 
     }
 
-    static void gestionPaquet(Paquet p, List<FilDeDiscussion> listeFilDeDiscussion, List<GroupeNomme>  listeGrroupe ,Groupe global){
+    static synchronized void gestionPaquet(Paquet p, List<FilDeDiscussion> listeFilDeDiscussion, List<GroupeNomme>  listeGrroupe ,Groupe global){
 
         if(p.getObject().getClass()== FilDeDiscussion.class){
             FilDeDiscussion f = (FilDeDiscussion) p.getObject();
