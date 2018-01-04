@@ -2,40 +2,49 @@ package paquet;
 
 import utilisateurs.Groupe;
 import utilisateurs.GroupeNomme;
+import utilisateurs.TypeUtilisateur;
 import utilisateurs.Utilisateur;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Client {
     public static void main(String[] args) throws IOException {
+        String host = "127.0.0.1";
+        int port = 6791;
         List<GroupeNomme> listeGrroupe = new ArrayList<>();
         Groupe global = new Groupe();
         Utilisateur utilisateurCourant = null;
 
         Socket clientSocket = null;
         ObjectOutputStream outToServer=null;
-        try {
-            clientSocket = new Socket("127.0.0.1", 6791);
-            outToServer = new ObjectOutputStream(clientSocket.getOutputStream());
-            outToServer.writeObject(new Connexion(0,"admin"));
 
-            // Authentification
-            utilisateurCourant = authentification(clientSocket, 0,"admin") ;
-            if(utilisateurCourant==null) System.out.println("Echec d'authentification");
-            else System.out.println("Connecté en tant que: "+ utilisateurCourant);
+        // Authentification
+        utilisateurCourant = authentification(host,port, 0,"admin") ; // On se connecte avec id = 0 , mdp = admin
+        if(utilisateurCourant==null) System.out.println("Echec d'authentification");
+        else System.out.println("Connecté en tant que: "+ utilisateurCourant);
 
-
-
+        if(utilisateurCourant!=null){ // null = déconnecté
+            // Ajout d'un Utilisateur (à restreindre au compte admin ..)
+            Utilisateur u = new Utilisateur("Daumas","Guillaume",789,"yolo", TypeUtilisateur.ETUDIANT);
+            envoyerObjetSansReponse(host,port,new Paquet(Paquet.Action.ADD,u));
 
 
-        } catch (IOException e) {
-            System.out.println("Server off");
+
+
+
+
+
         }
+
+
+
+
 
 
 
@@ -57,20 +66,17 @@ public class Client {
 
 
     }
-    static Utilisateur authentification(Socket s, int id, String mdp) {
+    static Utilisateur authentification(String host,int port,int id, String mdp) {
         Utilisateur user = null;
         ObjectOutputStream outToServer = null;
-
+        Socket s = null;
         try {
-            outToServer = new ObjectOutputStream(s.getOutputStream());
+            s = new Socket(host, port);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Echec de connexion : Serveur off ?");
+           return null;
         }
-        try {
-            outToServer.writeObject(new Connexion(id, mdp));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        envoyerObjet(s,new Connexion(id,mdp));
         ObjectInputStream in = null;
         try {
             in = new ObjectInputStream(s.getInputStream());
@@ -90,15 +96,27 @@ public class Client {
         }
         return user;
     }
+    static void envoyerObjet(Socket s, Object o){
+        ObjectOutputStream outToServer = null;
+        try {
+            outToServer = new ObjectOutputStream(s.getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            outToServer.writeObject(o);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    static void envoyerObjetSansReponse(String host,int port,Object o) {
+        try {
+            Socket s = new Socket(host,port);
+            envoyerObjet(s,o);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-
-
-
-
-
-
-
-
-
+    }
 }
 

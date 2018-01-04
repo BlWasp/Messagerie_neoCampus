@@ -82,4 +82,13 @@ public class Groupe {
         }
         return cat.toString();
     }
+
+    @Override
+    public String toString() {
+        String cat = "";
+        for(Utilisateur u : membres){
+            cat += u.toString() + '\n';
+        }
+        return cat;
+    }
 }
