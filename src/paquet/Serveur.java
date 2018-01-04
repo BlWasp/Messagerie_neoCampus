@@ -86,7 +86,7 @@ public class Serveur implements Runnable{
     }*/
 
 
-    static void authentification(Groupe global, Connexion requester, ObjectOutputStream out){
+    static synchronized void authentification(Groupe global, Connexion requester, ObjectOutputStream out){
         for(Utilisateur u : global.getMembres()){
 
             if(u.equals(new Utilisateur("","",requester.getIdentifiant(),requester.getMdp(),null)) ){
@@ -96,7 +96,7 @@ public class Serveur implements Runnable{
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                System.out.println("Authetification réussi");
+                System.out.println("Authentification réussie");
             }
         }
 
@@ -118,7 +118,7 @@ public class Serveur implements Runnable{
         }
     }
 
-    static void gestionUtilisateur(Utilisateur u, Paquet.Action action, List<FilDeDiscussion> listeFilDeDiscussion, List<GroupeNomme>  listeGrroupe , Groupe global){
+    static synchronized void gestionUtilisateur(Utilisateur u, Paquet.Action action, List<FilDeDiscussion> listeFilDeDiscussion, List<GroupeNomme>  listeGrroupe , Groupe global){
         if(action == Paquet.Action.ADD){
             global.ajouterMembres(u);
             System.out.println("Ajout de l'utilisateur recu");
@@ -130,7 +130,7 @@ public class Serveur implements Runnable{
         // TODO Maj Tout les autres client
     }
 
-    static void gestionFilDeDiscussion(FilDeDiscussion f, Paquet.Action action, List<FilDeDiscussion> listeFilDeDiscussion, List<GroupeNomme>  listeGrroupe , Groupe global){
+    static synchronized void gestionFilDeDiscussion(FilDeDiscussion f, Paquet.Action action, List<FilDeDiscussion> listeFilDeDiscussion, List<GroupeNomme>  listeGrroupe , Groupe global){
         if(action == Paquet.Action.ADD){
             global.ajouterMembres(f);
             listeFilDeDiscussion.add(f);
@@ -142,7 +142,7 @@ public class Serveur implements Runnable{
 
     }
 
-    static void gestionGroupeNomme(GroupeNomme g ,Paquet.Action action, List<FilDeDiscussion> listeFilDeDiscussion, List<GroupeNomme>  listeGrroupe , Groupe global){
+    static synchronized void gestionGroupeNomme(GroupeNomme g ,Paquet.Action action, List<FilDeDiscussion> listeFilDeDiscussion, List<GroupeNomme>  listeGrroupe , Groupe global){
         if(action== Paquet.Action.ADD){
             listeGrroupe.add(g);
             global.ajouterMembres(g);

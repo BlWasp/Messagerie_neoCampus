@@ -16,8 +16,8 @@ import java.util.List;
 public class Client {
     public static void main(String[] args) throws IOException {
         String host = "127.0.0.1";
-        int port = 6792;
-        List<GroupeNomme> listeGrroupe = new ArrayList<>();
+        int port = 6791;
+        List<GroupeNomme> listeGroupe = new ArrayList<>();
         Groupe global = new Groupe();
         Utilisateur utilisateurCourant = null;
 
@@ -33,39 +33,12 @@ public class Client {
             // Ajout d'un Utilisateur (à restreindre au compte admin ..)
             Utilisateur u = new Utilisateur("Daumas","Guillaume",789,"yolo", TypeUtilisateur.ETUDIANT);
             envoyerObjetSansReponse(host,port,new Paquet(Paquet.Action.ADD,u));
-
-
-
-
-
-
-
         }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
+
+
     static Utilisateur authentification(String host,int port,int id, String mdp) {
         Utilisateur user = null;
         ObjectOutputStream outToServer = null;
@@ -96,6 +69,7 @@ public class Client {
         }
         return user;
     }
+
     static void envoyerObjet(Socket s, Object o){
         ObjectOutputStream outToServer = null;
         try {
@@ -109,6 +83,7 @@ public class Client {
             e.printStackTrace();
         }
     }
+
     static void envoyerObjetSansReponse(String host,int port,Object o) {
         try {
             Socket s = new Socket(host,port);

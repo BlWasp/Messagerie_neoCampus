@@ -21,7 +21,7 @@ public class TestServeur {
 
         global.ajouterMembres(
                 new Utilisateur("admin", "admin", 0, "admin", null));
-        ServerSocket sSocket = new ServerSocket(6792);
+        ServerSocket sSocket = new ServerSocket(6791);
 
         while (true) {
             ///////////////////ZONE DE TEST
