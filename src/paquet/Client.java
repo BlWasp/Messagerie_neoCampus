@@ -27,6 +27,7 @@ public class Client {
             if(utilisateurCourant==null) System.out.println("Echec d'authentification");
             else System.out.println("Connecté en tant que: "+ utilisateurCourant);
 
+            // Demande au serveur d'ajouter un
 
 
 
@@ -59,16 +60,7 @@ public class Client {
         Utilisateur user = null;
         ObjectOutputStream outToServer = null;
 
-        try {
-            outToServer = new ObjectOutputStream(s.getOutputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            outToServer.writeObject(new Connexion(id, mdp));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        envoyerObjet(s,new Connexion(id,mdp));
         ObjectInputStream in = null;
         try {
             in = new ObjectInputStream(s.getInputStream());
@@ -87,6 +79,19 @@ public class Client {
             e.printStackTrace();
         }
         return user;
+    }
+    static void envoyerObjet(Socket s, Object o){
+        ObjectOutputStream outToServer = null;
+        try {
+            outToServer = new ObjectOutputStream(s.getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            outToServer.writeObject(o);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
