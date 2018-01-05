@@ -14,10 +14,10 @@ import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.ConcurrentSkipListSet;
 
 public class Serveur implements Runnable{
-    Socket socket;
-    ConcurrentSkipListSet<GroupeNomme> listeGroupe ;
-    ConcurrentSkipListSet<FilDeDiscussion> listeFilDeDiscussion;
-    Groupe global ;
+    private Socket socket;
+    private ConcurrentSkipListSet<GroupeNomme> listeGroupe ;
+    private ConcurrentSkipListSet<FilDeDiscussion> listeFilDeDiscussion;
+    private Groupe global ;
 
     public Serveur(Socket socket, ConcurrentSkipListSet<GroupeNomme> listeGroupe, ConcurrentSkipListSet<FilDeDiscussion> listeFilDeDiscussion, Groupe global) {
         this.socket = socket;
@@ -138,9 +138,13 @@ public class Serveur implements Runnable{
             global.ajouterMembres(f);
             listeFilDeDiscussion.add(f);
         }else if(action == Paquet.Action.MAJ){
-            // TODO
+            global.retirerMembres(f);
+            listeFilDeDiscussion.remove(f);
+            global.ajouterMembres(f);
+            listeFilDeDiscussion.add(f);
         }else if(action == Paquet.Action.SUPP){
-            // TODO
+            global.retirerMembres(f);
+            listeFilDeDiscussion.remove(f);
         }
 
     }
