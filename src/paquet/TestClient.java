@@ -11,10 +11,13 @@ public class TestClient {
         // Ajout d'un Menbre (Beta)
         client.ajouterMembres(new Utilisateur("Daumas","Guillaume",789,"yolo", TypeUtilisateur.ETUDIANT));
 
+        // Retrai d'un membre
+        if(client.retirerMembres(new Utilisateur("","",789,"",null))==1){
+            System.out.println("Utilisateur supprimé: ");
+        }else{
+            System.out.println("Utilisateur non trouvé");
+        }
 
-       /* PROCHAINNEMENT :
-        // Retrai d'un membre (Pas encore implementé pas le serveur !!!!)
-        client.retirerMembres(new Utilisateur("","",2156,"",null));// Seul l'id suffit
-        */
+
     }
 }

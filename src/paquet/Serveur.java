@@ -127,6 +127,7 @@ public class Serveur implements Runnable{
             global.retirerMembres(u);
             global.ajouterMembres(u);
         }else if(action == Paquet.Action.SUPP){
+            System.out.println("Retrait de "+ u);
             global.retirerMembres(u);
         }
         // TODO Maj Tout les autres client

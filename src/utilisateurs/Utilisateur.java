@@ -39,11 +39,8 @@ public class Utilisateur implements Comparable<Utilisateur>,Serializable{
 
     @Override
     public int compareTo(Utilisateur o) {
-        int diff = nom.compareTo(o.nom);
-        if(diff==0){
-            diff = prenom.compareTo(o.prenom);
-        }
-        return diff;
+
+        return this.identifiant-o.identifiant;
     }
 
     @Override
