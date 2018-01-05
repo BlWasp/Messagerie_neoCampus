@@ -139,12 +139,11 @@ public class Serveur implements Runnable{
             global.ajouterMembres(f);
             listeFilDeDiscussion.add(f);
         }else if(action == Paquet.Action.MAJ){
-            global.retirerMembres(f);
-            listeFilDeDiscussion.remove(f);
+            UUID id = f.getId();
+            listeFilDeDiscussion.remove(id);
             global.ajouterMembres(f);
             listeFilDeDiscussion.add(f);
         }else if(action == Paquet.Action.SUPP){
-            global.retirerMembres(f);
             UUID id = f.getId();
             listeFilDeDiscussion.remove(id);
         }
