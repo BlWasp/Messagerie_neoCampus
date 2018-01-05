@@ -1,22 +1,24 @@
 package discussion;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import org.apache.log4j.Logger;
+import utilisateurs.Groupe;
 import utilisateurs.GroupeNomme;
 import utilisateurs.Utilisateur;
 
 
-public class FilDeDiscussion extends GroupeNomme{
+public class FilDeDiscussion extends Groupe implements Serializable{
     private String sujet;
     private List<Message> filsdediscussion = new ArrayList<>();
     private final UUID id = UUID.randomUUID();
     private static Logger LOGGER = Logger.getLogger(FilDeDiscussion.class);
 
     public FilDeDiscussion(String sujet) {
-        super("Conversation : " + sujet);
+        super();
         this.sujet = sujet;
     }
 
@@ -33,16 +35,6 @@ public class FilDeDiscussion extends GroupeNomme{
         return messageajoute;
     }
 
-    public String toString(){
-        StringBuilder cat = new StringBuilder();
-        cat.append(super.getNom()+ "\n");
-        Message m;
-        for (int i=0; i<filsdediscussion.size();i++){
-            m = filsdediscussion.get(i);
-            cat.append(m.getFrom().getPrenom()+ " " + m.getFrom().getNom() + " : " + m.getMesage() + "\n" + "Recu par : "+ m );
-        }
-        return cat.toString();
-    }
 
     public Message lireLeMessage(int indice){
         Message message = null;
@@ -59,7 +51,9 @@ public class FilDeDiscussion extends GroupeNomme{
         return id;
     }
 
-        /*
+
+
+
     public void printFil(){
         for (Message m : filsdediscussion){
             System.out.println(m.getFrom().getPrenom() + ": " + m.getMesage());
@@ -82,6 +76,6 @@ public class FilDeDiscussion extends GroupeNomme{
             System.out.println("\n");
         }
     }
-        */
+
 
 }

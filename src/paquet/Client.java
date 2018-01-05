@@ -1,5 +1,6 @@
 package paquet;
 
+import discussion.FilDeDiscussion;
 import utilisateurs.Groupe;
 import utilisateurs.GroupeNomme;
 import utilisateurs.TypeUtilisateur;
@@ -13,10 +14,13 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+import static paquet.Paquet.Action.ADD;
+
 public class Client extends Groupe{
         String host;
         int port;
         List<GroupeNomme> listeGroupe = new ArrayList<>();
+        List<FilDeDiscussion> listeFilDeDiscussion = new ArrayList<>();
         Utilisateur utilisateurCourant;
 
     public Client(String host, int port) {
@@ -60,12 +64,17 @@ public class Client extends Groupe{
         }
     }
 
+    public void ajouterFilDeDiscussion(FilDeDiscussion f){
+        if(utilisateurCourant==null) System.exit(103);//Temporaire à remplacer pas des exeptions
+        this.listeFilDeDiscussion.add(f);
+        envoyerObjetSansReponse(new Paquet(ADD,f));
+    }
     @Override
     public void ajouterMembres(Utilisateur m) {
         if(utilisateurCourant==null) System.exit(101);//Temporaire à remplacer pas des exeptions
         // TODO utilisateur courant == admin?
         super.ajouterMembres(m);
-        envoyerObjetSansReponse(new Paquet(Paquet.Action.ADD,m));
+        envoyerObjetSansReponse(new Paquet(ADD,m));
     }
 
     @Override

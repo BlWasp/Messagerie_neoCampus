@@ -31,6 +31,11 @@ public class TestServeur {
 
             System.out.println("Utilisateurs : ");
             System.out.println(global);
+            if( ! listeFilDeDiscussion.isEmpty()){
+                System.out.println("File de discussion: ");
+                listeFilDeDiscussion.first().printFil();
+
+            }
 
             ///////////////////FIN ZONE DE TEST
             Socket socket = sSocket.accept();

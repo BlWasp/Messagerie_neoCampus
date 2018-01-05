@@ -27,13 +27,6 @@ public class Serveur implements Runnable{
         this.global = global;
     }
 
-    //
-//    public Serveur(Socket s) {
-//        try{
-//            System.out.println("Le client peut se connecter ");
-//            socket = s;
-//        }catch(Exception e){e.printStackTrace();}
-//    }
 
     public void run() {
         try {
@@ -136,16 +129,17 @@ public class Serveur implements Runnable{
 
     static synchronized void gestionFilDeDiscussion(FilDeDiscussion f, Paquet.Action action, ConcurrentSkipListSet<GroupeNomme> listeGroupe, ConcurrentSkipListSet<FilDeDiscussion> listeFilDeDiscussion, Groupe global){
         if(action == Paquet.Action.ADD){
-            global.ajouterMembres(f);
+//            global.ajouterMembres(f);
             listeFilDeDiscussion.add(f);
         }else if(action == Paquet.Action.MAJ){
-            UUID id = f.getId();
-            listeFilDeDiscussion.remove(id);
-            global.ajouterMembres(f);
-            listeFilDeDiscussion.add(f);
+//            UUID id = f.getId();
+//            listeFilDeDiscussion.remove(id);
+//            global.ajouterMembres(f);
+//            listeFilDeDiscussion.add(f);
+            System.out.println("Erreur pas de MAJ pour FILS DE DISCUSSION !!");
+            System.exit(25);
         }else if(action == Paquet.Action.SUPP){
-            UUID id = f.getId();
-            listeFilDeDiscussion.remove(id);
+            listeFilDeDiscussion.remove(f);
         }
 
     }

@@ -1,7 +1,10 @@
 package paquet;
 
+import discussion.FilDeDiscussion;
 import utilisateurs.TypeUtilisateur;
 import utilisateurs.Utilisateur;
+
+import static paquet.Paquet.Action.ADD;
 
 public class TestClient {
     public static void main(String[] args) {
@@ -16,11 +19,26 @@ public class TestClient {
         client.ajouterMembres(new Utilisateur("Daumas","Guillaume",789,"yolo", TypeUtilisateur.ETUDIANT));
         sleep(50);
         // Retrai d'un membre
-        if(client.retirerMembres(new Utilisateur("","",789,"",null))==1){
-            System.out.println("Utilisateur supprimé: ");
-        }else{
-            System.out.println("Utilisateur non trouvé");
-        }
+//        if(client.retirerMembres(new Utilisateur("","",789,"",null))==1){
+//            System.out.println("Utilisateur supprimé: ");
+//        }else{
+//            System.out.println("Utilisateur non trouvé");
+//        }
+        FilDeDiscussion f = new FilDeDiscussion("L3");
+        f.ajouterMembres(client); // ajoute tout les membres de global dans la convo f
+        client.ajouterFilDeDiscussion(f);
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     }
