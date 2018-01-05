@@ -141,7 +141,7 @@ public class Serveur implements Runnable{
         }else if(action == Paquet.Action.SUPP){
             listeFilDeDiscussion.remove(f);
         }
-
+        // TODO Maj Tout les utilisateurs concerné
     }
 
     static synchronized void gestionGroupeNomme(GroupeNomme g ,Paquet.Action action,  ConcurrentSkipListSet<GroupeNomme> listeGroupe, ConcurrentSkipListSet<FilDeDiscussion> listeFilDeDiscussion, Groupe global){
