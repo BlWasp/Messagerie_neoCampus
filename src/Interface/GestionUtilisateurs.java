@@ -1,7 +1,13 @@
 package Interface;
 
+import utilisateurs.Utilisateur;
+import BDD.ExtractDataBDD;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import java.awt.event.*;
+import java.sql.SQLException;
+import java.util.List;
 
 public class GestionUtilisateurs extends JDialog {
     private JPanel contentPane;
@@ -12,7 +18,7 @@ public class GestionUtilisateurs extends JDialog {
     private JButton ajouterUnUtilisateurButton;
 
 
-    public GestionUtilisateurs() {
+    public GestionUtilisateurs() throws SQLException {
         setContentPane(contentPane);
         setModal(true);
 
@@ -32,6 +38,22 @@ public class GestionUtilisateurs extends JDialog {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        //Permet l'affichage des données de la bdd TODO A ajouter a la classe serveur
+       /* List<Utilisateur> users = ExtractDataBDD.printUsers();
+        String[] entetes = {"identifiant","nom","prenom",};
+        DefaultTableModel tableModel = new DefaultTableModel(entetes, 0);
+
+        table1 = new JTable(tableModel);
+        for (int i = 0; i < users.size(); i++) {
+            String nom = users.get(i).getNom();
+            String prenom = users.get(i).getPrenom();
+            int identifiant = users.get(i).getIdentifiant();
+            Object[] data = {identifiant,nom,prenom};
+            tableModel.addRow(data);
+
+
+        }
+        this.add(table1);*/
     }
 
 
@@ -41,7 +63,7 @@ public class GestionUtilisateurs extends JDialog {
         dispose();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         GestionUtilisateurs dialog = new GestionUtilisateurs();
         dialog.pack();
         dialog.setVisible(true);
