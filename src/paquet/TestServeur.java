@@ -14,7 +14,7 @@ import java.util.List;
 public class TestServeur {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         // Partie BDD
-        List<GroupeNomme> listeGrroupe = new ArrayList<>();
+        List<GroupeNomme> listeGroupe = new ArrayList<>();
         List<FilDeDiscussion> listeFilDeDiscussion = new ArrayList<>();
         Groupe global = new Groupe();
         // Fin partie BDD
@@ -22,6 +22,7 @@ public class TestServeur {
         global.ajouterMembres(
                 new Utilisateur("admin", "admin", 0, "admin", null));
         ServerSocket sSocket = new ServerSocket(6791);
+
 
         while (true) {
             ///////////////////ZONE DE TEST
@@ -31,7 +32,7 @@ public class TestServeur {
 
             ///////////////////FIN ZONE DE TEST
             Socket socket = sSocket.accept();
-            Serveur server = new Serveur(socket,listeGrroupe,listeFilDeDiscussion,global);
+            Serveur server = new Serveur(socket,listeGroupe,listeFilDeDiscussion,global);
             Thread serveurThread = new Thread(server);
             serveurThread.start();
         }

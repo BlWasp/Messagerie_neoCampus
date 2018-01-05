@@ -8,21 +8,18 @@ import utilisateurs.Utilisateur;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 
 public class Serveur implements Runnable{
     Socket socket;
-    List<GroupeNomme> listeGrroupe;
+    List<GroupeNomme> listeGroupe;
     List<FilDeDiscussion> listeFilDeDiscussion;
     Groupe global;
 
-    public Serveur(Socket socket, List<GroupeNomme> listeGrroupe, List<FilDeDiscussion> listeFilDeDiscussion, Groupe global) {
+    public Serveur(Socket socket, List<GroupeNomme> listeGroupe, List<FilDeDiscussion> listeFilDeDiscussion, Groupe global) {
         this.socket = socket;
-        this.listeGrroupe = listeGrroupe;
+        this.listeGroupe = listeGroupe;
         this.listeFilDeDiscussion = listeFilDeDiscussion;
         this.global = global;
     }
@@ -54,7 +51,7 @@ public class Serveur implements Runnable{
                 authentification(global, requester, out);
             }else if(instruction.getClass() == Paquet.class){ // Ajout ou maj ou sup d'un Groupe, Utilisateur, File
                 Paquet p = (Paquet) instruction; //Paquet
-                gestionPaquet(p,listeFilDeDiscussion,listeGrroupe,global);
+                gestionPaquet(p,listeFilDeDiscussion, listeGroupe,global);
             }
         }catch(IOException e){e.printStackTrace();}
     }
@@ -62,7 +59,7 @@ public class Serveur implements Runnable{
 
     /*public static void main(String[] args) throws IOException, ClassNotFoundException {
         // Partie BDD
-        List<GroupeNomme> listeGrroupe = new ArrayList<>();
+        List<GroupeNomme> listeGroupe = new ArrayList<>();
         List<FilDeDiscussion> listeFilDeDiscussion = new ArrayList<>();
         Groupe global = new Groupe();
         // Fin partie BDD
@@ -79,7 +76,7 @@ public class Serveur implements Runnable{
 
             ///////////////////FIN ZONE DE TEST
             Socket socket = sSocket.accept();
-            Serveur server = new Serveur(socket,listeGrroupe,listeFilDeDiscussion,global);
+            Serveur server = new Serveur(socket,listeGroupe,listeFilDeDiscussion,global);
             Thread serveurThread = new Thread(server);
             serveurThread.start();
         }
@@ -102,14 +99,14 @@ public class Serveur implements Runnable{
 
     }
 
-    static synchronized void gestionPaquet(Paquet p, List<FilDeDiscussion> listeFilDeDiscussion, List<GroupeNomme>  listeGrroupe ,Groupe global){
+    static synchronized void gestionPaquet(Paquet p, List<FilDeDiscussion> listeFilDeDiscussion, List<GroupeNomme>  listeGroupe ,Groupe global){
 
         if(p.getObject().getClass()== FilDeDiscussion.class){
             FilDeDiscussion f = (FilDeDiscussion) p.getObject();
-            gestionFilDeDiscussion(f,p.getAction(),listeFilDeDiscussion,listeGrroupe,global);
+            gestionFilDeDiscussion(f,p.getAction(),listeFilDeDiscussion,listeGroupe,global);
         }else if(p.getObject().getClass() == Utilisateur.class){
             Utilisateur u = (Utilisateur) p.getObject();
-            gestionUtilisateur(u,p.getAction(),listeFilDeDiscussion,listeGrroupe,global);
+            gestionUtilisateur(u,p.getAction(),listeFilDeDiscussion,listeGroupe,global);
 
         }else if(p.getObject().getClass() == GroupeNomme.class) {
             GroupeNomme g = (GroupeNomme) p.getObject();
@@ -122,6 +119,7 @@ public class Serveur implements Runnable{
         if(action == Paquet.Action.ADD){
             global.ajouterMembres(u);
             System.out.println("Ajout de l'utilisateur recu");
+            System.out.println(global);
         }else if(action == Paquet.Action.MAJ){
             // TODO
         }else if(action == Paquet.Action.SUPP){
