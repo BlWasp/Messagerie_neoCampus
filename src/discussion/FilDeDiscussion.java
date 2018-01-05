@@ -11,7 +11,7 @@ import utilisateurs.GroupeNomme;
 import utilisateurs.Utilisateur;
 
 
-public class FilDeDiscussion extends Groupe implements Serializable{
+public class FilDeDiscussion extends Groupe implements Serializable,Comparable<FilDeDiscussion>{
     private String sujet;
     private List<Message> filsdediscussion = new ArrayList<>();
     private final UUID id = UUID.randomUUID();
@@ -78,4 +78,8 @@ public class FilDeDiscussion extends Groupe implements Serializable{
     }
 
 
+    @Override
+    public int compareTo(FilDeDiscussion o) {
+        return sujet.compareTo(o.sujet);
+    }
 }
