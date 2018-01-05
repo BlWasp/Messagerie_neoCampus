@@ -1,13 +1,18 @@
 
 package utilisateurs;
 
+import discussion.FilDeDiscussion;
+
 import java.util.NavigableSet;
 import java.util.TreeSet;
+import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 
 public class Groupe {
 
-    private NavigableSet<Utilisateur> membres = new TreeSet<>();
+//    private NavigableSet<Utilisateur> membres = new TreeSet<>();
+    private ConcurrentSkipListSet<Utilisateur> membres = new ConcurrentSkipListSet<>();
 
     public boolean estMembre(Utilisateur u){
         return membres.contains(u);

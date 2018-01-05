@@ -10,12 +10,13 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class TestServeur {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         // Partie BDD
-        List<GroupeNomme> listeGroupe = new ArrayList<>();
-        List<FilDeDiscussion> listeFilDeDiscussion = new ArrayList<>();
+        ConcurrentLinkedDeque<GroupeNomme> listeGroupe= new ConcurrentLinkedDeque<>();
+        ConcurrentLinkedDeque<FilDeDiscussion> listeFilDeDiscussion = new ConcurrentLinkedDeque<>();
         Groupe global = new Groupe();
         // Fin partie BDD
 
@@ -35,6 +36,14 @@ public class TestServeur {
             Serveur server = new Serveur(socket,listeGroupe,listeFilDeDiscussion,global);
             Thread serveurThread = new Thread(server);
             serveurThread.start();
+
+
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 }
