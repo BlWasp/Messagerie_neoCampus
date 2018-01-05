@@ -10,6 +10,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.ConcurrentSkipListSet;
 
@@ -144,7 +145,8 @@ public class Serveur implements Runnable{
             listeFilDeDiscussion.add(f);
         }else if(action == Paquet.Action.SUPP){
             global.retirerMembres(f);
-            listeFilDeDiscussion.remove(f);
+            UUID id = f.getId();
+            listeFilDeDiscussion.remove(id);
         }
 
     }
