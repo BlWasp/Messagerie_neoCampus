@@ -10,15 +10,16 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.List;
-import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 public class Serveur implements Runnable{
     Socket socket;
-    ConcurrentLinkedDeque<GroupeNomme> listeGroupe ;
-    ConcurrentLinkedDeque<FilDeDiscussion> listeFilDeDiscussion;
+    ConcurrentSkipListSet<GroupeNomme> listeGroupe ;
+    ConcurrentSkipListSet<FilDeDiscussion> listeFilDeDiscussion;
     Groupe global ;
 
-    public Serveur(Socket socket, ConcurrentLinkedDeque<GroupeNomme> listeGroupe, ConcurrentLinkedDeque<FilDeDiscussion> listeFilDeDiscussion, Groupe global) {
+    public Serveur(Socket socket, ConcurrentSkipListSet<GroupeNomme> listeGroupe, ConcurrentSkipListSet<FilDeDiscussion> listeFilDeDiscussion, Groupe global) {
         this.socket = socket;
         this.listeGroupe = listeGroupe;
         this.listeFilDeDiscussion = listeFilDeDiscussion;
@@ -101,7 +102,7 @@ public class Serveur implements Runnable{
 
     }
 
-    static synchronized void gestionPaquet(Paquet p, ConcurrentLinkedDeque<GroupeNomme> listeGroupe, ConcurrentLinkedDeque<FilDeDiscussion> listeFilDeDiscussion, Groupe global){
+    static synchronized void gestionPaquet(Paquet p, ConcurrentSkipListSet<GroupeNomme> listeGroupe, ConcurrentSkipListSet<FilDeDiscussion> listeFilDeDiscussion, Groupe global){
 
         if(p.getObject().getClass()== FilDeDiscussion.class){
             FilDeDiscussion f = (FilDeDiscussion) p.getObject();
@@ -117,7 +118,7 @@ public class Serveur implements Runnable{
         }
     }
 
-    static synchronized void gestionUtilisateur(Utilisateur u, Paquet.Action action,  ConcurrentLinkedDeque<GroupeNomme> listeGroupe, ConcurrentLinkedDeque<FilDeDiscussion> listeFilDeDiscussion, Groupe global){
+    static synchronized void gestionUtilisateur(Utilisateur u, Paquet.Action action,  ConcurrentSkipListSet<GroupeNomme> listeGroupe, ConcurrentSkipListSet<FilDeDiscussion> listeFilDeDiscussion, Groupe global){
         if(action == Paquet.Action.ADD){
             global.ajouterMembres(u);
            // System.out.println("Ajout de l'utilisateur recu");
@@ -130,7 +131,7 @@ public class Serveur implements Runnable{
         // TODO Maj Tout les autres client
     }
 
-    static synchronized void gestionFilDeDiscussion(FilDeDiscussion f, Paquet.Action action, ConcurrentLinkedDeque<GroupeNomme> listeGroupe, ConcurrentLinkedDeque<FilDeDiscussion> listeFilDeDiscussion, Groupe global){
+    static synchronized void gestionFilDeDiscussion(FilDeDiscussion f, Paquet.Action action, ConcurrentSkipListSet<GroupeNomme> listeGroupe, ConcurrentSkipListSet<FilDeDiscussion> listeFilDeDiscussion, Groupe global){
         if(action == Paquet.Action.ADD){
             global.ajouterMembres(f);
             listeFilDeDiscussion.add(f);
@@ -142,7 +143,7 @@ public class Serveur implements Runnable{
 
     }
 
-    static synchronized void gestionGroupeNomme(GroupeNomme g ,Paquet.Action action,  ConcurrentLinkedDeque<GroupeNomme> listeGroupe, ConcurrentLinkedDeque<FilDeDiscussion> listeFilDeDiscussion, Groupe global){
+    static synchronized void gestionGroupeNomme(GroupeNomme g ,Paquet.Action action,  ConcurrentSkipListSet<GroupeNomme> listeGroupe, ConcurrentSkipListSet<FilDeDiscussion> listeFilDeDiscussion, Groupe global){
         if(action== Paquet.Action.ADD){
             listeGroupe.add(g);
             global.ajouterMembres(g);

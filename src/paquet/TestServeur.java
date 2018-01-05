@@ -11,12 +11,13 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 public class TestServeur {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         // Partie BDD
-        ConcurrentLinkedDeque<GroupeNomme> listeGroupe= new ConcurrentLinkedDeque<>();
-        ConcurrentLinkedDeque<FilDeDiscussion> listeFilDeDiscussion = new ConcurrentLinkedDeque<>();
+        ConcurrentSkipListSet<GroupeNomme> listeGroupe= new ConcurrentSkipListSet<>();
+        ConcurrentSkipListSet<FilDeDiscussion> listeFilDeDiscussion = new ConcurrentSkipListSet<>();
         Groupe global = new Groupe();
         // Fin partie BDD
 
