@@ -124,9 +124,10 @@ public class Serveur implements Runnable{
            // System.out.println("Ajout de l'utilisateur recu");
           //  System.out.println(global);
         }else if(action == Paquet.Action.MAJ){
-            // TODO
+            global.retirerMembres(u);
+            global.ajouterMembres(u);
         }else if(action == Paquet.Action.SUPP){
-            // TODO
+            global.retirerMembres(u);
         }
         // TODO Maj Tout les autres client
     }
