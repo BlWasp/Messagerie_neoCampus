@@ -13,6 +13,113 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+public class Client extends Groupe{
+        String host;
+        int port;
+        List<GroupeNomme> listeGroupe = new ArrayList<>();
+        Utilisateur utilisateurCourant;
+
+    public Client(String host, int port) {
+        this.host = host;
+        this.port = port;
+        this.utilisateurCourant = null;
+    }
+
+
+
+
+
+    public void authentification(int id, String mdp) {
+
+        // TODO Gerer le cas deco / reco
+        ObjectOutputStream outToServer = null;
+        Socket s = null;
+        try {
+            s = new Socket(host, port);
+        } catch (IOException e) {
+           // System.out.println("Echec de connexion : Serveur off ?");
+           return ;
+        }
+        envoyerObjet(s,new Connexion(id,mdp));
+        ObjectInputStream in = null;
+        try {
+            in = new ObjectInputStream(s.getInputStream());
+            try {
+                Object instruction = in.readObject();
+                if (instruction.getClass() == Connexion.class) {
+                    Connexion cx = (Connexion) instruction;
+                    if (cx.getUtilisateur() != null) {
+                        utilisateurCourant =  cx.getUtilisateur();
+                    }
+                }
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void ajouterMembres(Utilisateur m) {
+        if(utilisateurCourant==null) System.exit(101);//Temporaire à remplacer pas des exeptions
+        // TODO utilisateur courant == admin?
+        super.ajouterMembres(m);
+        envoyerObjetSansReponse(new Paquet(Paquet.Action.ADD,m));
+    }
+
+    @Override
+    public int retirerMembres(Utilisateur u) {
+        if(utilisateurCourant==null) System.exit(102);//Temporaire à remplacer pas des exeptions
+        // TODO utilisateur courant == admin?
+        int res = super.retirerMembres(u);
+        if(res==1) envoyerObjetSansReponse(new Paquet(Paquet.Action.SUPP,u));
+        return res;
+    }
+
+    //////////PRIVATE
+    private void envoyerObjet(Socket s, Object o){
+        ObjectOutputStream outToServer = null;
+        try {
+            outToServer = new ObjectOutputStream(s.getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            outToServer.writeObject(o);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void envoyerObjetSansReponse(Object o) {
+        try {
+            Socket s = new Socket(this.host,this.port);
+            envoyerObjet(s,o);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+}
+
+/*
+
+package paquet;
+
+import utilisateurs.Groupe;
+import utilisateurs.GroupeNomme;
+import utilisateurs.TypeUtilisateur;
+import utilisateurs.Utilisateur;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Client {
     public static void main(String[] args) throws IOException {
         String host = "127.0.0.1";
@@ -95,3 +202,5 @@ public class Client {
     }
 }
 
+
+ */
