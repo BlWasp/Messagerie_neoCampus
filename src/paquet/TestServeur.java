@@ -39,12 +39,6 @@ public class TestServeur {
             serveurThread.start();
 
 
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
         }
     }
 }
