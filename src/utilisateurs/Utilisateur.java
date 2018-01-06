@@ -29,6 +29,10 @@ public class Utilisateur implements Comparable<Utilisateur>,Serializable{
         this.privilege = p;
     }
 
+    public Privilege getPrivilege() {
+        return privilege;
+    }
+
     public String getNom() {
         return nom;
     }
