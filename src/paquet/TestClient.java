@@ -19,7 +19,7 @@ public class TestClient {
         // Ajout d'un Menbre (Beta)
         client.ajouterMembres(new Utilisateur("Daumas","Guillaume",789,"yolo", TypeUtilisateur.ETUDIANT));
         client.ajouterMembres(new Utilisateur("CHERIFI","Salim",790,"yolo",TypeUtilisateur.ETUDIANT));
-        
+
        // Ajout d'un fil de discussion
         FilDeDiscussion f = new FilDeDiscussion("L3");
         f.ajouterMembres(client); // ajoute tout les membres de global dans la convo f
