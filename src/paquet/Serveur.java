@@ -1,6 +1,7 @@
 package paquet;
 
 import discussion.FilDeDiscussion;
+import discussion.Message;
 import utilisateurs.Groupe;
 import utilisateurs.GroupeNomme;
 import utilisateurs.Utilisateur;
@@ -10,6 +11,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.ConcurrentSkipListSet;
@@ -107,8 +109,12 @@ public class Serveur implements Runnable{
 
         }else if(p.getObject().getClass() == GroupeNomme.class) {
             GroupeNomme g = (GroupeNomme) p.getObject();
-
-
+            // TODO
+        } else if(p.getObject().getClass()==Message.class){
+//            Ajout du message m au fil De Discussion ayant l'UUID id
+            Message m = (Message)p.getObject();
+            UUID id = p.getUuid() ;
+            gestionMessage(m,id,p.getAction(),listeGroupe,listeFilDeDiscussion,global);
         }
     }
 
@@ -142,6 +148,24 @@ public class Serveur implements Runnable{
             listeFilDeDiscussion.remove(f);
         }
         // TODO Maj Tout les utilisateurs concerné
+    }
+    static private FilDeDiscussion trouverFilDeDiscussion(UUID filid,ConcurrentSkipListSet<FilDeDiscussion> listeFilDeDiscussion){
+        for (FilDeDiscussion f : listeFilDeDiscussion){
+            if(f.getId()==filid) return f;
+        }
+        return null;
+    }
+
+    static synchronized  void gestionMessage(Message m, UUID fil, Paquet.Action action, ConcurrentSkipListSet<GroupeNomme> listeGroupe, ConcurrentSkipListSet<FilDeDiscussion> listeFilDeDiscussion, Groupe global){
+        FilDeDiscussion f = trouverFilDeDiscussion(fil,listeFilDeDiscussion);
+        if(f==null)System.exit(404);
+        if(action== Paquet.Action.ADD){
+            f.ajouterMessage(m) ;
+        }else if(action== Paquet.Action.MAJ){
+            // TODO
+        }else if(action== Paquet.Action.SUPP){
+            // TODO
+        }
     }
 
     static synchronized void gestionGroupeNomme(GroupeNomme g ,Paquet.Action action,  ConcurrentSkipListSet<GroupeNomme> listeGroupe, ConcurrentSkipListSet<FilDeDiscussion> listeFilDeDiscussion, Groupe global){

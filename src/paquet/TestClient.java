@@ -29,6 +29,9 @@ public class TestClient {
         client.ajouterFilDeDiscussion(f);
 
 
+        sleep(50);
+
+
 
 
 

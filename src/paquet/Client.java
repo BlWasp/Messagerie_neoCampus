@@ -1,6 +1,7 @@
 package paquet;
 
 import discussion.FilDeDiscussion;
+import discussion.Message;
 import utilisateurs.Groupe;
 import utilisateurs.GroupeNomme;
 import utilisateurs.TypeUtilisateur;
@@ -84,6 +85,14 @@ public class Client extends Groupe{
         int res = super.retirerMembres(u);
         if(res==1) envoyerObjetSansReponse(new Paquet(Paquet.Action.SUPP,u));
         return res;
+    }
+    public int ajouterMessage(Message m,FilDeDiscussion f){
+        if(utilisateurCourant==null) System.exit(107);//Temporaire à remplacer pas des exeptions
+        if( f.ajouterMessage(m)!=null){
+            envoyerObjetSansReponse(new Paquet(ADD,m,f.getId()));
+            return 1;
+        }
+        return 0;
     }
 
     //////////PRIVATE

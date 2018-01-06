@@ -34,6 +34,17 @@ public class FilDeDiscussion extends Groupe implements Serializable,Comparable<F
         }
         return messageajoute;
     }
+    public Message ajouterMessage(Message m) {
+        Utilisateur u = m.getFrom();
+        if(this.estMembre(u)){
+            filsdediscussion.add(m);
+        }
+        else{
+            LOGGER.error("ERREUR : " + u.getPrenom() + " ne participe pas à cette conversation");
+            System.exit(1);
+        }
+        return m;
+    }
 
 
     public Message lireLeMessage(int indice){
