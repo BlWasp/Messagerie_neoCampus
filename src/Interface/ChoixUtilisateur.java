@@ -1,5 +1,7 @@
 package Interface;
 
+import paquet.Client;
+
 import javax.swing.*;
 import java.awt.event.*;
 
@@ -10,7 +12,7 @@ public class ChoixUtilisateur extends JDialog {
     private JButton administrateurButton;
 
 
-    public ChoixUtilisateur() {
+    public ChoixUtilisateur(Client c) {
         setContentPane(contentPane);
         setModal(true);
 
@@ -33,7 +35,7 @@ public class ChoixUtilisateur extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                Login log = new Login();
+                Login log = new Login(c);
                 log.pack();
                 log.setVisible(true);
             }
@@ -47,7 +49,8 @@ public class ChoixUtilisateur extends JDialog {
     }
 
     public static void main(String[] args) {
-        ChoixUtilisateur dialog = new ChoixUtilisateur();
+        Client c = new Client("127.0.0.1",12700);
+        ChoixUtilisateur dialog = new ChoixUtilisateur(c);
         dialog.pack();
         dialog.setVisible(true);
     }

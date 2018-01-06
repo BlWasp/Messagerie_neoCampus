@@ -44,7 +44,9 @@
         <children>
           <component id="87d2" class="javax.swing.JTable" binding="table1" default-binding="true">
             <constraints/>
-            <properties/>
+            <properties>
+              <enabled value="true"/>
+            </properties>
           </component>
         </children>
       </scrollpane>
@@ -59,6 +61,12 @@
             <constraints/>
             <properties>
               <text value="Ajouter un utilisateur"/>
+            </properties>
+          </component>
+          <component id="be7af" class="javax.swing.JButton" binding="rafraichirButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Rafraichir"/>
             </properties>
           </component>
         </children>
