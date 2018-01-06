@@ -1,18 +1,21 @@
 package Interface;
 
+import paquet.Client;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.UUID;
 
 public class Chat extends JDialog {
     private JPanel contentPane;
-    private JTree chatTree;
+    private JTree chatTree;// TODO Afficher la liste des groupes avec leur fils de discussion
     private JTextField chatField;
     private JButton sendButton;
     private JTextArea filDeChat;
     private JMenuBar menuBar = new JMenuBar();
     private JMenu fichierMenu = new JMenu("Fichier");
-    private JMenuItem ajoutTicket = new JMenuItem("Ajouter un tichet");
+    private JMenuItem ajoutTicket = new JMenuItem("Ajouter un ticket");
 
     public Chat() {
         setContentPane(contentPane);
@@ -34,6 +37,8 @@ public class Chat extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Envoyer le message au server
+                //Client c = new Client("127.0.0.1",12700);
+                // TODO Envoyer le message avec lid du fil de discussion correspondant
                 chatField.setText("");
             }
         });

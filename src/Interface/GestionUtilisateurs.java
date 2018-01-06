@@ -31,29 +31,21 @@ public class GestionUtilisateurs extends JDialog {
                 onCancel();
             }
         });
-
+        ajouterUnUtilisateurButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ajoutUtilisateur ajout = new ajoutUtilisateur();
+                ajout.pack();
+                ajout.setVisible(true);
+            }
+        });
         // call onCancel() on ESCAPE
         contentPane.registerKeyboardAction(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-        //Permet l'affichage des données de la bdd TODO A ajouter a la classe serveur
-       /* List<Utilisateur> users = ExtractDataBDD.printUsers();
-        String[] entetes = {"identifiant","nom","prenom",};
-        DefaultTableModel tableModel = new DefaultTableModel(entetes, 0);
-
-        table1 = new JTable(tableModel);
-        for (int i = 0; i < users.size(); i++) {
-            String nom = users.get(i).getNom();
-            String prenom = users.get(i).getPrenom();
-            int identifiant = users.get(i).getIdentifiant();
-            Object[] data = {identifiant,nom,prenom};
-            tableModel.addRow(data);
-
-
-        }
-        this.add(table1);*/
+        //TODO afficher la liste des utilisateurs
     }
 
 
