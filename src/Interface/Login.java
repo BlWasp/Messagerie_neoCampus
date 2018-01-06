@@ -17,14 +17,14 @@ public class Login extends JDialog {
     private JLabel labelMdp;
     private JLabel loginFailed;
 
-    public Login() {
+    public Login(Client c) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
         loginFailed.setVisible(false);
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                onOK();
+                onOK(c);
             }
         });
 
@@ -50,9 +50,9 @@ public class Login extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-    private void onOK() {
+    private void onOK(Client c) {
         // add your code here
-        Client c = new Client("127.0.0.1",12700);
+
         if (ident.getText() != null && mdp.getText() != null){
             c.authentification(Integer.parseInt(ident.getText()),mdp.getText());
             if (c.getUtilisateurCourant() != null){
@@ -73,9 +73,10 @@ public class Login extends JDialog {
         dispose();
     }
 
-    public static void main(String[] args) {
-        Login dialog = new Login();
+    /*public static void main(String[] args) {
+
+        Login dialog = new Login(c);
         dialog.pack();
         dialog.setVisible(true);
-    }
+    }*/
 }

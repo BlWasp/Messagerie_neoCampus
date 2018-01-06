@@ -19,7 +19,7 @@ public class ajoutUtilisateur extends JDialog {
     private JComboBox typeUtilisateur;
     private JLabel labelIdent;
 
-    public ajoutUtilisateur() {
+    public ajoutUtilisateur(Client c) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -30,7 +30,6 @@ public class ajoutUtilisateur extends JDialog {
         buttonOK.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Client c = new Client("127.0.0.1",12700);
                 if (lastName.getText() != null && firstName != null && ident != null && passwd != null && confirmPasswd != null && typeUtilisateur != null){
                     Utilisateur u = new Utilisateur(lastName.getText(),firstName.getText(),Integer.parseInt(ident.getText()),passwd.getPassword().toString(),(TypeUtilisateur)typeUtilisateur.getSelectedItem());
                     c.ajouterMembres(u);
@@ -66,10 +65,10 @@ public class ajoutUtilisateur extends JDialog {
         dispose();
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         ajoutUtilisateur dialog = new ajoutUtilisateur();
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);
-    }
+    }*/
 }
