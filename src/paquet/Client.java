@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static paquet.Paquet.Action.ADD;
+import static utilisateurs.Utilisateur.Privilege.ADMIN;
 
 public class Client extends Groupe{
         String host;
@@ -74,18 +75,25 @@ public class Client extends Groupe{
     @Override
     public void ajouterMembres(Utilisateur m) {
         //if(utilisateurCourant==null) System.exit(101);//Temporaire à remplacer pas des exeptions
-        // TODO utilisateur courant == admin?
-        super.ajouterMembres(m);
-        envoyerObjetSansReponse(new Paquet(ADD,m));
+        if (utilisateurCourant.privilege == ADMIN) {
+            super.ajouterMembres(m);
+            envoyerObjetSansReponse(new Paquet(ADD, m));
+        } else {
+            System.out.println("Opération refusée, des privilèges administrateurs sont nécessaires");
+        }
     }
 
     @Override
     public int retirerMembres(Utilisateur u) {
         if(utilisateurCourant==null) System.exit(102);//Temporaire à remplacer pas des exeptions
-        // TODO utilisateur courant == admin?
-        int res = super.retirerMembres(u);
-        if(res==1) envoyerObjetSansReponse(new Paquet(Paquet.Action.SUPP,u));
-        return res;
+        if (utilisateurCourant.privilege == ADMIN) {
+            int res = super.retirerMembres(u);
+            if (res == 1) envoyerObjetSansReponse(new Paquet(Paquet.Action.SUPP, u));
+            return res;
+        } else {
+            System.out.println("Opération refusée, des privilèges administrateurs sont nécessaires");
+            return 0;
+        }
     }
     public int ajouterMessage(String message,FilDeDiscussion f){
         Message m = new Message(utilisateurCourant,f,message);
