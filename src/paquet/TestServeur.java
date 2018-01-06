@@ -29,8 +29,8 @@ public class TestServeur {
         while (true) {
             ///////////////////ZONE DE TEST
 
-            System.out.println("Utilisateurs : ");
-            System.out.println(global);
+           // System.out.println("Utilisateurs : ");
+           // System.out.println(global);
             if( ! listeFilDeDiscussion.isEmpty()){
                 System.out.println("File de discussion: ");
                 listeFilDeDiscussion.first().printFil();
@@ -42,6 +42,14 @@ public class TestServeur {
             Serveur server = new Serveur(socket,listeGroupe,listeFilDeDiscussion,global);
             Thread serveurThread = new Thread(server);
             serveurThread.start();
+
+            /////////// TEST POUR AFFICHAGE
+            try {
+                serveurThread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            ////////////FIN TEST POUR AFFICHAGE
 
 
         }

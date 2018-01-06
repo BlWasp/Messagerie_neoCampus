@@ -67,20 +67,20 @@ public class FilDeDiscussion extends Groupe implements Serializable,Comparable<F
 
     public void printFil(){
         for (Message m : filsdediscussion){
-            System.out.println(m.getFrom().getPrenom() + ": " + m.getMesage());
-            System.out.print("Utilisateur en attente : ");
+            System.out.println("["+m.getFrom().getPrenom() + "] : " + m.getMesage());
+            System.out.print("............. Utilisateur en attente : ");
             for(Utilisateur u : m.getEnAttente().getMembres()){
-                System.out.print(u.getPrenom() + ", ");
+                System.out.print( u.getPrenom() + ", ");
             }
             System.out.println("");
 
-            System.out.print("Utilisateur ayant recu : ");
+            System.out.print("............. Utilisateur ayant recu : ");
             for(Utilisateur u : m.getRecu().getMembres()){
-                System.out.print(u.getPrenom() + ", ");
+                System.out.print( u.getPrenom() + ", ");
             }
             System.out.println("");
 
-            System.out.print("Utilisateur ayant lu: ");
+            System.out.print("............. Utilisateur ayant lu: ");
             for(Utilisateur u : m.getLu().getMembres()){
                 System.out.print(u.getPrenom() + ", ");
             }

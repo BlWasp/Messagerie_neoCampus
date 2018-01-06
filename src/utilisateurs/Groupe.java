@@ -3,13 +3,14 @@ package utilisateurs;
 
 import discussion.FilDeDiscussion;
 
+import java.io.Serializable;
 import java.util.NavigableSet;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ConcurrentSkipListSet;
 
 
-public class Groupe {
+public class Groupe implements Serializable {
 
 //    private NavigableSet<Utilisateur> membres = new TreeSet<>();
     private ConcurrentSkipListSet<Utilisateur> membres = new ConcurrentSkipListSet<>();

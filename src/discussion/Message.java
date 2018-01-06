@@ -5,10 +5,11 @@ import org.apache.log4j.Logger;
 import utilisateurs.Groupe;
 import utilisateurs.Utilisateur;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 
-public class Message {
+public class Message implements Serializable{
     private Utilisateur from;
     private String message;
     private Groupe enAttente = new Groupe();

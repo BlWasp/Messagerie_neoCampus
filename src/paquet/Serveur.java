@@ -44,7 +44,7 @@ public class Serveur implements Runnable{
                 e.printStackTrace();
             }
 
-            System.out.println(instruction.getClass());
+//            System.out.println(instruction.getClass());
             if (instruction.getClass() == Connexion.class) {
                 Connexion requester = (Connexion) instruction;
                 authentification(global, requester, out);
@@ -53,6 +53,13 @@ public class Serveur implements Runnable{
                 gestionPaquet(p, listeGroupe,listeFilDeDiscussion,global);
             }
         }catch(IOException e){e.printStackTrace();}
+        finally {
+            try {
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 
@@ -127,7 +134,7 @@ public class Serveur implements Runnable{
             global.retirerMembres(u);
             global.ajouterMembres(u);
         }else if(action == Paquet.Action.SUPP){
-            System.out.println("Retrait de "+ u);
+//            System.out.println("Retrait de "+ u);
             global.retirerMembres(u);
         }
         // TODO Maj Tout les autres client
@@ -136,13 +143,14 @@ public class Serveur implements Runnable{
     static synchronized void gestionFilDeDiscussion(FilDeDiscussion f, Paquet.Action action, ConcurrentSkipListSet<GroupeNomme> listeGroupe, ConcurrentSkipListSet<FilDeDiscussion> listeFilDeDiscussion, Groupe global){
         if(action == Paquet.Action.ADD){
 //            global.ajouterMembres(f);
+//            System.out.println("Ajout du fil");
             listeFilDeDiscussion.add(f);
         }else if(action == Paquet.Action.MAJ){
 //            UUID id = f.getId();
 //            listeFilDeDiscussion.remove(id);
 //            global.ajouterMembres(f);
 //            listeFilDeDiscussion.add(f);
-            System.out.println("Erreur pas de MAJ pour FILS DE DISCUSSION !!");
+            System.err.println("Erreur pas de MAJ pour FILS DE DISCUSSION !!");
             System.exit(25);
         }else if(action == Paquet.Action.SUPP){
             listeFilDeDiscussion.remove(f);
@@ -151,7 +159,7 @@ public class Serveur implements Runnable{
     }
     static private FilDeDiscussion trouverFilDeDiscussion(UUID filid,ConcurrentSkipListSet<FilDeDiscussion> listeFilDeDiscussion){
         for (FilDeDiscussion f : listeFilDeDiscussion){
-            if(f.getId()==filid) return f;
+            if(f.getId().equals(filid)) return f;
         }
         return null;
     }
@@ -160,6 +168,7 @@ public class Serveur implements Runnable{
         FilDeDiscussion f = trouverFilDeDiscussion(fil,listeFilDeDiscussion);
         if(f==null)System.exit(404);
         if(action== Paquet.Action.ADD){
+//            System.out.println("Ajout du message");
             f.ajouterMessage(m) ;
         }else if(action== Paquet.Action.MAJ){
             // TODO

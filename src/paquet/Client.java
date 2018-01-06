@@ -55,6 +55,7 @@ public class Client extends Groupe{
                     Connexion cx = (Connexion) instruction;
                     if (cx.getUtilisateur() != null) {
                         utilisateurCourant =  cx.getUtilisateur();
+                        this.ajouterMembres(utilisateurCourant);
                     }
                 }
             } catch (ClassNotFoundException e) {
@@ -86,7 +87,8 @@ public class Client extends Groupe{
         if(res==1) envoyerObjetSansReponse(new Paquet(Paquet.Action.SUPP,u));
         return res;
     }
-    public int ajouterMessage(Message m,FilDeDiscussion f){
+    public int ajouterMessage(String message,FilDeDiscussion f){
+        Message m = new Message(utilisateurCourant,f,message);
         if(utilisateurCourant==null) System.exit(107);//Temporaire à remplacer pas des exeptions
         if( f.ajouterMessage(m)!=null){
             envoyerObjetSansReponse(new Paquet(ADD,m,f.getId()));
@@ -117,6 +119,7 @@ public class Client extends Groupe{
         } catch (IOException e) {
             e.printStackTrace();
         }
+
 
     }
 }
