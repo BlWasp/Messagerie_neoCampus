@@ -19,6 +19,14 @@ public class TestClient {
         // Ajout d'un Menbre (Beta)
         client.ajouterMembres(new Utilisateur("Daumas","Guillaume",789,"yolo", TypeUtilisateur.ETUDIANT));
         client.ajouterMembres(new Utilisateur("CHERIFI","Salim",790,"yolo",TypeUtilisateur.ETUDIANT));
+        client.ajouterMembres(new Utilisateur("12","12",791,"yolo", TypeUtilisateur.ETUDIANT));
+        client.ajouterMembres(new Utilisateur("23","23",792,"yolo", TypeUtilisateur.ETUDIANT));
+        client.ajouterMembres(new Utilisateur("34","34",793,"yolo", TypeUtilisateur.ETUDIANT));
+        client.ajouterMembres(new Utilisateur("45","45",794,"yolo", TypeUtilisateur.ETUDIANT));
+        client.ajouterMembres(new Utilisateur("56","56",795,"yolo", TypeUtilisateur.ETUDIANT));
+        client.ajouterMembres(new Utilisateur("67","67",796,"yolo", TypeUtilisateur.ETUDIANT));
+        client.ajouterMembres(new Utilisateur("78","78",797,"yolo", TypeUtilisateur.ETUDIANT));
+        client.ajouterMembres(new Utilisateur("89","89",798,"yolo", TypeUtilisateur.ETUDIANT));
         
        // Ajout d'un fil de discussion
         FilDeDiscussion f = new FilDeDiscussion("L3");
@@ -29,6 +37,13 @@ public class TestClient {
         // Envoi d'un message sur une convo
        client.ajouterMessage("Coucou ",f);
        client.ajouterMessage("Wesh bien ta vu",f);
+        client.ajouterMessage("1 ",f);
+        client.ajouterMessage("2 ",f);
+        client.ajouterMessage("3 ",f);
+        client.ajouterMessage("4 ",f);
+        client.ajouterMessage("5 ",f);
+        client.ajouterMessage("6 ",f);
+
 
 
 
