@@ -25,8 +25,8 @@ public class Utilisateur implements Comparable<Utilisateur>,Serializable{
         this.type = type;
     }
 
-    public void setAdmin(){
-        this.privilege = ADMIN;
+    public void setPrivilege(Privilege p){
+        this.privilege = p;
     }
 
     public String getNom() {
