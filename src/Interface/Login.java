@@ -1,5 +1,7 @@
 package Interface;
 
+import paquet.Client;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -8,14 +10,18 @@ public class Login extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
-    private JTextField textField1;
-    private JTextField textField2;
+    private JTextField ident;
+    private JTextField mdp;
     private JButton inscriptionButton;
+    private JLabel labelIdent;
+    private JLabel labelMdp;
+    private JLabel loginFailed;
 
     public Login() {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
+        loginFailed.setVisible(false);
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onOK();
@@ -46,7 +52,20 @@ public class Login extends JDialog {
 
     private void onOK() {
         // add your code here
-        dispose();
+        Client c = new Client("127.0.0.1",12700);
+        if (ident.getText() != null && mdp.getText() != null){
+            c.authentification(Integer.parseInt(ident.getText()),mdp.getText());
+            if (c.getUtilisateurCourant() != null){
+                loginFailed.setVisible(false);
+                System.out.println("Authentification Reussi!");
+                //Faire la redirection vers la prochaine page en fonction du statut de l'utilisateur
+                //dispose();
+            }else{
+                loginFailed.setVisible(true);
+                this.pack();
+            }
+        }
+
     }
 
     private void onCancel() {

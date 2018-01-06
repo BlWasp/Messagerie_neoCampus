@@ -23,7 +23,7 @@ public class TestServeur {
 
         global.ajouterMembres(
                 new Utilisateur("admin", "admin", 0, "admin", null));
-        ServerSocket sSocket = new ServerSocket(6791);
+        ServerSocket sSocket = new ServerSocket(12700);
 
 
         while (true) {

@@ -128,7 +128,7 @@ public class Serveur implements Runnable{
     static synchronized void gestionUtilisateur(Utilisateur u, Paquet.Action action,  ConcurrentSkipListSet<GroupeNomme> listeGroupe, ConcurrentSkipListSet<FilDeDiscussion> listeFilDeDiscussion, Groupe global){
         if(action == Paquet.Action.ADD){
             global.ajouterMembres(u);
-           // System.out.println("Ajout de l'utilisateur recu");
+           System.out.println("Ajout de l'utilisateur recu");
           //  System.out.println(global);
         }else if(action == Paquet.Action.MAJ){
             global.retirerMembres(u);
@@ -166,7 +166,7 @@ public class Serveur implements Runnable{
 
     static synchronized  void gestionMessage(Message m, UUID fil, Paquet.Action action, ConcurrentSkipListSet<GroupeNomme> listeGroupe, ConcurrentSkipListSet<FilDeDiscussion> listeFilDeDiscussion, Groupe global){
         FilDeDiscussion f = trouverFilDeDiscussion(fil,listeFilDeDiscussion);
-        if(f==null)System.exit(404);
+        //if(f==null)System.exit(404);
         if(action== Paquet.Action.ADD){
 //            System.out.println("Ajout du message");
             f.ajouterMessage(m) ;
