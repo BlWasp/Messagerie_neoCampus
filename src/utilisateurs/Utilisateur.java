@@ -4,21 +4,29 @@ package utilisateurs;
 
 import java.io.Serializable;
 
+import static utilisateurs.Utilisateur.Privilege.ADMIN;
+import static utilisateurs.Utilisateur.Privilege.USER;
+
 public class Utilisateur implements Comparable<Utilisateur>,Serializable{
     private String nom;
     private String prenom;
     private int identifiant;
     private String motDePasse;
     private TypeUtilisateur type;
+    public Privilege privilege = USER;
+    public enum Privilege{USER,ADMIN}
 
     public Utilisateur(String nom, String prenom, int identifiant,String motDePasse, TypeUtilisateur type) {
         this.nom = nom;
         this.prenom = prenom;
         this.identifiant = identifiant;
-
         // this.motDePasse = EncodePasswd.encode(motDePasse);
         this.motDePasse = motDePasse;
         this.type = type;
+    }
+
+    public void setAdmin(){
+        this.privilege = ADMIN;
     }
 
     public String getNom() {
