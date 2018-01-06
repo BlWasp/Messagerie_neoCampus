@@ -73,7 +73,7 @@ public class Client extends Groupe{
     }
     @Override
     public void ajouterMembres(Utilisateur m) {
-        if(utilisateurCourant==null) System.exit(101);//Temporaire à remplacer pas des exeptions
+        //if(utilisateurCourant==null) System.exit(101);//Temporaire à remplacer pas des exeptions
         // TODO utilisateur courant == admin?
         super.ajouterMembres(m);
         envoyerObjetSansReponse(new Paquet(ADD,m));
@@ -121,6 +121,10 @@ public class Client extends Groupe{
         }
 
 
+    }
+
+    public Utilisateur getUtilisateurCourant() {
+        return utilisateurCourant;
     }
 }
 

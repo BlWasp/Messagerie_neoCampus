@@ -1,5 +1,9 @@
 package Interface;
 
+import paquet.Client;
+import utilisateurs.TypeUtilisateur;
+import utilisateurs.Utilisateur;
+
 import javax.swing.*;
 import java.awt.event.*;
 
@@ -9,25 +13,32 @@ public class ajoutUtilisateur extends JDialog {
     private JButton buttonCancel;
     private JTextField lastName;
     private JTextField firstName;
-    private JTextField userName;
+    private JTextField ident;
     private JPasswordField passwd;
     private JPasswordField confirmPasswd;
     private JComboBox typeUtilisateur;
+    private JLabel labelIdent;
 
     public ajoutUtilisateur() {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
-
+        for (TypeUtilisateur type :
+                TypeUtilisateur.values()) {
+            this.typeUtilisateur.addItem(type);
+        }
         buttonOK.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //envoyer au serveur les infos d'une nouvel utilisateur
+                Client c = new Client("127.0.0.1",12700);
+                if (lastName.getText() != null && firstName != null && ident != null && passwd != null && confirmPasswd != null && typeUtilisateur != null){
+                    Utilisateur u = new Utilisateur(lastName.getText(),firstName.getText(),Integer.parseInt(ident.getText()),passwd.getPassword().toString(),(TypeUtilisateur)typeUtilisateur.getSelectedItem());
+                    c.ajouterMembres(u);
+                }
                 dispose();
             }
         });
 
-        typeUtilisateur.addItem("Ce que je veux en fonction de la bdd");
         buttonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();

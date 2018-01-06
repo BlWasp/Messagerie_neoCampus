@@ -3,6 +3,7 @@ package utilisateurs;
 
 
 import java.io.Serializable;
+import java.lang.reflect.Type;
 
 import static utilisateurs.Utilisateur.Privilege.ADMIN;
 import static utilisateurs.Utilisateur.Privilege.USER;
@@ -20,7 +21,7 @@ public class Utilisateur implements Comparable<Utilisateur>,Serializable{
         this.nom = nom;
         this.prenom = prenom;
         this.identifiant = identifiant;
-        // this.motDePasse = EncodePasswd.encode(motDePasse);
+        this.motDePasse = EncodePasswd.encode(motDePasse);
         this.motDePasse = motDePasse;
         this.type = type;
     }
