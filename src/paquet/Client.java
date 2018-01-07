@@ -75,6 +75,9 @@ public class Client extends Groupe{
                     if (cx.getUtilisateur() != null) {
                         utilisateurCourant =  cx.getUtilisateur();
                         this.ajouterMembres(utilisateurCourant);
+                        this.ajouterMembres(cx.getGlobal());
+                        this.listeFilDeDiscussion.addAll(cx.getListeFilDeDiscussion());
+                        this.listeGroupe.addAll(cx.getListeGroupe());
                     }
                 }
             } catch (ClassNotFoundException e) {
