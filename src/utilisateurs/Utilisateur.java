@@ -26,6 +26,16 @@ public class Utilisateur implements Comparable<Utilisateur>,Serializable{
         this.type = type;
     }
 
+    public Utilisateur(String nom, String prenom, int identifiant,String motDePasse, TypeUtilisateur type, Privilege priv) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.identifiant = identifiant;
+        this.motDePasse = EncodePasswd.encode(motDePasse);
+        this.motDePasse = motDePasse;
+        this.type = type;
+        this.privilege = priv;
+    }
+
     public void setPrivilege(Privilege p){
         this.privilege = p;
     }

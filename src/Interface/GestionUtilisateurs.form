@@ -63,6 +63,12 @@
               <text value="Ajouter un utilisateur"/>
             </properties>
           </component>
+          <component id="f05b5" class="javax.swing.JButton" binding="retirerMembreButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Retirer Membre"/>
+            </properties>
+          </component>
           <component id="be7af" class="javax.swing.JButton" binding="rafraichirButton" default-binding="true">
             <constraints/>
             <properties>

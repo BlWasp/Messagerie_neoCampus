@@ -76,6 +76,15 @@ public class Groupe implements Serializable {
         return found;
     }
 
+    public void retirerMembre(int id){
+        for (Utilisateur u :
+                this.membres) {
+            if (u.getIdentifiant() == id){
+                this.membres.remove(u);
+            }
+        }
+    }
+
     public NavigableSet<Utilisateur> getMembres() {
         return membres;
     }

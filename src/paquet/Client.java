@@ -163,6 +163,11 @@ public class Client extends Groupe{
     public List getListeFilDeDiscussion() {
         return listeFilDeDiscussion;
     }
+
+    //TODO a supprimer utilisé que pour les tests sans authentification
+    public void setUtilisateurCourant(Utilisateur utilisateurCourant) {
+        this.utilisateurCourant = utilisateurCourant;
+    }
 }
 
 /*

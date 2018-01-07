@@ -9,6 +9,7 @@ import BDD.ExtractDataBDD;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import java.awt.*;
 import java.awt.event.*;
 import java.sql.SQLException;
 import java.util.List;
@@ -22,12 +23,13 @@ public class GestionUtilisateurs extends JDialog {
     private JToolBar tools;
     private JButton ajouterUnUtilisateurButton;
     private JButton rafraichirButton;
+    private JButton retirerMembreButton;
 
 
     public GestionUtilisateurs(Client c) throws SQLException {
         setContentPane(contentPane);
         setModal(true);
-
+        this.setPreferredSize(new Dimension(800,800));
 
         majTab(c);
 
@@ -59,31 +61,55 @@ public class GestionUtilisateurs extends JDialog {
 
             }
         });
+
+        retirerMembreButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                retirerMembre(c);
+
+            }
+        });
         // call onCancel() on ESCAPE
         contentPane.registerKeyboardAction(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-        //TODO afficher la liste des utilisateurs
+
+    }
+
+
+
+
+    private void retirerMembre(Client c){
+        //dispose();
+        RetirerMembre retirer = new RetirerMembre(c);
+        retirer.toFront();
+        retirer.pack();
+        retirer.repaint();
+        retirer.setVisible(true);
 
     }
 
     private void majTab(Client c){
         String col[] = {"Identifiant","Nom","Prenom"};
         DefaultTableModel tableModel = new DefaultTableModel(col, 0);
+        tableModel.addRow(col);
 
         this.add(table1);
         //TODO a enlever juste pour les tests
-        c.ajouterMembres(new Utilisateur("Daumas","Guillaume",789,"yolo", TypeUtilisateur.ETUDIANT));
-        c.ajouterMembres(new Utilisateur("CHERIFI","Salim",790,"yolo",TypeUtilisateur.ETUDIANT));
-        c.ajouterMembres(new Utilisateur("12","12",791,"yolo", TypeUtilisateur.ETUDIANT));
-        c.ajouterMembres(new Utilisateur("23","23",792,"yolo", TypeUtilisateur.ETUDIANT));
-        tableModel.addRow(col);
+        c.setUtilisateurCourant(new Utilisateur("Daumas","Guillaume",12,"yolo", TypeUtilisateur.ETUDIANT, Utilisateur.Privilege.ADMIN));
+        c.ajouterMembres(new Utilisateur("Daumas","Guillaume",789,"yolo", TypeUtilisateur.ETUDIANT, Utilisateur.Privilege.USER));
+        c.ajouterMembres(new Utilisateur("CHERIFI","Salim",790,"yolo",TypeUtilisateur.ETUDIANT,Utilisateur.Privilege.USER));
+        c.ajouterMembres(new Utilisateur("12","12",791,"yolo", TypeUtilisateur.ETUDIANT,Utilisateur.Privilege.USER));
+        c.ajouterMembres(new Utilisateur("23","23",792,"yolo", TypeUtilisateur.ETUDIANT,Utilisateur.Privilege.USER));
+
+
         NavigableSet<Utilisateur> users = c.getMembres();
 
         for (Utilisateur u :
                 users) {
+
             Object[] data = {u.getIdentifiant(),u.getNom(),u.getPrenom()};
             tableModel.addRow(data);
         }
@@ -93,13 +119,18 @@ public class GestionUtilisateurs extends JDialog {
 
     }
 
+
+
+
+
+
     private void onCancel() {
         // add your code here if necessary
         dispose();
     }
 
     public static void main(String[] args) throws SQLException {
-        Client c = new Client("127.0.0.1",12700);
+        Client c = new Client();
         GestionUtilisateurs dialog = new GestionUtilisateurs(c);
         dialog.pack();
         dialog.setVisible(true);
