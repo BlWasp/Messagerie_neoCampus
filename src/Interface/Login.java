@@ -58,8 +58,14 @@ public class Login extends JDialog {
             if (c.getUtilisateurCourant() != null){
                 loginFailed.setVisible(false);
                 System.out.println("Authentification Reussi!");
-                //Faire la redirection vers la prochaine page en fonction du statut de l'utilisateur
-                //dispose();
+                //En fonction du statut de l'étudiant
+                dispose();
+                /*setVisible(false);*/
+                Chat chat = new Chat(c);
+                chat.pack();
+                chat.setVisible(true);
+
+
             }else{
                 loginFailed.setVisible(true);
                 this.pack();

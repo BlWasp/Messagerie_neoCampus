@@ -62,8 +62,9 @@ public class FilDeDiscussion extends Groupe implements Serializable,Comparable<F
         return id;
     }
 
-
-
+    public String getSujet() {
+        return sujet;
+    }
 
     public void printFil(){
         for (Message m : filsdediscussion){
