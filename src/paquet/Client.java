@@ -30,10 +30,28 @@ public class Client extends Groupe{
         this.port = port;
         this.utilisateurCourant = null;
     }
+    public Client() {
+        this.host = "127.0.0.1";
+        this.port = 12700;
+        this.utilisateurCourant = null;
+    }
 
 
+    public String getHost() {
+        return host;
+    }
 
+    public int getPort() {
+        return port;
+    }
 
+    public void setHost(String host) {
+        this.host = host;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
 
     public void authentification(int id, String mdp) {
 
@@ -43,7 +61,7 @@ public class Client extends Groupe{
         try {
             s = new Socket(host, port);
         } catch (IOException e) {
-           // System.out.println("Echec de connexion : Serveur off ?");
+           // System.out.println("Echec de connexion : ChoixServeur off ?");
            return ;
         }
         envoyerObjet(s,new Connexion(id,mdp));
@@ -57,6 +75,9 @@ public class Client extends Groupe{
                     if (cx.getUtilisateur() != null) {
                         utilisateurCourant =  cx.getUtilisateur();
                         this.ajouterMembres(utilisateurCourant);
+                        this.ajouterMembres(cx.getGlobal());
+                        this.listeFilDeDiscussion.addAll(cx.getListeFilDeDiscussion());
+                        this.listeGroupe.addAll(cx.getListeGroupe());
                     }
                 }
             } catch (ClassNotFoundException e) {
@@ -194,17 +215,17 @@ public class Client {
         try {
             s = new Socket(host, port);
         } catch (IOException e) {
-            System.out.println("Echec de connexion : Serveur off ?");
+            System.out.println("Echec de connexion : ChoixServeur off ?");
            return null;
         }
-        envoyerObjet(s,new Connexion(id,mdp));
+        envoyerObjet(s,new ChoixServeur(id,mdp));
         ObjectInputStream in = null;
         try {
             in = new ObjectInputStream(s.getInputStream());
             try {
                 Object instruction = in.readObject();
-                if (instruction.getClass() == Connexion.class) {
-                    Connexion cx = (Connexion) instruction;
+                if (instruction.getClass() == ChoixServeur.class) {
+                    ChoixServeur cx = (ChoixServeur) instruction;
                     if (cx.getUtilisateur() != null) {
                         user =  cx.getUtilisateur();
                     }

@@ -3,6 +3,7 @@ package paquet;
 import discussion.FilDeDiscussion;
 import utilisateurs.Groupe;
 import utilisateurs.GroupeNomme;
+import utilisateurs.TypeUtilisateur;
 import utilisateurs.Utilisateur;
 
 import java.io.IOException;
@@ -21,8 +22,10 @@ public class TestServeur {
         Groupe global = new Groupe();
         // Fin partie BDD
 
-        global.ajouterMembres(
-                new Utilisateur("admin", "admin", 0, "admin", null));
+        Utilisateur admin = new Utilisateur("admin", "admin", 0, "admin", null);
+
+        admin.setPrivilege(Utilisateur.Privilege.ADMIN);
+        global.ajouterMembres(admin);
         ServerSocket sSocket = new ServerSocket(12700);
 
 

@@ -19,6 +19,7 @@ public class TestClient {
         // Ajout d'un Menbre (Beta)
         client.ajouterMembres(new Utilisateur("Daumas","Guillaume",789,"yolo", TypeUtilisateur.ETUDIANT));
         client.ajouterMembres(new Utilisateur("CHERIFI","Salim",790,"yolo",TypeUtilisateur.ETUDIANT));
+
         client.ajouterMembres(new Utilisateur("12","12",791,"yolo", TypeUtilisateur.ETUDIANT));
         client.ajouterMembres(new Utilisateur("23","23",792,"yolo", TypeUtilisateur.ETUDIANT));
         client.ajouterMembres(new Utilisateur("34","34",793,"yolo", TypeUtilisateur.ETUDIANT));
@@ -27,7 +28,6 @@ public class TestClient {
         client.ajouterMembres(new Utilisateur("67","67",796,"yolo", TypeUtilisateur.ETUDIANT));
         client.ajouterMembres(new Utilisateur("78","78",797,"yolo", TypeUtilisateur.ETUDIANT));
         client.ajouterMembres(new Utilisateur("89","89",798,"yolo", TypeUtilisateur.ETUDIANT));
-        
        // Ajout d'un fil de discussion
         FilDeDiscussion f = new FilDeDiscussion("L3");
         f.ajouterMembres(client); // ajoute tout les membres de global dans la convo f

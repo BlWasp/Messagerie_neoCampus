@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.UUID;
@@ -47,7 +48,7 @@ public class Serveur implements Runnable{
 //            System.out.println(instruction.getClass());
             if (instruction.getClass() == Connexion.class) {
                 Connexion requester = (Connexion) instruction;
-                authentification(global, requester, out);
+                authentification(global, requester, out,listeGroupe,listeFilDeDiscussion);
             }else if(instruction.getClass() == Paquet.class){ // Ajout ou maj ou sup d'un Groupe, Utilisateur, File
                 Paquet p = (Paquet) instruction; //Paquet
                 gestionPaquet(p, listeGroupe,listeFilDeDiscussion,global);
@@ -82,20 +83,34 @@ public class Serveur implements Runnable{
 
             ///////////////////FIN ZONE DE TEST
             Socket socket = sSocket.accept();
-            Serveur server = new Serveur(socket,listeGroupe,listeFilDeDiscussion,global);
+            ChoixServeur server = new ChoixServeur(socket,listeGroupe,listeFilDeDiscussion,global);
             Thread serveurThread = new Thread(server);
             serveurThread.start();
         }
     }*/
 
 
-    static synchronized void authentification(Groupe global, Connexion requester, ObjectOutputStream out){
+    static synchronized void authentification(Groupe global, Connexion requester, ObjectOutputStream out,ConcurrentSkipListSet<GroupeNomme> listeGroupe, ConcurrentSkipListSet<FilDeDiscussion> listeFilDeDiscussion){
         for(Utilisateur u : global.getMembres()){
 
             if(u.equals(new Utilisateur("","",requester.getIdentifiant(),requester.getMdp(),null)) ){
                 // Authentification réussi
+                List<GroupeNomme> listeGroupeTemp = new ArrayList<>();
+                List<FilDeDiscussion> listeFilDeDiscussionTemp = new ArrayList<>();
+                for(GroupeNomme grpn : listeGroupe){
+                    if(grpn.estMembre(u) || u.getPrivilege()== Utilisateur.Privilege.ADMIN )  listeGroupeTemp.add(grpn);
+                }
+                for(FilDeDiscussion f : listeFilDeDiscussion){
+                    if(f.estMembre(u) || u.getPrivilege()== Utilisateur.Privilege.ADMIN ) listeFilDeDiscussionTemp.add(f);
+                }
+
+
+
+
+
+
                 try {
-                    out.writeObject(new Connexion(u));
+                    out.writeObject(new Connexion(u,listeGroupeTemp,listeFilDeDiscussionTemp,global));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
