@@ -35,7 +35,7 @@ public class Connexion implements Serializable {
 
     @Override
     public String toString() {
-        return "Connexion{" +
+        return "ChoixServeur{" +
                 "identifiant=" + identifiant +
                 ", mdp='" + mdp + '\'' +
                 ", utilisateur=" + utilisateur +

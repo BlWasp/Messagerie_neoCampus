@@ -82,7 +82,7 @@ public class Serveur implements Runnable{
 
             ///////////////////FIN ZONE DE TEST
             Socket socket = sSocket.accept();
-            Serveur server = new Serveur(socket,listeGroupe,listeFilDeDiscussion,global);
+            ChoixServeur server = new ChoixServeur(socket,listeGroupe,listeFilDeDiscussion,global);
             Thread serveurThread = new Thread(server);
             serveurThread.start();
         }
