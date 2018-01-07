@@ -35,6 +35,7 @@ public class ChoixUtilisateur extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
+                /*setVisible(false);*/
                 Login log = new Login(c);
                 log.pack();
                 log.setVisible(true);

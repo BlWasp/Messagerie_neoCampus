@@ -1,11 +1,17 @@
 package Interface;
 
+import discussion.FilDeDiscussion;
 import paquet.Client;
+import utilisateurs.GroupeNomme;
 
 import javax.swing.*;
+import javax.swing.tree.DefaultMutableTreeNode;
+
 import java.awt.*;
+
 import java.awt.event.*;
-import java.util.UUID;
+import java.util.List;
+
 
 public class Chat extends JDialog {
     private JPanel contentPane;
@@ -17,14 +23,12 @@ public class Chat extends JDialog {
     private JMenu fichierMenu = new JMenu("Fichier");
     private JMenuItem ajoutTicket = new JMenuItem("Ajouter un ticket");
 
-    public Chat() {
+    public Chat(Client c) {
+        contentPane = new JPanel(new BorderLayout());
         setContentPane(contentPane);
         setModal(true);
         this.setPreferredSize(new Dimension(500,500));
 
-        menuBar.add(fichierMenu);
-        fichierMenu.add(ajoutTicket);
-        setJMenuBar(menuBar);
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
@@ -32,6 +36,26 @@ public class Chat extends JDialog {
                 onCancel();
             }
         });
+
+
+
+        JPanel subPanel = new JPanel(new BorderLayout());
+            subPanel.add(chatField);
+            subPanel.add(sendButton,BorderLayout.EAST);
+            this.add(subPanel,BorderLayout.SOUTH);
+
+
+
+
+        this.add(filDeChat,BorderLayout.CENTER);
+        menuBar.add(fichierMenu);
+        fichierMenu.add(ajoutTicket);
+        setJMenuBar(menuBar);
+
+        buildTree(c);
+
+
+
 
         sendButton.addActionListener(new ActionListener() {
             @Override
@@ -59,15 +83,61 @@ public class Chat extends JDialog {
     }
 
 
+
+
+
+
+
+
+    private void buildTree(Client c){
+        //TODO ajouter la possibilite de creer un groupe
+        //Partie a supprimer juste pour tester larbre
+        //List groupe est vide
+        List<GroupeNomme> listGroupe = c.getListeGroupe();
+        FilDeDiscussion f = new FilDeDiscussion("L3 Info");
+        c.ajouterFilDeDiscussion(f);
+        List<FilDeDiscussion> listFil = c.getListeFilDeDiscussion();
+
+
+        //Création d'une racine
+        DefaultMutableTreeNode racine = new DefaultMutableTreeNode("Racine");
+
+        //Nous allons ajouter des branches et des feuilles à notre racine
+        for(int i = 0; i < listGroupe.size(); i++){
+            DefaultMutableTreeNode rep = new DefaultMutableTreeNode(listGroupe.get(i).getNom());
+
+          /*  //On rajoute 4 branches
+            if(i < 4){
+                DefaultMutableTreeNode rep2 = new DefaultMutableTreeNode("Fichier enfant");
+                rep.add(rep2);
+            }*/
+            //On ajoute la feuille ou la branche à la racine
+            racine.add(rep);
+        }
+        //Nous créons, avec notre hiérarchie, un arbre
+        JTree chatTree = new JTree(racine);
+
+        //Que nous plaçons sur le ContentPane de notre JFrame à l'aide d'un scroll
+        this.add(new JScrollPane(chatTree),BorderLayout.WEST);
+    }
+
+
+
+
+
+
+
+
+
     private void onCancel() {
         // add your code here if necessary
         dispose();
     }
 
-    public static void main(String[] args) {
+   /* public static void main(String[] args) {
         Chat dialog = new Chat();
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);
-    }
+    }*/
 }

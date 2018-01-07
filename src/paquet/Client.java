@@ -155,6 +155,14 @@ public class Client extends Groupe{
     public Utilisateur getUtilisateurCourant() {
         return utilisateurCourant;
     }
+
+    public List getListeGroupe() {
+        return listeGroupe;
+    }
+
+    public List getListeFilDeDiscussion() {
+        return listeFilDeDiscussion;
+    }
 }
 
 /*
