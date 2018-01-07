@@ -11,9 +11,11 @@ import java.text.NumberFormat;
 
 public class Connexion extends JDialog {
     Client client;
+    Repertoire rep_utilisateur;
 
     public Connexion(Client client,ApplicationClient ac){
         this.client = client;
+        this.rep_utilisateur = ac.getRep_utilisateur();
         setTitle("ChoixServeur");
         setSize(250, 200);
         this.setLocationRelativeTo(null);
@@ -22,7 +24,7 @@ public class Connexion extends JDialog {
         container.setLayout(new BorderLayout());
         JPanel pan = new JPanel();
         JButton btest = new JButton ("Se connecter");
-        JLabel lid = new JLabel("Identifiant:");
+        JLabel lid = new JLabel("Identifiant (Uniquement des chiffres) :");
         JFormattedTextField fid = new JFormattedTextField(NumberFormat.getNumberInstance());
         fid.setColumns(15);
         JLabel lmdp = new JLabel("Mot de passe:");
@@ -39,7 +41,10 @@ public class Connexion extends JDialog {
                 }else{
                     // System.out.println("Connecté en tant que :"+client.getUtilisateurCourant());
                     ac.setTitle(client.getUtilisateurCourant().getPrenom()+"."+client.getUtilisateurCourant().getNom()+"@"+client.getHost()+":"+client.getPort()+" - NeoCampus");
+                    rep_utilisateur.actualiser();
+                    ac.getOnglets().updateUI();
                     JOptionPane.showMessageDialog(new Frame(), "Connecté en tant que"+client.getUtilisateurCourant());
+
                     dispose();
                 }
 
