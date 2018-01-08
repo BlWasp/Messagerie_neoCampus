@@ -63,7 +63,7 @@ public class TestServeur {
                 e.printStackTrace();
             }
 
-            System.out.println(listeGroupe);
+            //System.out.println(listeGroupe);
             ////////////FIN TEST POUR AFFICHAGE
 
 

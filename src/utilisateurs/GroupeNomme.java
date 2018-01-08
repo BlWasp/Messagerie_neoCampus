@@ -31,7 +31,15 @@ public class GroupeNomme extends Groupe implements Comparable<GroupeNomme>{
 
     @Override
     public int compareTo(GroupeNomme o) {
-        return nom.compareTo(o.nom);
+        return this.id-o.id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj==null) return false;
+        if(getClass() != obj.getClass()) return false;
+        GroupeNomme gr = (GroupeNomme) obj;
+        return id == gr.id;
     }
 
 }
