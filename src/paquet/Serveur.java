@@ -126,7 +126,6 @@ public class Serveur implements Runnable{
             global.retirerMembres(u);
             global.ajouterMembres(u);
         }else if(action == Paquet.Action.SUPP){
-//            System.out.println("Retrait de "+ u);
             global.retirerMembres(u);
         }
         // TODO Maj Tout les autres client
@@ -158,7 +157,7 @@ public class Serveur implements Runnable{
 
     static synchronized  void gestionMessage(Message m, UUID fil, Paquet.Action action, ConcurrentSkipListSet<GroupeNomme> listeGroupe, ConcurrentSkipListSet<FilDeDiscussion> listeFilDeDiscussion, Groupe global){
         FilDeDiscussion f = trouverFilDeDiscussion(fil,listeFilDeDiscussion);
-        //if(f==null)System.exit(404);
+        if(f==null) System.exit(404);
         if(action== Paquet.Action.ADD){
             f.ajouterMessage(m) ;
         }else if(action== Paquet.Action.MAJ){
