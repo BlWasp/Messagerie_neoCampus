@@ -99,8 +99,8 @@ public class Client extends Groupe{
         envoyerObjetSansReponse(new Paquet(ADD,f));
     }
     @Override
-    public void ajouterMembres(Utilisateur m) {
-        //if(utilisateurCourant==null) System.exit(101);//Temporaire à remplacer pas des exeptions
+    public int ajouterMembres(Utilisateur m) {
+       // if(utilisateurCourant==null) System.exit(101);//Temporaire à remplacer pas des exeptions
         if(utilisateurCourant==null){
             LOGGER.error("Pas d'utilisateur courant veuillez vous identifier");
             System.exit(103);
@@ -111,6 +111,7 @@ public class Client extends Groupe{
         } else {
             System.out.println("Opération refusée, des privilèges administrateurs sont nécessaires");
         }
+        return 0;
     }
 
     @Override

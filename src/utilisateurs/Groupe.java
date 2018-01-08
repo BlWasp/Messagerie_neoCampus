@@ -19,38 +19,42 @@ public class Groupe implements Serializable {
         return membres.contains(u);
     }
 
-    public void ajouterMembres(Utilisateur m){
-        if( ! this.estMembre(m)){
-            this.membres.add(m);
-        }
-    }
-    public void ajouterMembres(Utilisateur ... m){
-        for(Utilisateur i: m){
-            this.ajouterMembres(i);
-        }
+
+    public int ajouterMembres(Utilisateur m){
+
+        return this.membres.add(m)? 1 : 0 ;
+
     }
 
-    public void ajouterMembres(Groupe grp){
-        for(Utilisateur i: grp.getMembres()){
-            this.ajouterMembres(i);
+    public int ajouterMembres(Utilisateur ... m){
+        int nbAjout =0;
+        for(Utilisateur i: m){
+            nbAjout +=this.ajouterMembres(i);
         }
+        return nbAjout;
     }
-    public void ajouterMembres(Groupe... grps){
-        for(Groupe g: grps){
-            this.ajouterMembres(g);
+
+    public int ajouterMembres(Groupe grp){
+        int nbAjout =0;
+        for(Utilisateur i: grp.getMembres()){
+            nbAjout += this.ajouterMembres(i);
         }
+        return nbAjout;
+    }
+
+    public int ajouterMembres(Groupe... grps){
+        int nbAjout = 0;
+        for(Groupe g: grps){
+            nbAjout += this.ajouterMembres(g);
+        }
+        return nbAjout;
     }
 
 
 
 
     public int retirerMembres(Utilisateur u){
-        int found = 0;
-        if(this.estMembre(u)){
-            found = 1;
-            membres.remove(u);
-        }
-        return found;
+         return  membres.remove(u) ? 1 : 0 ;
     }
 
     public int retirerMembres(Utilisateur... utls){
@@ -76,13 +80,8 @@ public class Groupe implements Serializable {
         return found;
     }
 
-    public void retirerMembre(int id){
-        for (Utilisateur u :
-                this.membres) {
-            if (u.getIdentifiant() == id){
-                this.membres.remove(u);
-            }
-        }
+    public int retirerMembre(int id){
+        return retirerMembres(new Utilisateur("","",id,"",null));
     }
 
     public NavigableSet<Utilisateur> getMembres() {

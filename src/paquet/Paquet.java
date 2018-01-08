@@ -1,5 +1,7 @@
 package paquet;
 
+import utilisateurs.Utilisateur;
+
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -7,6 +9,7 @@ public class Paquet implements Serializable {
     Action action;
     Object object;
     UUID uuid;
+
 
     public enum Action{
         ADD,MAJ,SUPP
