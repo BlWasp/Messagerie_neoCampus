@@ -2,6 +2,7 @@ package paquet;
 
 import discussion.FilDeDiscussion;
 import discussion.Message;
+import utilisateurs.GroupeNomme;
 import utilisateurs.TypeUtilisateur;
 import utilisateurs.Utilisateur;
 
@@ -30,7 +31,12 @@ public class TestClient {
         client.ajouterMembres(new Utilisateur("89","89",798,"yolo", TypeUtilisateur.ETUDIANT));
 
         Utilisateur testU = new Utilisateur("Test", "Test", 800, "Yolo", TypeUtilisateur.ENSEIGNANT);
-        client.majMembres()
+        client.ajouterMembres(testU);
+        client.majMembres(new Utilisateur("TestMaj", "TestMaj", 800, "Yolo", TypeUtilisateur.ENSEIGNANT));
+
+        GroupeNomme L3 = new GroupeNomme("L3");
+        L3.ajouterMembres(testU);
+        client.gestionGroupeNomme(L3,ADD);
 
        // Ajout d'un fil de discussion
         FilDeDiscussion f = new FilDeDiscussion("L3");
