@@ -132,7 +132,8 @@ public class Serveur implements Runnable{
 
         }else if(p.getObject().getClass() == GroupeNomme.class) {
             GroupeNomme g = (GroupeNomme) p.getObject();
-            // TODO
+            gestionGroupeNomme(g,p.getAction(),listeGroupe,listeFilDeDiscussion,global);
+
         } else if(p.getObject().getClass()==Message.class){
 //            Ajout du message m au fil De Discussion ayant l'UUID id
             Message m = (Message)p.getObject();

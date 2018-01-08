@@ -28,6 +28,10 @@ public class TestClient {
         client.ajouterMembres(new Utilisateur("67","67",796,"yolo", TypeUtilisateur.ETUDIANT));
         client.ajouterMembres(new Utilisateur("78","78",797,"yolo", TypeUtilisateur.ETUDIANT));
         client.ajouterMembres(new Utilisateur("89","89",798,"yolo", TypeUtilisateur.ETUDIANT));
+
+        Utilisateur testU = new Utilisateur("Test", "Test", 800, "Yolo", TypeUtilisateur.ENSEIGNANT);
+        client.majMembres()
+
        // Ajout d'un fil de discussion
         FilDeDiscussion f = new FilDeDiscussion("L3");
         f.ajouterMembres(client); // ajoute tout les membres de global dans la convo f
