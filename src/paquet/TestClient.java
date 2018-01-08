@@ -2,10 +2,12 @@ package paquet;
 
 import discussion.FilDeDiscussion;
 import discussion.Message;
+import utilisateurs.GroupeNomme;
 import utilisateurs.TypeUtilisateur;
 import utilisateurs.Utilisateur;
 
 import static paquet.Paquet.Action.ADD;
+import static paquet.Paquet.Action.SUPP;
 
 public class TestClient {
     public static void main(String[] args) {
@@ -28,6 +30,18 @@ public class TestClient {
         client.ajouterMembres(new Utilisateur("67","67",796,"yolo", TypeUtilisateur.ETUDIANT));
         client.ajouterMembres(new Utilisateur("78","78",797,"yolo", TypeUtilisateur.ETUDIANT));
         client.ajouterMembres(new Utilisateur("89","89",798,"yolo", TypeUtilisateur.ETUDIANT));
+
+        Utilisateur testU = new Utilisateur("Test", "Test", 800, "Yolo", TypeUtilisateur.ENSEIGNANT);
+        client.ajouterMembres(testU);
+        client.majMembres(new Utilisateur("TestMaj", "TestMaj", 800, "Yolo", TypeUtilisateur.ENSEIGNANT));
+
+        GroupeNomme L3 = new GroupeNomme("L3");
+        L3.ajouterMembres(testU);
+        client.gestionGroupeNomme(L3,ADD);
+
+        
+        client.gestionGroupeNomme(new );
+
        // Ajout d'un fil de discussion
         FilDeDiscussion f = new FilDeDiscussion("L3");
         f.ajouterMembres(client); // ajoute tout les membres de global dans la convo f

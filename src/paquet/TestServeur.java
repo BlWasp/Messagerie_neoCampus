@@ -45,7 +45,7 @@ public class TestServeur {
            // System.out.println("Utilisateurs : ");
            // System.out.println(global);
             if( ! listeFilDeDiscussion.isEmpty()){
-                System.out.println("File de discussion: ");
+                System.out.println("Fil de discussion: ");
                 listeFilDeDiscussion.first().printFil();
 
             }
@@ -62,6 +62,8 @@ public class TestServeur {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
+            System.out.println(listeGroupe);
             ////////////FIN TEST POUR AFFICHAGE
 
 
