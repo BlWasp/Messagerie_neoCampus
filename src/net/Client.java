@@ -1,4 +1,4 @@
-package internet;
+package net;
 
 
 import discussion.FilDeDiscussion;
@@ -13,8 +13,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.concurrent.ConcurrentSkipListSet;
 
-import static internet.Paquet.Action.AUTHENTIFICATION;
-import static internet.Paquet.Action.REQUETTE;
+import static net.Paquet.Action.AUTHENTIFICATION;
+import static net.Paquet.Action.REQUETTE;
 import static utilisateurs.Utilisateur.Privilege.USER;
 
 public class Client extends SupportPricipal{
@@ -103,7 +103,7 @@ public class Client extends SupportPricipal{
         try {
             socket = new Socket(host, port);
         } catch (IOException e) {
-            return 0; // Serveur Off, deco d'internet ect ...
+            return 0; // Serveur Off, deco d'net ect ...
         }
         return 1;
     }
@@ -136,7 +136,7 @@ public class Client extends SupportPricipal{
         Paquet recu = requette(reqPaquet);
         if(recu==null)return -1;
         // TODO Verification contenu paquet recu
-        
+
 
         return 1;
     }

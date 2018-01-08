@@ -1,4 +1,4 @@
-package internet;
+package net;
 
 import discussion.FilDeDiscussion;
 import utilisateurs.Groupe;

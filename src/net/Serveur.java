@@ -1,4 +1,4 @@
-package internet;
+package net;
 
 public class Serveur {
 }
