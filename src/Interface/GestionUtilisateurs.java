@@ -82,9 +82,12 @@ public class GestionUtilisateurs extends JDialog {
 
     private void modifierMembre(Client c){
 
+        int idSelected = (int)table1.getValueAt(table1.getSelectedRow(),0);
+        Utilisateur u = c.getUtilisateur(idSelected);
+        System.out.println(u.toString());
+        //TODO faire linterface
+        ModifierMembre modif = new ModifierMembre(c,u);
 
-        System.out.println(table1.getSelectedRow()+"   "+table1.getSelectedColumn());
-        Utilisateur u = c.getUtilisateur(table1.getC)
         /*table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
             public void valueChanged(ListSelectionEvent event) {
                 // do some actions here, for example

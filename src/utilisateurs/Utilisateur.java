@@ -40,6 +40,18 @@ public class Utilisateur implements Comparable<Utilisateur>,Serializable{
         this.privilege = p;
     }
 
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
+
+    public void setMotDePasse(String motDePasse) {
+        this.motDePasse = EncodePasswd.encode(motDePasse);
+    }
+
     public Privilege getPrivilege() {
         return privilege;
     }
