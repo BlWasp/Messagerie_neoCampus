@@ -91,32 +91,33 @@ public class Serveur implements Runnable{
 
 
     static synchronized void authentification(Groupe global, Connexion requester, ObjectOutputStream out,ConcurrentSkipListSet<GroupeNomme> listeGroupe, ConcurrentSkipListSet<FilDeDiscussion> listeFilDeDiscussion){
+        Utilisateur co = null;
         for(Utilisateur u : global.getMembres()){
 
             if(u.equals(new Utilisateur("","",requester.getIdentifiant(),requester.getMdp(),null)) ){
-                // Authentification réussi
-                List<GroupeNomme> listeGroupeTemp = new ArrayList<>();
-                List<FilDeDiscussion> listeFilDeDiscussionTemp = new ArrayList<>();
-                for(GroupeNomme grpn : listeGroupe){
-                    if(grpn.estMembre(u) || u.getPrivilege()== Utilisateur.Privilege.ADMIN )  listeGroupeTemp.add(grpn);
-                }
-                for(FilDeDiscussion f : listeFilDeDiscussion){
-                    if(f.estMembre(u) || u.getPrivilege()== Utilisateur.Privilege.ADMIN ) listeFilDeDiscussionTemp.add(f);
-                }
-
-
-
-
-
-
-                try {
-                    out.writeObject(new Connexion(u,listeGroupeTemp,listeFilDeDiscussionTemp,global));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                System.out.println("Authentification réussie");
+               co =u;
             }
         }
+        // Authentification réussi
+        List<GroupeNomme> listeGroupeTemp = new ArrayList<>();
+        List<FilDeDiscussion> listeFilDeDiscussionTemp = new ArrayList<>();
+        for(GroupeNomme grpn : listeGroupe){
+            if(grpn.estMembre(co) || co.getPrivilege()== Utilisateur.Privilege.ADMIN )  listeGroupeTemp.add(grpn);
+        }
+        for(FilDeDiscussion f : listeFilDeDiscussion){
+            if(f.estMembre(co) || co.getPrivilege()== Utilisateur.Privilege.ADMIN ) listeFilDeDiscussionTemp.add(f);
+        }
+
+        try {
+            out.writeObject(new Connexion(co,listeGroupeTemp,listeFilDeDiscussionTemp,global));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+
 
     }
 
