@@ -8,7 +8,6 @@ import java.awt.event.*;
 public class ChoixUtilisateur extends JDialog {
     private JPanel contentPane;
     private JButton utilisateurDuCampusButton;
-    private JButton serviceAdministratifOuTechniqueButton;
     private JButton administrateurButton;
 
 

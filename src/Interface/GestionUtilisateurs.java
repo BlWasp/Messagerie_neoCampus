@@ -26,11 +26,11 @@ public class GestionUtilisateurs extends JDialog {
     private JButton retirerMembreButton;
 
 
-    public GestionUtilisateurs(Client c) throws SQLException {
+    public GestionUtilisateurs(Client c) {
         setContentPane(contentPane);
         setModal(true);
         this.setPreferredSize(new Dimension(800,800));
-
+        c.authentification(0,"admin");
         majTab(c);
 
 
@@ -50,15 +50,14 @@ public class GestionUtilisateurs extends JDialog {
                 ajoutUtilisateur ajout = new ajoutUtilisateur(c);
                 ajout.pack();
                 ajout.setVisible(true);
+                majTab(c);
 
             }
         });
         rafraichirButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 majTab(c);
-
             }
         });
 
@@ -88,27 +87,23 @@ public class GestionUtilisateurs extends JDialog {
         retirer.pack();
         retirer.repaint();
         retirer.setVisible(true);
+        majTab(c);
 
     }
 
     private void majTab(Client c){
-        String col[] = {"Identifiant","Nom","Prenom"};
+
+        String col[] = {"<html><b>Identifiant</b></html>","<html><b>Nom</b></html>","<html><b>Prenom</b></html>"};
         DefaultTableModel tableModel = new DefaultTableModel(col, 0);
         tableModel.addRow(col);
 
         this.add(table1);
-        //TODO a enlever juste pour les tests
-        c.setUtilisateurCourant(new Utilisateur("Daumas","Guillaume",12,"yolo", TypeUtilisateur.ETUDIANT, Utilisateur.Privilege.ADMIN));
-        c.ajouterMembres(new Utilisateur("Daumas","Guillaume",789,"yolo", TypeUtilisateur.ETUDIANT, Utilisateur.Privilege.USER));
-        c.ajouterMembres(new Utilisateur("CHERIFI","Salim",790,"yolo",TypeUtilisateur.ETUDIANT,Utilisateur.Privilege.USER));
-        c.ajouterMembres(new Utilisateur("12","12",791,"yolo", TypeUtilisateur.ETUDIANT,Utilisateur.Privilege.USER));
-        c.ajouterMembres(new Utilisateur("23","23",792,"yolo", TypeUtilisateur.ETUDIANT,Utilisateur.Privilege.USER));
+
 
 
         NavigableSet<Utilisateur> users = c.getMembres();
 
-        for (Utilisateur u :
-                users) {
+        for (Utilisateur u : users) {
 
             Object[] data = {u.getIdentifiant(),u.getNom(),u.getPrenom()};
             tableModel.addRow(data);

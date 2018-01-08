@@ -3,6 +3,7 @@ package Interface;
 import discussion.FilDeDiscussion;
 import paquet.Client;
 import utilisateurs.GroupeNomme;
+import utilisateurs.Utilisateur;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -10,6 +11,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.*;
 
 import java.awt.event.*;
+import java.sql.SQLException;
 import java.util.List;
 
 
@@ -22,6 +24,7 @@ public class Chat extends JDialog {
     private JMenuBar menuBar = new JMenuBar();
     private JMenu fichierMenu = new JMenu("Fichier");
     private JMenuItem ajoutTicket = new JMenuItem("Ajouter un ticket");
+    private JMenuItem gestionServeur = new JMenuItem("Gestion du serveur");
 
     public Chat(Client c) {
         contentPane = new JPanel(new BorderLayout());
@@ -50,6 +53,18 @@ public class Chat extends JDialog {
         this.add(filDeChat,BorderLayout.CENTER);
         menuBar.add(fichierMenu);
         fichierMenu.add(ajoutTicket);
+        if (c.getUtilisateurCourant().getPrivilege() == Utilisateur.Privilege.ADMIN){
+            fichierMenu.add(gestionServeur);
+            gestionServeur.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    GestionUtilisateurs gestion = new GestionUtilisateurs(c);
+                    gestion.pack();
+                    gestion.setVisible(true);
+                }
+            });
+        }
         setJMenuBar(menuBar);
 
         buildTree(c);
@@ -60,8 +75,7 @@ public class Chat extends JDialog {
         sendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //Envoyer le message au server
-                //Client c = new Client("127.0.0.1",12700);
+
                 // TODO Envoyer le message avec lid du fil de discussion correspondant
                 chatField.setText("");
             }

@@ -1,15 +1,18 @@
 package Interface;
 
 import paquet.Client;
+import utilisateurs.Utilisateur;
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.NavigableSet;
 
 public class RetirerMembre extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
     private JFormattedTextField idField;
+    private JLabel idInvalideField;
 
     public RetirerMembre(Client c) {
         setContentPane(contentPane);
@@ -18,7 +21,7 @@ public class RetirerMembre extends JDialog {
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                onOK();
+                onOK(c);
             }
         });
 
@@ -35,7 +38,7 @@ public class RetirerMembre extends JDialog {
                 onCancel();
             }
         });
-
+        idInvalideField.setVisible(false);
         // call onCancel() on ESCAPE
         contentPane.registerKeyboardAction(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -45,19 +48,26 @@ public class RetirerMembre extends JDialog {
 
     }
 
-    private void onOK() {
+    private void onOK(Client c) {
+        NavigableSet<Utilisateur> users = c.getMembres();
         // add your code here
+
         if (idField.getText().matches(".*\\d+.*")){
-            //TODO faire l'opération et retirer l'utilisateur
-            //TODO si l'utilisateur est pas trouve
+            if (users.contains(new Utilisateur("","",Integer.parseInt(idField.getText()),"",null))){
+                idInvalideField.setVisible(false);
+                c.retirerMembres(new Utilisateur("","",Integer.parseInt(idField.getText()),"",null));
+            }else{
+                idInvalideField.setVisible(true);
+            }
+
         }else{
-            //TODO afficherle message comme quoi ce n'est pas valide
+            idInvalideField.setVisible(true);
+
         }
         dispose();
     }
 
     private void onCancel() {
-        // add your code here if necessary
         dispose();
     }
 
