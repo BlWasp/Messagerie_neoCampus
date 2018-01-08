@@ -1,7 +1,10 @@
 package utilisateurs;
 
+import java.util.UUID;
+
 public class GroupeNomme extends Groupe implements Comparable<GroupeNomme>{
     private String nom;
+    private final UUID id = UUID.randomUUID();
     public GroupeNomme(String nom){
         super();
         this.nom = nom;
@@ -25,4 +28,5 @@ public class GroupeNomme extends Groupe implements Comparable<GroupeNomme>{
     public int compareTo(GroupeNomme o) {
         return nom.compareTo(o.nom);
     }
+
 }
