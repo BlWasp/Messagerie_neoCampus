@@ -18,7 +18,7 @@ public class Utilisateur implements Comparable<Utilisateur>,Serializable{
     public enum Privilege{USER,ADMIN}
 
     public Utilisateur(String nom, String prenom, int identifiant,String motDePasse, TypeUtilisateur type) {
-        this.nom = nom;
+        this.nom = nom.toUpperCase();
         this.prenom = prenom;
         this.identifiant = identifiant;
         this.motDePasse = EncodePasswd.encode(motDePasse);
@@ -27,7 +27,7 @@ public class Utilisateur implements Comparable<Utilisateur>,Serializable{
     }
 
     public Utilisateur(String nom, String prenom, int identifiant,String motDePasse, TypeUtilisateur type, Privilege priv) {
-        this.nom = nom;
+        this.nom = nom.toUpperCase();
         this.prenom = prenom;
         this.identifiant = identifiant;
         this.motDePasse = EncodePasswd.encode(motDePasse);

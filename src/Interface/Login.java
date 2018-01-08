@@ -60,7 +60,6 @@ public class Login extends JDialog {
                 System.out.println("Authentification Reussi!");
                 //En fonction du statut de l'étudiant
                 dispose();
-                /*setVisible(false);*/
                 Chat chat = new Chat(c);
                 chat.pack();
                 chat.setVisible(true);
