@@ -1,19 +1,15 @@
 package Interface;
 
 import paquet.Client;
-import utilisateurs.TypeUtilisateur;
 import utilisateurs.Utilisateur;
-import BDD.ExtractDataBDD;
-
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.*;
-import java.sql.SQLException;
-import java.util.List;
+import java.util.Comparator;
 import java.util.NavigableSet;
+import java.util.TreeSet;
 
 public class GestionUtilisateurs extends JDialog {
     private JPanel contentPane;
@@ -24,6 +20,7 @@ public class GestionUtilisateurs extends JDialog {
     private JButton ajouterUnUtilisateurButton;
     private JButton rafraichirButton;
     private JButton retirerMembreButton;
+    private JButton modifierButton;
 
 
     public GestionUtilisateurs(Client c) {
@@ -65,7 +62,14 @@ public class GestionUtilisateurs extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 retirerMembre(c);
+            }
+        });
 
+        modifierButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                modifierMembre(c);
+                majTab(c);
             }
         });
         // call onCancel() on ESCAPE
@@ -75,6 +79,25 @@ public class GestionUtilisateurs extends JDialog {
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
+    }
+
+    private void modifierMembre(Client c){
+
+        int idSelected = (int)table1.getValueAt(table1.getSelectedRow(),0);
+        Utilisateur u = c.getUtilisateur(idSelected);
+        System.out.println(u.toString());
+        //TODO faire linterface
+        ModifierMembre modif = new ModifierMembre(c,u);
+        modif.pack();
+        modif.toFront();
+        modif.setVisible(true);
+        /*table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+            public void valueChanged(ListSelectionEvent event) {
+                // do some actions here, for example
+                // print first column value from selected row
+                System.out.println(table.getValueAt(table.getSelectedRow(), 0).toString());
+            }
+        });*/
     }
 
 
@@ -101,7 +124,20 @@ public class GestionUtilisateurs extends JDialog {
 
 
 
-        NavigableSet<Utilisateur> users = c.getMembres();
+        NavigableSet<Utilisateur> users = new TreeSet<>(new Comparator<Utilisateur>() {
+            @Override
+            public int compare(Utilisateur o1, Utilisateur o2) {
+                if (o1.getNom().equals(o2.getNom())){
+                    Integer i1 = o1.getIdentifiant();
+                    Integer i2 = o2.getIdentifiant();
+                    return i1.compareTo(i2);
+                }else{
+                    return o1.getNom().compareTo(o2.getNom());
+                }
+            }
+        });
+        users.addAll(c.getMembres());
+
 
         for (Utilisateur u : users) {
 
@@ -124,11 +160,11 @@ public class GestionUtilisateurs extends JDialog {
         dispose();
     }
 
-    public static void main(String[] args) throws SQLException {
+   /* public static void main(String[] args) {
         Client c = new Client();
         GestionUtilisateurs dialog = new GestionUtilisateurs(c);
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);
-    }
+    }*/
 }

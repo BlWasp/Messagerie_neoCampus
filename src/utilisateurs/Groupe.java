@@ -3,6 +3,7 @@ package utilisateurs;
 
 import discussion.FilDeDiscussion;
 
+import javax.rmi.CORBA.Util;
 import java.io.Serializable;
 import java.util.NavigableSet;
 import java.util.TreeSet;
@@ -82,6 +83,16 @@ public class Groupe implements Serializable {
 
     public int retirerMembre(int id){
         return retirerMembres(new Utilisateur("","",id,"",null));
+    }
+
+    public Utilisateur getUtilisateur(int id){
+        for (Utilisateur u :
+                this.membres) {
+            if (u.getIdentifiant() == id) {
+                return u;
+            }
+        }
+        return null;
     }
 
     public NavigableSet<Utilisateur> getMembres() {

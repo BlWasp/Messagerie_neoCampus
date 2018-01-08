@@ -10,7 +10,7 @@ public class Test_FilDeDiscussion1 {
     public static void main(String[] args) {
 
         // Utilisateur
-        Utilisateur sylvain =new Utilisateur("DEKER","Sylvain",21400536,"123", TypeUtilisateur.ETUDIANT);
+        /*Utilisateur sylvain =new Utilisateur("DEKER","Sylvain",21400536,"123", TypeUtilisateur.ETUDIANT);
         Utilisateur salim =new Utilisateur("CHERIFI","Salim",21400537,"123", TypeUtilisateur.ETUDIANT);
         Utilisateur guillaume =new Utilisateur("DAUMAS","GUILLAUME",21400538,"123", TypeUtilisateur.ETUDIANT);
 
@@ -48,7 +48,7 @@ public class Test_FilDeDiscussion1 {
         rcp.lu(sylvain);
         // le message est dans l'etat "lu"
 
-        System.out.println("["+rcp.getFrom().getPrenom()+"] "+ rcp.getMesage() );
+        System.out.println("["+rcp.getFrom().getPrenom()+"] "+ rcp.getMesage() );*/
 
 
 

@@ -31,7 +31,7 @@ public class ajoutUtilisateur extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (lastName.getText() != null && firstName != null && ident != null && passwd != null && confirmPasswd != null && typeUtilisateur != null){
-                    Utilisateur u = new Utilisateur(lastName.getText(),firstName.getText(),Integer.parseInt(ident.getText()),passwd.getPassword().toString(),(TypeUtilisateur)typeUtilisateur.getSelectedItem());
+                    Utilisateur u = new Utilisateur(lastName.getText().toUpperCase(),firstName.getText(),Integer.parseInt(ident.getText()),passwd.getPassword().toString(),(TypeUtilisateur)typeUtilisateur.getSelectedItem());
                     c.ajouterMembres(u);
                 }
                 dispose();

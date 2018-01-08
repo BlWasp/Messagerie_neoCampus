@@ -11,7 +11,7 @@ public class Test_FilDeDiscussion2 {
     public static void main(String[] args) {
 
         // Utilisateur
-        Utilisateur sylvain =new Utilisateur("DEKER","Sylvain",21400536,"123", TypeUtilisateur.ETUDIANT);
+        /*Utilisateur sylvain =new Utilisateur("DEKER","Sylvain",21400536,"123", TypeUtilisateur.ETUDIANT);
         Utilisateur salim =new Utilisateur("CHERIFI","Salim",21400537,"123", TypeUtilisateur.ETUDIANT);
         Utilisateur guillaume =new Utilisateur("DAUMAS","GUILLAUME",21400538,"123", TypeUtilisateur.ETUDIANT);
 
@@ -38,7 +38,7 @@ public class Test_FilDeDiscussion2 {
         pbedt.ajouterMessage(nadege,"Bonjour, nouveau cours : 5 h de Maths  dans 5 min, Présence obligatoire ! ");
         pbedt.ajouterMessage(sylvain,"Balec salope !");
         pbedt.ajouterMessage(salim,"Non ya pas moyen !");
-        pbedt.ajouterMessage(guillaume,"Je peux pas j'ai vélo :/ ");
+        pbedt.ajouterMessage(guillaume,"Je peux pas j'ai vélo :/ ");*/
 
 
 
