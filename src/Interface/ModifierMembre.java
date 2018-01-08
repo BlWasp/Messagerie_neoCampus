@@ -10,9 +10,9 @@ public class ModifierMembre extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
-    private JTextField textFieldPrenom;
-    private JLabel nom;
     private JTextField textFieldNom;
+    private JLabel nom;
+    private JTextField textFieldPrenom;
     private JLabel prenom;
     private JTextField textFieldmdp;
     private JLabel mdp;
@@ -22,8 +22,8 @@ public class ModifierMembre extends JDialog {
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
 
-        nom.setText(u.getNom());
-        prenom.setText(u.getPrenom());
+        textFieldPrenom.setText(u.getPrenom());
+        textFieldNom.setText(u.getNom());
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -55,15 +55,17 @@ public class ModifierMembre extends JDialog {
 
     private void onOK(Client c,Utilisateur u) {
         if (u.getNom() != nom.getText()){
-            u.setNom(nom.getText());
+            u.setNom(textFieldNom.getText());
         }
         if (u.getPrenom() != prenom.getText()){
-            u.setPrenom(prenom.getText());
+            u.setPrenom(textFieldPrenom.getText());
         }
         if (mdp.getText() != null){
             mdp.setText(textFieldmdp.getText());
+        }else{
+            u.setMotDePasse(u.getMotDePasse());
         }
-        c.
+        c.majMembres(u);
         dispose();
     }
 

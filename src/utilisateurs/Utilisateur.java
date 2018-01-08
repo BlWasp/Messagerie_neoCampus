@@ -68,6 +68,10 @@ public class Utilisateur implements Comparable<Utilisateur>,Serializable{
         return identifiant;
     }
 
+    public String getMotDePasse() {
+        return motDePasse;
+    }
+
     public TypeUtilisateur getType() {
         return type;
     }

@@ -51,9 +51,8 @@ public class Login extends JDialog {
     }
 
     private void onOK(Client c) {
-        // add your code here
 
-        if (ident.getText() != null && mdp.getText() != null){
+        if (!ident.getText().isEmpty()  &&  !mdp.getText().isEmpty()){
             c.authentification(Integer.parseInt(ident.getText()),mdp.getText());
             if (c.getUtilisateurCourant() != null){
                 loginFailed.setVisible(false);
@@ -69,6 +68,9 @@ public class Login extends JDialog {
                 loginFailed.setVisible(true);
                 this.pack();
             }
+        }else{
+            loginFailed.setVisible(true);
+            this.pack();
         }
 
     }

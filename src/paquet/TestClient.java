@@ -40,7 +40,6 @@ public class TestClient {
         client.gestionGroupeNomme(L3,ADD);
 
         
-        client.gestionGroupeNomme(new );
 
        // Ajout d'un fil de discussion
         FilDeDiscussion f = new FilDeDiscussion("L3");

@@ -69,6 +69,7 @@ public class GestionUtilisateurs extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 modifierMembre(c);
+                majTab(c);
             }
         });
         // call onCancel() on ESCAPE
@@ -87,7 +88,9 @@ public class GestionUtilisateurs extends JDialog {
         System.out.println(u.toString());
         //TODO faire linterface
         ModifierMembre modif = new ModifierMembre(c,u);
-
+        modif.pack();
+        modif.toFront();
+        modif.setVisible(true);
         /*table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
             public void valueChanged(ListSelectionEvent event) {
                 // do some actions here, for example
@@ -157,11 +160,11 @@ public class GestionUtilisateurs extends JDialog {
         dispose();
     }
 
-    public static void main(String[] args) {
+   /* public static void main(String[] args) {
         Client c = new Client();
         GestionUtilisateurs dialog = new GestionUtilisateurs(c);
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);
-    }
+    }*/
 }
