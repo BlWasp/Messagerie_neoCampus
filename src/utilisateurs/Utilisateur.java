@@ -18,7 +18,7 @@ public class Utilisateur implements Comparable<Utilisateur>,Serializable{
     public enum Privilege{USER,ADMIN}
 
     public Utilisateur(String nom, String prenom, int identifiant,String motDePasse, TypeUtilisateur type) {
-        this.nom = nom;
+        this.nom = nom.toUpperCase();
         this.prenom = prenom;
         this.identifiant = identifiant;
         this.motDePasse = EncodePasswd.encode(motDePasse);
@@ -27,7 +27,7 @@ public class Utilisateur implements Comparable<Utilisateur>,Serializable{
     }
 
     public Utilisateur(String nom, String prenom, int identifiant,String motDePasse, TypeUtilisateur type, Privilege priv) {
-        this.nom = nom;
+        this.nom = nom.toUpperCase();
         this.prenom = prenom;
         this.identifiant = identifiant;
         this.motDePasse = EncodePasswd.encode(motDePasse);
@@ -38,6 +38,18 @@ public class Utilisateur implements Comparable<Utilisateur>,Serializable{
 
     public void setPrivilege(Privilege p){
         this.privilege = p;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
+
+    public void setMotDePasse(String motDePasse) {
+        this.motDePasse = EncodePasswd.encode(motDePasse);
     }
 
     public Privilege getPrivilege() {
@@ -54,6 +66,10 @@ public class Utilisateur implements Comparable<Utilisateur>,Serializable{
 
     public int getIdentifiant() {
         return identifiant;
+    }
+
+    public String getMotDePasse() {
+        return motDePasse;
     }
 
     public TypeUtilisateur getType() {
