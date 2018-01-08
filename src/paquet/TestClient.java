@@ -7,6 +7,7 @@ import utilisateurs.TypeUtilisateur;
 import utilisateurs.Utilisateur;
 
 import static paquet.Paquet.Action.ADD;
+import static paquet.Paquet.Action.SUPP;
 
 public class TestClient {
     public static void main(String[] args) {
@@ -37,6 +38,9 @@ public class TestClient {
         GroupeNomme L3 = new GroupeNomme("L3");
         L3.ajouterMembres(testU);
         client.gestionGroupeNomme(L3,ADD);
+
+        
+        client.gestionGroupeNomme(new );
 
        // Ajout d'un fil de discussion
         FilDeDiscussion f = new FilDeDiscussion("L3");

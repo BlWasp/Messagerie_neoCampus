@@ -172,6 +172,7 @@ public class Serveur implements Runnable{
         if(action== Paquet.Action.ADD){
             listeGroupe.add(g);
             global.ajouterMembres(g);
+            System.out.println(listeGroupe);
         }else if(action== Paquet.Action.MAJ){
             listeGroupe.remove(g);
             listeGroupe.add(g);

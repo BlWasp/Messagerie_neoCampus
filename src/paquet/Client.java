@@ -101,6 +101,10 @@ public class Client extends Groupe{
     @Override
     public void ajouterMembres(Utilisateur m) {
         //if(utilisateurCourant==null) System.exit(101);//Temporaire à remplacer pas des exeptions
+        if(utilisateurCourant==null){
+            LOGGER.error("Pas d'utilisateur courant veuillez vous identifier");
+            System.exit(103);
+        }
         if (utilisateurCourant.privilege == ADMIN) {
             super.ajouterMembres(m);
             envoyerObjetSansReponse(new Paquet(ADD, m));
