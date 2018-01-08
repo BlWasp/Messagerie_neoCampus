@@ -24,14 +24,14 @@ public class TestServeur {
 
         Utilisateur admin = new Utilisateur("admin", "admin", 0, "admin", null);
         admin.setPrivilege(Utilisateur.Privilege.ADMIN);
-        Utilisateur sylvain =new Utilisateur("DEKER","Sylvain",21400536,"123", TypeUtilisateur.ETUDIANT);
+        /*Utilisateur sylvain =new Utilisateur("DEKER","Sylvain",21400536,"123", TypeUtilisateur.ETUDIANT);
         Utilisateur salim =new Utilisateur("CHERIFI","Salim",21400537,"123", TypeUtilisateur.ETUDIANT);
         Utilisateur guillaume =new Utilisateur("DAUMAS","GUILLAUME",21400538,"123", TypeUtilisateur.ETUDIANT);
 
         Utilisateur nadege = new Utilisateur("Lamarque","Nadege",0,"123",TypeUtilisateur.SECRETAIRE);
         Utilisateur nadege2 = new Utilisateur("Lamarque2","Nadege2",2,"123",TypeUtilisateur.SECRETAIRE);
-        Utilisateur nadege3 = new Utilisateur("Lamarque3","Nadege3",3,"123",TypeUtilisateur.SECRETAIRE);
-        global.ajouterMembres(admin,sylvain,salim,guillaume,nadege,nadege2,nadege3);
+        Utilisateur nadege3 = new Utilisateur("Lamarque3","Nadege3",3,"123",TypeUtilisateur.SECRETAIRE);*/
+        global.ajouterMembres(admin);
 
 
 

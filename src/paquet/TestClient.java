@@ -35,8 +35,8 @@ public class TestClient {
 
 
         // Envoi d'un message sur une convo
-       client.ajouterMessage("Coucou ",f);
-       client.ajouterMessage("Wesh bien ta vu",f);
+        client.ajouterMessage("Coucou ",f);
+        client.ajouterMessage("Wesh bien ta vu",f);
         client.ajouterMessage("1 ",f);
         client.ajouterMessage("2 ",f);
         client.ajouterMessage("3 ",f);
