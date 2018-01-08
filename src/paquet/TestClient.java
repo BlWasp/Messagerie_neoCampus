@@ -13,7 +13,7 @@ public class TestClient {
 
 
         // Authetification (Beta)
-        client.authentification(5,"admin");
+        client.authentification(0,"admin");
 
 
         // Ajout d'un Menbre (Beta)
