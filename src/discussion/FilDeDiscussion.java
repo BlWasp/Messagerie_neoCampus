@@ -34,6 +34,20 @@ public class FilDeDiscussion extends Groupe implements Serializable,Comparable<F
         }
         return messageajoute;
     }
+
+    public int retirerMessage(Message m){
+        return  filsdediscussion.remove(m)?1:0;
+    }
+
+    public int majMessage(Message m){
+        int i = filsdediscussion.indexOf(m);
+        if(i > -1){
+            filsdediscussion.remove(i);
+            filsdediscussion.add(m);
+        }
+        return i==-1?1:0;
+    }
+
     public Message ajouterMessage(Message m) {
         Utilisateur u = m.getFrom();
         if(this.estMembre(u)){

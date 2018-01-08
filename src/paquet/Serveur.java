@@ -45,7 +45,7 @@ public class Serveur implements Runnable{
                 e.printStackTrace();
             }
 
-//            System.out.println(instruction.getClass());
+
             if (instruction.getClass() == Connexion.class) {
                 Connexion requester = (Connexion) instruction;
                 authentification(global, requester, out,listeGroupe,listeFilDeDiscussion);
@@ -64,30 +64,6 @@ public class Serveur implements Runnable{
     }
 
 
-    /*public static void main(String[] args) throws IOException, ClassNotFoundException {
-        // Partie BDD
-        List<GroupeNomme> listeGroupe = new ArrayList<>();
-        List<FilDeDiscussion> listeFilDeDiscussion = new ArrayList<>();
-        Groupe global = new Groupe();
-        // Fin partie BDD
-
-        global.ajouterMembres(
-                new Utilisateur("admin", "admin", 0, "admin", null));
-        ServerSocket sSocket = new ServerSocket(6791);
-
-        while (true) {
-            ///////////////////ZONE DE TEST
-
-            System.out.println("Utilisateurs : ");
-            System.out.println(global);
-
-            ///////////////////FIN ZONE DE TEST
-            Socket socket = sSocket.accept();
-            ChoixServeur server = new ChoixServeur(socket,listeGroupe,listeFilDeDiscussion,global);
-            Thread serveurThread = new Thread(server);
-            serveurThread.start();
-        }
-    }*/
 
 
     static synchronized void authentification(Groupe global, Connexion requester, ObjectOutputStream out,ConcurrentSkipListSet<GroupeNomme> listeGroupe, ConcurrentSkipListSet<FilDeDiscussion> listeFilDeDiscussion){
@@ -151,7 +127,6 @@ public class Serveur implements Runnable{
             global.retirerMembres(u);
             global.ajouterMembres(u);
         }else if(action == Paquet.Action.SUPP){
-//            System.out.println("Retrait de "+ u);
             global.retirerMembres(u);
         }
         // TODO Maj Tout les autres client
@@ -183,14 +158,13 @@ public class Serveur implements Runnable{
 
     static synchronized  void gestionMessage(Message m, UUID fil, Paquet.Action action, ConcurrentSkipListSet<GroupeNomme> listeGroupe, ConcurrentSkipListSet<FilDeDiscussion> listeFilDeDiscussion, Groupe global){
         FilDeDiscussion f = trouverFilDeDiscussion(fil,listeFilDeDiscussion);
-        //if(f==null)System.exit(404);
+        if(f==null) System.exit(404);
         if(action== Paquet.Action.ADD){
-//            System.out.println("Ajout du message");
             f.ajouterMessage(m) ;
         }else if(action== Paquet.Action.MAJ){
-            // TODO
+            f.majMessage(m);
         }else if(action== Paquet.Action.SUPP){
-            // TODO
+            f.retirerMessage(m);
         }
     }
 
