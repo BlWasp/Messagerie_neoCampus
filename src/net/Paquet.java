@@ -14,7 +14,7 @@ public class Paquet extends SupportPricipal implements Serializable{
     public enum Action{AUTHENTIFICATION,REQUETTE,REPONSE}
     private Action action;
 
-    public Paquet(Utilisateur utilisateur, ConcurrentSkipListSet<GroupeNomme> listeGroupe, ConcurrentSkipListSet<FilDeDiscussion> listeFilDeDiscussion, Groupe global, Action action) {
+    public Paquet( Action action,Utilisateur utilisateur, ConcurrentSkipListSet<GroupeNomme> listeGroupe, ConcurrentSkipListSet<FilDeDiscussion> listeFilDeDiscussion, Groupe global) {
         super(utilisateur, listeGroupe, listeFilDeDiscussion, global);
         this.action = action;
     }
