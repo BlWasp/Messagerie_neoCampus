@@ -1,10 +1,16 @@
 package utilisateurs;
 
+import discussion.FilDeDiscussion;
+
+import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 public class GroupeNomme extends Groupe implements Comparable<GroupeNomme>{
     private String nom;
     private int id;
+    private ConcurrentSkipListSet<FilDeDiscussion> filsDeDiscussion = new ConcurrentSkipListSet<>();
+
     public GroupeNomme(String nom, int id){
         super();
         this.nom = nom;
@@ -17,6 +23,24 @@ public class GroupeNomme extends Groupe implements Comparable<GroupeNomme>{
 
     public int getId() {
         return id;
+    }
+
+    public void ajouterFilDeDiscussion(FilDeDiscussion fil){
+        filsDeDiscussion.add(fil);
+    }
+
+    public ConcurrentSkipListSet<FilDeDiscussion> getFilsDeDiscussion() {
+        return filsDeDiscussion;
+    }
+
+    public FilDeDiscussion getFilsDeDiscussion(String name){
+        for (FilDeDiscussion f :
+                this.filsDeDiscussion) {
+            if (f.getSujet() == name){
+                return f;
+            }
+        }
+        return null;
     }
 
     @Override

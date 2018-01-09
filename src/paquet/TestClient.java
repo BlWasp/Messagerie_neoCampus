@@ -46,7 +46,7 @@ public class TestClient {
        // Ajout d'un fil de discussion
         FilDeDiscussion f = new FilDeDiscussion("L3");
         f.ajouterMembres(client); // ajoute tout les membres de global dans la convo f
-        client.ajouterFilDeDiscussion(f);
+        //client.ajouterFilDeDiscussion(f);
 
 
         // Envoi d'un message sur une convo

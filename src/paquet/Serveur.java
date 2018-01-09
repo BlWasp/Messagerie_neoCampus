@@ -85,7 +85,7 @@ public class Serveur implements Runnable{
         }
 
         try {
-            out.writeObject(new Connexion(co,listeGroupeTemp,listeFilDeDiscussionTemp,global));
+            out.writeObject(new Connexion(co,listeGroupeTemp,global));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -136,6 +136,7 @@ public class Serveur implements Runnable{
         if(action == Paquet.Action.ADD){
 //            global.ajouterMembres(f);
 //            System.out.println("Ajout du fil");
+
             listeFilDeDiscussion.add(f);
         }else if(action == Paquet.Action.MAJ){
 //            UUID id = f.getId();
@@ -149,7 +150,8 @@ public class Serveur implements Runnable{
         }
         // TODO Maj Tout les utilisateurs concerné
     }
-    static private FilDeDiscussion trouverFilDeDiscussion(UUID filid,ConcurrentSkipListSet<FilDeDiscussion> listeFilDeDiscussion){
+    static private FilDeDiscussion
+    trouverFilDeDiscussion(UUID filid,ConcurrentSkipListSet<FilDeDiscussion> listeFilDeDiscussion){
         for (FilDeDiscussion f : listeFilDeDiscussion){
             if(f.getId().equals(filid)) return f;
         }

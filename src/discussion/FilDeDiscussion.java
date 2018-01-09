@@ -14,12 +14,18 @@ import utilisateurs.Utilisateur;
 public class FilDeDiscussion extends Groupe implements Serializable,Comparable<FilDeDiscussion>{
     private String sujet;
     private List<Message> filsdediscussion = new ArrayList<>();
-    private final UUID id = UUID.randomUUID();
+    private UUID id = UUID.randomUUID();
     private static Logger LOGGER = Logger.getLogger(FilDeDiscussion.class);
 
     public FilDeDiscussion(String sujet) {
         super();
         this.sujet = sujet;
+    }
+
+    public FilDeDiscussion(String sujet, UUID id){
+        super();
+        this.sujet = sujet;
+        this.id = UUID.fromString("yolo");
     }
 
     public Message ajouterMessage(Utilisateur u, String m) {
@@ -49,14 +55,15 @@ public class FilDeDiscussion extends Groupe implements Serializable,Comparable<F
     }
 
     public Message ajouterMessage(Message m) {
+        //TODO REMETTTRE LEXCEPTION
         Utilisateur u = m.getFrom();
-        if(this.estMembre(u)){
+       /* if(this.estMembre(u)){*/
             filsdediscussion.add(m);
-        }
+      /*  }
         else{
             LOGGER.error("ERREUR : " + u.getPrenom() + " ne participe pas à cette conversation");
             System.exit(1);
-        }
+        }*/
         return m;
     }
 
@@ -103,9 +110,32 @@ public class FilDeDiscussion extends Groupe implements Serializable,Comparable<F
         }
     }
 
+    public String printMessage(){
+        StringBuilder ch = new StringBuilder();
+        for (Message m :
+                this.getListMessage()) {
+            ch.append(m.getMesage());
+            ch.append("\n");
+
+        }
+        return ch.toString();
+    }
+
+    public List<Message> getListMessage() {
+        return filsdediscussion;
+    }
 
     @Override
     public int compareTo(FilDeDiscussion o) {
         return sujet.compareTo(o.sujet);
+    }
+
+    @Override
+    public String toString() {
+        return "FilDeDiscussion{" +
+                "sujet='" + sujet + '\'' +
+                ", filsdediscussion=" + filsdediscussion +
+                ", id=" + id +
+                '}';
     }
 }

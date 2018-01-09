@@ -25,7 +25,7 @@ public class Client extends Groupe{
         String host;
         int port;
         List<GroupeNomme> listeGroupe = new ArrayList<>();
-        List<FilDeDiscussion> listeFilDeDiscussion = new ArrayList<>();
+        //List<FilDeDiscussion> listeFilDeDiscussion = new ArrayList<>();
         Utilisateur utilisateurCourant;
 
         private static Logger LOGGER = Logger.getLogger(Client.class);
@@ -81,7 +81,6 @@ public class Client extends Groupe{
                         utilisateurCourant =  cx.getUtilisateur();
                         this.ajouterMembres(utilisateurCourant);
                         this.ajouterMembres(cx.getGlobal());
-                        this.listeFilDeDiscussion.addAll(cx.getListeFilDeDiscussion());
                         this.listeGroupe.addAll(cx.getListeGroupe());
                     }
                 }
@@ -93,9 +92,9 @@ public class Client extends Groupe{
         }
     }
 
-    public void ajouterFilDeDiscussion(FilDeDiscussion f){
+    public void ajouterFilDeDiscussion(FilDeDiscussion f, GroupeNomme g){
         if(utilisateurCourant==null) System.exit(103);//Temporaire à remplacer pas des exeptions
-        this.listeFilDeDiscussion.add(f);
+        g.getFilsDeDiscussion().add(f);
         envoyerObjetSansReponse(new Paquet(ADD,f));
     }
     @Override
@@ -242,9 +241,6 @@ public class Client extends Groupe{
         return null;
     }
 
-    public List getListeFilDeDiscussion() {
-        return listeFilDeDiscussion;
-    }
 
     //TODO a supprimer utilisé que pour les tests sans authentification
     public void setUtilisateurCourant(Utilisateur utilisateurCourant) {

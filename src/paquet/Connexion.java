@@ -14,7 +14,6 @@ public class Connexion implements Serializable {
     private String mdp;
     private Utilisateur utilisateur;
     List<GroupeNomme> listeGroupe;
-    List<FilDeDiscussion> listeFilDeDiscussion;
     Groupe global;
 
     public Connexion(int identifiant, String mdp) {
@@ -23,11 +22,10 @@ public class Connexion implements Serializable {
         this.utilisateur = null;
     }
 
-    public Connexion(Utilisateur utilisateur, List<GroupeNomme> listeGroupe, List<FilDeDiscussion> listeFilDeDiscussion, Groupe global) {
+    public Connexion(Utilisateur utilisateur, List<GroupeNomme> listeGroupe, Groupe global) {
         this.utilisateur = utilisateur;
 
         this.listeGroupe = listeGroupe;
-        this.listeFilDeDiscussion = listeFilDeDiscussion;
         this.global = global;
 
         this.identifiant = 0;
@@ -42,9 +40,7 @@ public class Connexion implements Serializable {
         return listeGroupe;
     }
 
-    public List<FilDeDiscussion> getListeFilDeDiscussion() {
-        return listeFilDeDiscussion;
-    }
+
 
     public Groupe getGlobal() {
         return global;
