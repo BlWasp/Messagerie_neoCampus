@@ -3,7 +3,6 @@ package utilisateurs;
 
 import discussion.FilDeDiscussion;
 
-import javax.rmi.CORBA.Util;
 import java.io.Serializable;
 import java.util.NavigableSet;
 import java.util.TreeSet;

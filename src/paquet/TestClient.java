@@ -39,7 +39,7 @@ public class TestClient {
         GroupeNomme L3 = new GroupeNomme("L3", 5);
         L3.ajouterMembres(testU);
         client.gestionGroupeNomme(L3,ADD);
-        
+
         client.gestionGroupeNomme(new GroupeNomme("L4", 5),MAJ);
 
 

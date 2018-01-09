@@ -5,6 +5,9 @@ import utilisateurs.Groupe;
 import utilisateurs.GroupeNomme;
 import utilisateurs.Utilisateur;
 
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.util.concurrent.ConcurrentSkipListSet;
 
 public abstract class SupportPricipal {
@@ -13,7 +16,9 @@ public abstract class SupportPricipal {
     private ConcurrentSkipListSet<FilDeDiscussion> listeFilDeDiscussion;
     private Groupe global ;
 
+
     public SupportPricipal(Utilisateur utilisateurCourant, ConcurrentSkipListSet<GroupeNomme> listeGroupe, ConcurrentSkipListSet<FilDeDiscussion> listeFilDeDiscussion, Groupe global) {
+
         this.utilisateurCourant = utilisateurCourant;
         this.listeGroupe = listeGroupe;
         this.listeFilDeDiscussion = listeFilDeDiscussion;
@@ -51,4 +56,6 @@ public abstract class SupportPricipal {
     public void setGlobal(Groupe global) {
         this.global = global;
     }
+
+
 }

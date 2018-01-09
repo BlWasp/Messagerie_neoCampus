@@ -14,21 +14,21 @@ import java.net.Socket;
 import java.util.concurrent.ConcurrentSkipListSet;
 
 import static net.Paquet.Action.AUTHENTIFICATION;
+import static net.Paquet.Action.REPONSE;
 import static net.Paquet.Action.REQUETTE;
 import static utilisateurs.Utilisateur.Privilege.USER;
 
-public class Client extends SupportPricipal{
+public class Client extends SupportNet{
     ObjectOutputStream outToServer;
-    Socket socket;
     String host;
     int port;
 
     public Client(String host, int port) {
-        super(null, new ConcurrentSkipListSet<GroupeNomme>(), new ConcurrentSkipListSet<FilDeDiscussion>(),new Groupe());
+        super(null,null, new ConcurrentSkipListSet<GroupeNomme>(), new ConcurrentSkipListSet<FilDeDiscussion>(),new Groupe());
         this.host = host;
         this.port = port;
         outToServer = null;
-        socket = null;
+
     }
 
     public String getHost() {
@@ -101,7 +101,7 @@ public class Client extends SupportPricipal{
 
     public int connecter(){
         try {
-            socket = new Socket(host, port);
+            setSocket(new Socket(host, port));
         } catch (IOException e) {
             return 0; // Serveur Off, deco d'net ect ...
         }
@@ -109,10 +109,10 @@ public class Client extends SupportPricipal{
     }
 
     public int deconnecter(){
-        if(socket==null) return 0;
+        if(getSocket()==null) return 0;
         try {
-            socket.close();
-            socket=null;
+            getSocket().close();
+            setSocket(null);
         } catch (IOException e) {
             e.printStackTrace();
             return 0;
@@ -131,22 +131,25 @@ public class Client extends SupportPricipal{
     }
 
 
-    public int actualiser(){
-        Paquet reqPaquet = new Paquet(REQUETTE,null);
+    public int download(){
+        Paquet reqPaquet = new Paquet(REQUETTE,getUtilisateurCourant());
         Paquet recu = requette(reqPaquet);
         if(recu==null)return -1;
         // TODO Verification contenu paquet recu
-
-
         return 1;
+    }
+
+    public void upload(){
+        Paquet data = new Paquet(REPONSE,getUtilisateurCourant(),getListeGroupe(),getListeFilDeDiscussion(),getGlobal());
+        envoyerObjet(data);
     }
 
     private Paquet requette(Paquet paquetRequette){
         Paquet recu=null;
-        envoyerObjet(socket,paquetRequette);
+        envoyerObjet(paquetRequette);
         ObjectInputStream in = null;
         try {
-            in = new ObjectInputStream(socket.getInputStream());
+            in = new ObjectInputStream(getSocket().getInputStream());
             try {
                 Object instruction = in.readObject();
                 if (instruction.getClass() == Paquet.class) {
@@ -164,19 +167,7 @@ public class Client extends SupportPricipal{
         return recu;
     }
 
-    private void envoyerObjet(Socket s, Object o){
-        ObjectOutputStream outToServer = null;
-        try {
-            outToServer = new ObjectOutputStream(s.getOutputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            outToServer.writeObject(o);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+
     
 }
 
