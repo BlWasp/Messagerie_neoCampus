@@ -15,21 +15,22 @@ import java.sql.SQLException;
 import java.util.List;
 
 
-public class Chat extends JDialog {
+public class Chat extends JFrame {
     private JPanel contentPane;
     private JTree chatTree;// TODO Afficher la liste des groupes avec leur fils de discussion
     private JTextField chatField;
     private JButton sendButton;
     private JTextArea filDeChat;
-    private JMenuBar menuBar = new JMenuBar();
+    private JMenuBar menuBarre = new JMenuBar();
     private JMenu fichierMenu = new JMenu("Fichier");
     private JMenuItem ajoutTicket = new JMenuItem("Ajouter un ticket");
-    private JMenuItem gestionServeur = new JMenuItem("Gestion du serveur");
+    private JMenuItem gestionUtilisateur = new JMenuItem("Gestion des utilisateurs");
+    private JMenuItem gestionGroupe = new JMenuItem("Gestion des groupes");
 
     public Chat(Client c) {
         contentPane = new JPanel(new BorderLayout());
         setContentPane(contentPane);
-        setModal(true);
+        //setModal(true);
         this.setPreferredSize(new Dimension(500,500));
 
         // call onCancel() when cross is clicked
@@ -51,11 +52,12 @@ public class Chat extends JDialog {
 
 
         this.add(filDeChat,BorderLayout.CENTER);
-        menuBar.add(fichierMenu);
+        menuBarre.add(fichierMenu);
         fichierMenu.add(ajoutTicket);
         if (c.getUtilisateurCourant().getPrivilege() == Utilisateur.Privilege.ADMIN){
-            fichierMenu.add(gestionServeur);
-            gestionServeur.addActionListener(new ActionListener() {
+            fichierMenu.add(gestionUtilisateur);
+            fichierMenu.add(gestionGroupe);
+            gestionUtilisateur.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
@@ -64,8 +66,16 @@ public class Chat extends JDialog {
                     gestion.setVisible(true);
                 }
             });
+            gestionGroupe.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    GestionGroupe gestion = new GestionGroupe(c);
+                    gestion.pack();
+                    gestion.setVisible(true);
+                }
+            });
         }
-        setJMenuBar(menuBar);
+        setJMenuBar(menuBarre);
 
         buildTree(c);
 
