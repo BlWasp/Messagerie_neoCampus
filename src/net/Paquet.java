@@ -1,29 +1,39 @@
 package net;
 
-import discussion.FilDeDiscussion;
 import utilisateurs.Groupe;
 import utilisateurs.GroupeNomme;
 import utilisateurs.Utilisateur;
 
 import java.io.Serializable;
-
 import java.util.concurrent.ConcurrentSkipListSet;
 
-public class Paquet extends SupportPricipal implements Serializable{
+public class Paquet implements Serializable{
+    public enum Action{AUTHENTIFICATION,REQUETTE,REPONSE,INSTRUCTION,DECONNECT}
+    Action action;
+    ConcurrentSkipListSet<GroupeNomme> listeGroupe;
+    Utilisateur utilisateur;
+    Groupe global;
 
-    public enum Action{AUTHENTIFICATION,REQUETTE,REPONSE}
-    private Action action;
-
-    public Paquet( Action action,Utilisateur utilisateur, ConcurrentSkipListSet<GroupeNomme> listeGroupe, ConcurrentSkipListSet<FilDeDiscussion> listeFilDeDiscussion, Groupe global) {
-        super(utilisateur, listeGroupe, listeFilDeDiscussion, global);
+    public Paquet(Action action,Utilisateur utilisateur, ConcurrentSkipListSet<GroupeNomme> listeGroupe, Groupe global) {
         this.action = action;
-    }
-    public Paquet(Action action,Utilisateur utilisateur){
-        super(utilisateur, null, null, null);
-        this.action = action;
+        this.utilisateur = utilisateur;
+        this.listeGroupe = listeGroupe;
+        this.global = global;
     }
 
     public Action getAction() {
         return action;
+    }
+
+    public ConcurrentSkipListSet<GroupeNomme> getListeGroupe() {
+        return listeGroupe;
+    }
+
+    public Groupe getGlobal() {
+        return global;
+    }
+
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
     }
 }
