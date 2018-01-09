@@ -1,8 +1,6 @@
 package net;
 
-
 import discussion.FilDeDiscussion;
-import discussion.Message;
 import utilisateurs.Groupe;
 import utilisateurs.GroupeNomme;
 import utilisateurs.Utilisateur;
@@ -13,161 +11,123 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.concurrent.ConcurrentSkipListSet;
 
-import static net.Paquet.Action.AUTHENTIFICATION;
-import static net.Paquet.Action.REPONSE;
-import static net.Paquet.Action.REQUETTE;
-import static utilisateurs.Utilisateur.Privilege.USER;
-
-public class Client extends SupportNet{
-    ObjectOutputStream outToServer;
+public class Client {
+    ConcurrentSkipListSet<GroupeNomme> listeGroupe= new ConcurrentSkipListSet<>();
+    Groupe global = new Groupe();
+    ObjectOutputStream out;
+    ObjectInputStream in;
+    Utilisateur utilisateurCourant;
+    Socket socket;
     String host;
     int port;
 
     public Client(String host, int port) {
-        super(null,null, new ConcurrentSkipListSet<GroupeNomme>(), new ConcurrentSkipListSet<FilDeDiscussion>(),new Groupe());
         this.host = host;
         this.port = port;
-        outToServer = null;
-
     }
 
-    public String getHost() {
-        return host;
-    }
-
-    public int getPort() {
-        return port;
-    }
-
-    public void setHost(String host) {
-        this.host = host;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
-    }
-
-
-
-    public int ajouterFilDeDiscussion(FilDeDiscussion f){
-        if(getUtilisateurCourant()==null) return -1;
-        if(f==null) return -2;
-        return super.getListeFilDeDiscussion().add(f)? 1 : 0;
-
-    }
-    
- 
-    public int ajouterMembres(Utilisateur m) {
-        if(getUtilisateurCourant()==null) return -1;
-        if(getUtilisateurCourant().getPrivilege()==USER) return -2;
-        super.getGlobal().ajouterMembres(m);
-        return 1;
-    }
-
-
-    public int retirerMembres(Utilisateur u) {
-        if(getUtilisateurCourant()==null) return -1;
-        if(getUtilisateurCourant().getPrivilege()==USER) return -2;
-        return super.getGlobal().retirerMembres(u);
-    }
-
-
-    public int ajouterMessage(String message,FilDeDiscussion f){
-        if(getUtilisateurCourant()==null) return -1;
-        if(message==null || f==null) return -2;
-        f.ajouterMessage(new Message(getUtilisateurCourant(),f,message));
-        return 1;
-    }
-
-    public int retirerMessage(Message message,FilDeDiscussion f){
-        if(getUtilisateurCourant()==null) return -1;
-        if(message==null || f==null) return -2;
-        if(message.getFrom()!=getUtilisateurCourant()) return -3;
-        return f.retirerMessage(message);
-    }
-
-    public int ajouterGroupe(GroupeNomme grp){
-        if(getUtilisateurCourant()==null) return -1;
-        if(grp==null) return -2;
-        return super.getListeGroupe().add(grp)? 1 : 0 ;
-    }
-    public int retirerGroupe(GroupeNomme grp){
-        if(getUtilisateurCourant()==null) return -1;
-        if(grp==null) return -2;
-        return super.getListeGroupe().remove(grp)?1:0;
-    }
-
-
-
-    public int connecter(){
+    public int connect(){
         try {
-            setSocket(new Socket(host, port));
-        } catch (IOException e) {
-            return 0; // Serveur Off, deco d'net ect ...
-        }
-        return 1;
-    }
+            socket = new Socket(host,port);
+            out = new ObjectOutputStream(socket.getOutputStream());
+            in = new ObjectInputStream(socket.getInputStream());
 
-    public int deconnecter(){
-        if(getSocket()==null) return 0;
-        try {
-            getSocket().close();
-            setSocket(null);
-        } catch (IOException e) {
+
+        } catch (IOException e){
             e.printStackTrace();
             return 0;
         }
         return 1;
     }
 
-    public int authentification(int id, String mdp) {
-
-        Paquet authPaquet = new Paquet(AUTHENTIFICATION, new Utilisateur("","",id,mdp,null));
-        Paquet recu = requette(authPaquet);
-        if(recu==null)return -1;
-        if(recu.getUtilisateurCourant()==null)return 0;
-        this.setUtilisateurCourant(recu.getUtilisateurCourant());
-        return 1;
+    public void ajouterMembre(Utilisateur u){
+        global.ajouterMembres(u);
     }
+    
 
-
-    public int download(){
-        Paquet reqPaquet = new Paquet(REQUETTE,getUtilisateurCourant());
-        Paquet recu = requette(reqPaquet);
-        if(recu==null)return -1;
-        // TODO Verification contenu paquet recu
-        return 1;
-    }
-
-    public void upload(){
-        Paquet data = new Paquet(REPONSE,getUtilisateurCourant(),getListeGroupe(),getListeFilDeDiscussion(),getGlobal());
-        envoyerObjet(data);
-    }
-
-    private Paquet requette(Paquet paquetRequette){
-        Paquet recu=null;
-        envoyerObjet(paquetRequette);
-        ObjectInputStream in = null;
+    public int authentification(Utilisateur u){
         try {
-            in = new ObjectInputStream(getSocket().getInputStream());
-            try {
-                Object instruction = in.readObject();
-                if (instruction.getClass() == Paquet.class) {
-                    recu = (Paquet) instruction;
-                }
-
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+            out.writeObject(new net.Paquet(net.Paquet.Action.AUTHENTIFICATION,u,null,null));
+            net.Paquet get = (net.Paquet) in.readObject();
+            if(get.getUtilisateur()!=null){
+                utilisateurCourant = get.getUtilisateur();
 
             }
+            else return -1;
         } catch (IOException e) {
             e.printStackTrace();
-
+            return -2;
         }
-        return recu;
+        catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return -1;
+        }
+        return 1;
+
+    }
+    public int download(){
+        net.Paquet get=null;
+        try {
+            out.writeObject(new net.Paquet(net.Paquet.Action.REQUETTE,utilisateurCourant,null,null));
+            get = (net.Paquet) in.readObject();
+
+            this.utilisateurCourant = get.getUtilisateur();
+            this.global = get.getGlobal();
+            this.listeGroupe = get.getListeGroupe();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return -1;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return -2;
+        }
+        return 1;
     }
 
+    public int upload(){
+        net.Paquet get=null;
+        try {
+            out.writeObject(new net.Paquet(net.Paquet.Action.REPONSE,utilisateurCourant,listeGroupe,global));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return -1;
+        }
+        return 1;
+    }
 
-    
+    public void deconnect(){
+        try {
+            out.writeObject(new net.Paquet(net.Paquet.Action.DECONNECT,utilisateurCourant,null,null));
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        socket =null;
+    }
+
+    public ConcurrentSkipListSet<GroupeNomme> getListeGroupe() {
+        return listeGroupe;
+    }
+
+    public Groupe getGlobal() {
+        return global;
+    }
+
+    public static void main(String[] args) {
+        Client c = new Client("127.0.0.1",12700);
+        int errno;
+        errno = c.connect();
+        System.out.println(errno);
+
+        errno = c.authentification(new Utilisateur("","",0,"admin",null));
+        System.out.println(errno);
+
+        errno = c.download();
+        System.out.println(errno);
+        System.out.println(c.getGlobal());
+
+
+        c.deconnect();
+    }
+
 }
-

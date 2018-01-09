@@ -1,10 +1,9 @@
 package net;
 
-import discussion.FilDeDiscussion;
-import paquet.Connexion;
-import paquet.Paquet;
+import org.apache.log4j.net.SocketServer;
 import utilisateurs.Groupe;
 import utilisateurs.GroupeNomme;
+import utilisateurs.TypeUtilisateur;
 import utilisateurs.Utilisateur;
 
 import java.io.IOException;
@@ -12,48 +11,61 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.NavigableSet;
-import java.util.TreeSet;
 import java.util.concurrent.ConcurrentSkipListSet;
 
-public class Serveur{
-    private ConcurrentSkipListSet<GroupeNomme> listeGroupe ;
-    private ConcurrentSkipListSet<FilDeDiscussion> listeFilDeDiscussion;
-    private Groupe global ;
-    ServerSocket sSocket;
-    NavigableSet<Thread> listeServerThread = new TreeSet<>();
-    boolean enFonctionnement;
+public class Serveur {
+    ConcurrentSkipListSet<GroupeNomme> listeGroupe= new ConcurrentSkipListSet<>();
+    Groupe global = new Groupe();
+    ObjectOutputStream out;
+    ObjectInputStream in;
+    ServerSocket socketServer;
+    int port;
 
-    public Serveur() {
-        this.enFonctionnement = false;
+    public Serveur(int port){
+        // Zone de TEST
+        Utilisateur admin = new Utilisateur("Admin", "admin", 0, "admin", null);
+        admin.setPrivilege(Utilisateur.Privilege.ADMIN);
+        Utilisateur sylvain =new Utilisateur("DEKER","Sylvain",21400536,"123", TypeUtilisateur.ETUDIANT);
+        Utilisateur salim =new Utilisateur("CHERIFI","Salim",21400537,"123", TypeUtilisateur.ETUDIANT);
+        Utilisateur guillaume =new Utilisateur("DAUMAS","GUILLAUME",21400538,"123", TypeUtilisateur.ETUDIANT);
+
+        Utilisateur nadege = new Utilisateur("Lamarque","Nadege",0,"123",TypeUtilisateur.SECRETAIRE);
+        Utilisateur nadege2 = new Utilisateur("Lamarque2","Nadege2",2,"123",TypeUtilisateur.SECRETAIRE);
+        Utilisateur nadege3 = new Utilisateur("Lamarque3","Nadege3",3,"123",TypeUtilisateur.SECRETAIRE);
+        global.ajouterMembres(admin,sylvain,salim,guillaume,nadege,nadege2,nadege3);
+
+
+
+
+        // FIN zone de TEST
+
+
+
+
+
+        this.port = port;
     }
 
-    public void stop(){
-        enFonctionnement =false;
-    }
-
-    public void start() throws IOException {
+    public int start(){
         try {
-            sSocket = new ServerSocket(12700);
-            enFonctionnement = true;
+            socketServer = new ServerSocket(port);
+            Socket socket = socketServer.accept();
+            System.out.println("Nouvelle Connexion");
+            ThreadServeur threadServeur= new ThreadServeur(socket,global,listeGroupe);
+            Thread thread = new Thread(threadServeur);
+            thread.start();
+
+
         } catch (IOException e) {
-            enFonctionnement = false;
-        }
 
-
-        while(enFonctionnement){
-            Socket socket = sSocket.accept();
-            paquet.Serveur serveur = new paquet.Serveur(socket,listeGroupe,listeFilDeDiscussion,global);
-            Thread serveurThread = new Thread(serveur);
-            listeServerThread.add(serveurThread);
-            serveurThread.start();
+            e.printStackTrace();
+            return 0;
         }
+        return 1;
     }
 
-
-
-
-
-
-
+    public static void main(String[] args) {
+        Serveur s = new Serveur(12700);
+        s.start();
+    }
 }

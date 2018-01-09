@@ -1,8 +1,6 @@
 package net;
 
 import discussion.FilDeDiscussion;
-import paquet.Connexion;
-import paquet.Paquet;
 import utilisateurs.Groupe;
 import utilisateurs.GroupeNomme;
 import utilisateurs.Utilisateur;
@@ -11,72 +9,76 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ConcurrentSkipListSet;
 
-import static net.Paquet.Action.REPONSE;
+public class ThreadServeur implements Runnable {
+    private Groupe global;
+    private ConcurrentSkipListSet<GroupeNomme> listeGroupe;
+    Socket socket;
+    ObjectOutputStream out;
+    ObjectInputStream in;
+    boolean connecte;
 
-public class ThreadServeur extends SupportNet implements Runnable {
+    public ThreadServeur( Socket socket, Groupe global, ConcurrentSkipListSet<GroupeNomme> listeGroupe) {
+        this.socket = socket;
+        this.listeGroupe = listeGroupe;
+        this.global =global;
 
-
-    public ThreadServeur( Socket socket,Utilisateur utilisateurCourant, ConcurrentSkipListSet<GroupeNomme> listeGroupe, ConcurrentSkipListSet<FilDeDiscussion> listeFilDeDiscussion, Groupe global) {
-        super(socket,utilisateurCourant, listeGroupe, listeFilDeDiscussion, global);
-
-    }
-    public void run() {
         try {
-            ObjectInputStream in =
-                    new ObjectInputStream(getSocket().getInputStream());
-            ObjectOutputStream out =
-                    new ObjectOutputStream(getSocket().getOutputStream());
+            this.in = new ObjectInputStream(socket.getInputStream());
+            this.out = new ObjectOutputStream(socket.getOutputStream());
+            this.connecte =true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            this.connecte=false;
+        }
+    }
 
-            Object instruction = null;
+
+    @Override
+    public void run() {
+        while(connecte){
             try {
-                instruction = in.readObject();
+                Paquet paquet = (Paquet) in.readObject();
+                if(paquet.getAction()== Paquet.Action.AUTHENTIFICATION){
+                    System.out.println("Demande d'authentification de "+paquet.getUtilisateur().getIdentifiant());
+
+                    Paquet retour = authentification(paquet);
+                    out.writeObject(retour);
+                }
+                else if(paquet.getAction()== Paquet.Action.REQUETTE){
+                    System.out.println("Demande de téléchargement pour de "+paquet.getUtilisateur().getIdentifiant());
+                    Paquet retour = new Paquet(Paquet.Action.REPONSE,paquet.getUtilisateur(),listeGroupe,global);
+                    out.writeObject(retour);
+                }else if(paquet.getAction()== Paquet.Action.REPONSE){
+                    this.global = paquet.getGlobal();
+                    this.listeGroupe = paquet.getListeGroupe();
+                }
+                
+                else if (paquet.getAction()== Paquet.Action.DECONNECT){
+                    System.out.println("Déconnexion de "+paquet.getUtilisateur());
+                    connecte=false;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
-            if(instruction.getClass() == net.Paquet.class){
-                // TODO
-            }
-            else System.err.println("Paquet recu ilisible");
-        }catch(IOException e){e.printStackTrace();}
-        finally {
-            try {
-                getSocket().close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
+
     }
 
-    private void gestionPaquet(net.Paquet paquet) {
-        if(paquet.getAction()== net.Paquet.Action.AUTHENTIFICATION){
-            authentification(paquet);
-        }else if(paquet.getAction()== net.Paquet.Action.REQUETTE) {
-            envoyerObjet(new net.Paquet(REPONSE,paquet.getUtilisateurCourant(),getListeGroupe(),getListeFilDeDiscussion(),getGlobal()));
-        }else if (paquet.getAction()== net.Paquet.Action.REPONSE){
-            setGlobal(paquet.getGlobal());
-            setListeGroupe(paquet.getListeGroupe());
-            setListeFilDeDiscussion(paquet.getListeFilDeDiscussion());
-            setUtilisateurCourant(paquet.getUtilisateurCourant());
-        }
-    }
-
-    private void authentification(net.Paquet paquet){
-        Utilisateur co = null;
-        for(Utilisateur u : getGlobal().getMembres()){
-
-            if(u.equals(paquet.getUtilisateurCourant())){
+    Paquet authentification(Paquet paquet){
+        Utilisateur co =null;
+        for(Utilisateur u : global.getMembres() ){
+            if(u.getIdentifiant()==paquet.getUtilisateur().getIdentifiant()  && u.getMotDePasse().equals(paquet.getUtilisateur().getMotDePasse())){
                 co =u;
             }
         }
-        // Authentification réussi
-        net.Paquet data = new net.Paquet(REPONSE,co,getListeGroupe(),getListeFilDeDiscussion(),getGlobal());
-        envoyerObjet(data);
+        System.out.println(co);
+        return new Paquet(Paquet.Action.AUTHENTIFICATION,co,null,null);
     }
 
-
-
 }
+
+
