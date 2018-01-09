@@ -84,6 +84,8 @@ public class Groupe implements Serializable {
         return retirerMembres(new Utilisateur("","",id,"",null));
     }
 
+
+
     public Utilisateur getUtilisateur(int id){
         for (Utilisateur u :
                 this.membres) {
@@ -93,6 +95,9 @@ public class Groupe implements Serializable {
         }
         return null;
     }
+
+
+
 
     public NavigableSet<Utilisateur> getMembres() {
         return membres;

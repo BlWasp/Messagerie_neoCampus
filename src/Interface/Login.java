@@ -1,6 +1,10 @@
 package Interface;
 
 import paquet.Client;
+import paquet.Paquet;
+import utilisateurs.GroupeNomme;
+import utilisateurs.TypeUtilisateur;
+import utilisateurs.Utilisateur;
 
 import javax.swing.*;
 import java.awt.*;
@@ -55,6 +59,17 @@ public class Login extends JDialog {
         if (!ident.getText().isEmpty()  &&  !mdp.getText().isEmpty()){
             c.authentification(Integer.parseInt(ident.getText()),mdp.getText());
             if (c.getUtilisateurCourant() != null){
+
+                //TODO juste pour le test a enlever
+                GroupeNomme grp = new GroupeNomme("L3",1200);
+                GroupeNomme grp2 = new GroupeNomme("L2",1201);
+                Utilisateur salim = new Utilisateur("CHERIFI","Salim",12700,"123", TypeUtilisateur.ETUDIANT);
+
+                c.gestionGroupeNomme(grp, Paquet.Action.ADD);
+                c.gestionGroupeNomme(grp2, Paquet.Action.ADD);
+
+                c.getGroupeName("L3").ajouterMembres(salim);
+
                 loginFailed.setVisible(false);
                 System.out.println("Authentification Reussi!");
                 //En fonction du statut de l'étudiant
@@ -62,6 +77,10 @@ public class Login extends JDialog {
                 Chat chat = new Chat(c);
                 chat.pack();
                 chat.setVisible(true);
+
+
+
+
 
 
             }else{
@@ -82,6 +101,10 @@ public class Login extends JDialog {
 
     public static void main(String[] args) {
         Client c = new Client();
+
+
+
+
         Login dialog = new Login(c);
         dialog.pack();
         dialog.setVisible(true);

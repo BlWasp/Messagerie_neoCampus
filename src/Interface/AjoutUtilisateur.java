@@ -7,7 +7,7 @@ import utilisateurs.Utilisateur;
 import javax.swing.*;
 import java.awt.event.*;
 
-public class ajoutUtilisateur extends JDialog {
+public class AjoutUtilisateur extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
@@ -19,7 +19,7 @@ public class ajoutUtilisateur extends JDialog {
     private JComboBox typeUtilisateur;
     private JLabel labelIdent;
 
-    public ajoutUtilisateur(Client c) {
+    public AjoutUtilisateur(Client c) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -66,7 +66,7 @@ public class ajoutUtilisateur extends JDialog {
     }
 
     /*public static void main(String[] args) {
-        ajoutUtilisateur dialog = new ajoutUtilisateur();
+        AjoutUtilisateur dialog = new AjoutUtilisateur();
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);

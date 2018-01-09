@@ -1,21 +1,19 @@
 package Interface;
 
 import paquet.Client;
+import utilisateurs.ComparatorUtilisateur;
 import utilisateurs.Utilisateur;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Comparator;
 import java.util.NavigableSet;
 import java.util.TreeSet;
 
-public class GestionUtilisateurs extends JDialog {
+public class GestionUtilisateurs extends JFrame {
     private JPanel contentPane;
     private JTable table1;
-    private JTextField rechercherTextField;
-    private JButton rechercherButton;
     private JToolBar tools;
     private JButton ajouterUnUtilisateurButton;
     private JButton rafraichirButton;
@@ -25,14 +23,9 @@ public class GestionUtilisateurs extends JDialog {
 
     public GestionUtilisateurs(Client c) {
         setContentPane(contentPane);
-        setModal(true);
+        //setModal(true);
         this.setPreferredSize(new Dimension(800,800));
-        c.authentification(0,"admin");
         majTab(c);
-
-
-
-
 
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -44,7 +37,7 @@ public class GestionUtilisateurs extends JDialog {
         ajouterUnUtilisateurButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ajoutUtilisateur ajout = new ajoutUtilisateur(c);
+                AjoutUtilisateur ajout = new AjoutUtilisateur(c);
                 ajout.pack();
                 ajout.setVisible(true);
                 majTab(c);
@@ -78,33 +71,27 @@ public class GestionUtilisateurs extends JDialog {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        System.out.println(table1.getSelectedRow());
 
     }
 
     private void modifierMembre(Client c){
+        if (table1.getSelectedRow() != -1){
+            int idSelected = (int)table1.getValueAt(table1.getSelectedRow(),0);
+            Utilisateur u = c.getUtilisateur(idSelected);
+            System.out.println(u.toString());
+            ModifierMembre modif = new ModifierMembre(c,u);
+            modif.pack();
+            modif.toFront();
+            modif.setVisible(true);
+        }
 
-        int idSelected = (int)table1.getValueAt(table1.getSelectedRow(),0);
-        Utilisateur u = c.getUtilisateur(idSelected);
-        System.out.println(u.toString());
-        //TODO faire linterface
-        ModifierMembre modif = new ModifierMembre(c,u);
-        modif.pack();
-        modif.toFront();
-        modif.setVisible(true);
-        /*table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-            public void valueChanged(ListSelectionEvent event) {
-                // do some actions here, for example
-                // print first column value from selected row
-                System.out.println(table.getValueAt(table.getSelectedRow(), 0).toString());
-            }
-        });*/
     }
 
 
 
 
     private void retirerMembre(Client c){
-        //dispose();
         RetirerMembre retirer = new RetirerMembre(c);
         retirer.toFront();
         retirer.pack();
@@ -116,7 +103,7 @@ public class GestionUtilisateurs extends JDialog {
 
     private void majTab(Client c){
 
-        String col[] = {"<html><b>Identifiant</b></html>","<html><b>Nom</b></html>","<html><b>Prenom</b></html>"};
+        String[] col = {"<html><b>Identifiant</b></html>","<html><b>Nom</b></html>","<html><b>Prenom</b></html>"};
         DefaultTableModel tableModel = new DefaultTableModel(col, 0);
         tableModel.addRow(col);
 
@@ -124,18 +111,7 @@ public class GestionUtilisateurs extends JDialog {
 
 
 
-        NavigableSet<Utilisateur> users = new TreeSet<>(new Comparator<Utilisateur>() {
-            @Override
-            public int compare(Utilisateur o1, Utilisateur o2) {
-                if (o1.getNom().equals(o2.getNom())){
-                    Integer i1 = o1.getIdentifiant();
-                    Integer i2 = o2.getIdentifiant();
-                    return i1.compareTo(i2);
-                }else{
-                    return o1.getNom().compareTo(o2.getNom());
-                }
-            }
-        });
+        NavigableSet<Utilisateur> users = new TreeSet<>(new ComparatorUtilisateur());
         users.addAll(c.getMembres());
 
 
@@ -160,7 +136,9 @@ public class GestionUtilisateurs extends JDialog {
         dispose();
     }
 
-   /* public static void main(String[] args) {
+
+
+    /*public static void main(String[] args) {
         Client c = new Client();
         GestionUtilisateurs dialog = new GestionUtilisateurs(c);
         dialog.pack();

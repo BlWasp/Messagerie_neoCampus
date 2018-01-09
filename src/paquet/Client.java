@@ -168,8 +168,12 @@ public class Client extends Groupe{
 
         if (utilisateurCourant.privilege == ADMIN) {
             if (ac==ADD) {
-                listeGroupe.add(g);
-                envoyerObjetSansReponse(new Paquet(ADD,g));
+                if (this.getGroupeName(g.getNom()) == null){
+                    listeGroupe.add(g);
+                    envoyerObjetSansReponse(new Paquet(ADD,g));
+                }else{
+                    LOGGER.info("Groupe déja présent");
+                }
             }
             if (ac==SUPP) {
                 listeGroupe.remove(g);
@@ -214,8 +218,28 @@ public class Client extends Groupe{
         return utilisateurCourant;
     }
 
-    public List getListeGroupe() {
+    public List<GroupeNomme> getListeGroupe() {
         return listeGroupe;
+    }
+
+    public GroupeNomme getGroupeID(int idGroupe){
+        for (GroupeNomme g :
+                this.getListeGroupe()) {
+            if (g.getId() == idGroupe){
+                return g;
+            }
+        }
+        return null;
+    }
+
+    public GroupeNomme getGroupeName(String name){
+        for (GroupeNomme g :
+                this.getListeGroupe()) {
+            if (g.getNom().equals(name)){
+                return g;
+            }
+        }
+        return null;
     }
 
     public List getListeFilDeDiscussion() {
