@@ -51,7 +51,7 @@ public class Serveur {
         try {
             socketServer = new ServerSocket(port);
             Socket socket = socketServer.accept();
-            System.out.println("Nouvelle Connexion");
+            System.out.println("Nouvelle connexion");
             ThreadServeur threadServeur= new ThreadServeur(socket,global,listeGroupe);
             Thread thread = new Thread(threadServeur);
             thread.start();
