@@ -55,6 +55,7 @@ public class Client {
     }
 
 
+
     public Utilisateur getUtilisateurCourant() {
         return utilisateurCourant;
     }
