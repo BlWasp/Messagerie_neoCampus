@@ -131,13 +131,9 @@ public class Client {
             errno = c.download();
             System.out.println(errno);
 
-            ///Aj
-
-
-
-
-
-
+            c.getGroupeGlobal().ajouterMembres()
+            errno = c.upload();
+            System.out.print(errno);
 
 
         }
