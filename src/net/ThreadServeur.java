@@ -51,7 +51,7 @@ public class ThreadServeur implements Runnable {
                     Paquet retour = new Paquet(Paquet.Action.REPONSE,paquet.getUtilisateur(),listeGroupe,global);
                     out.writeObject(retour);
                 }else if(paquet.getAction()== Paquet.Action.REPONSE){
-                    this.global = paquet.getGlobal();
+                    this.global = paquet.getGroupeGlobal();
                     this.listeGroupe = paquet.getListeGroupe();
                 }
                 
