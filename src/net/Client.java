@@ -42,6 +42,9 @@ public class Client {
     }
 
 
+    public Utilisateur getUtilisateurCourant() {
+        return utilisateurCourant;
+    }
 
     public int authentification(Utilisateur u){
         try {

@@ -1,7 +1,6 @@
 package Interface;
 
-import paquet.Client;
-import paquet.Paquet;
+import net.Client;
 import utilisateurs.GroupeNomme;
 import utilisateurs.TypeUtilisateur;
 import utilisateurs.Utilisateur;
@@ -20,15 +19,19 @@ public class Login extends JDialog {
     private JLabel labelIdent;
     private JLabel labelMdp;
     private JLabel loginFailed;
+    private JTextField ipField;
+    private JLabel ipLabel;
+    private JTextField portField;
 
-    public Login(Client c) {
+
+    public Login() {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
         loginFailed.setVisible(false);
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                onOK(c);
+                onOK();
             }
         });
 
@@ -54,29 +57,25 @@ public class Login extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-    private void onOK(Client c) {
+    private void onOK() {
 
-        if (!ident.getText().isEmpty()  &&  !mdp.getText().isEmpty()){
-            c.authentification(Integer.parseInt(ident.getText()),mdp.getText());
-            if (c.getUtilisateurCourant() != null){
+        if (!ident.getText().isEmpty()  &&
+                ident.getText().matches(".*\\d+.*") &&
+                !mdp.getText().isEmpty() &&
+                !ipField.getText().isEmpty() &&
+                !portField.getText().isEmpty() &&
+                portField.getText().matches(".*\\d+.*")){
+            Client c = new Client(ident.getText(),Integer.parseInt(portField.getText()));
 
-                //TODO juste pour le test a enlever
-                GroupeNomme grp = new GroupeNomme("L3",1200);
-                GroupeNomme grp2 = new GroupeNomme("L2",1201);
-                Utilisateur salim = new Utilisateur("CHERIFI","Salim",12700,"123", TypeUtilisateur.ETUDIANT);
-
-                c.gestionGroupeNomme(grp, Paquet.Action.ADD);
-                c.gestionGroupeNomme(grp2, Paquet.Action.ADD);
-
-                c.getGroupeName("L3").ajouterMembres(salim);
-
+            int errno = c.authentification(new Utilisateur("","",Integer.parseInt(ident.getText()),mdp.getText(),null));
+            if (errno == 1){
                 loginFailed.setVisible(false);
                 System.out.println("Authentification Reussi!");
                 //En fonction du statut de l'étudiant
-                dispose();
+               /* dispose();
                 Chat chat = new Chat(c);
                 chat.pack();
-                chat.setVisible(true);
+                chat.setVisible(true);*/
 
 
 
@@ -100,12 +99,8 @@ public class Login extends JDialog {
     }
 
     public static void main(String[] args) {
-        Client c = new Client();
 
-
-
-
-        Login dialog = new Login(c);
+        Login dialog = new Login();
         dialog.pack();
         dialog.setVisible(true);
     }
