@@ -131,6 +131,9 @@ public class Client {
             errno = c.download();
             System.out.println(errno);
 
+            errno = c.upload();
+            System.out.print(errno);
+
         }
 
 
