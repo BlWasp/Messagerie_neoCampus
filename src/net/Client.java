@@ -29,14 +29,16 @@ public class Client {
     }
 
     public int connect(){
+        if(port>65535 || port<1)return -2;
         try {
             socket = new Socket(host,port);
+            if(socket==null)return 0;
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
 
 
         } catch (IOException e){
-            e.printStackTrace();
+            //e.printStackTrace();
             return 0;
         }
         return 1;
@@ -58,6 +60,7 @@ public class Client {
     }
 
     public int authentification(Utilisateur u){
+
         try {
             out.writeObject(new net.Paquet(net.Paquet.Action.AUTHENTIFICATION,u,null,null));
             net.Paquet get = (net.Paquet) in.readObject();
@@ -108,13 +111,15 @@ public class Client {
     }
 
     public void deconnect(){
-        try {
-            out.writeObject(new net.Paquet(net.Paquet.Action.DECONNECT,utilisateurCourant,null,null));
-            socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(socket!=null){
+            try {
+                out.writeObject(new net.Paquet(net.Paquet.Action.DECONNECT,utilisateurCourant,null,null));
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            socket =null;
         }
-        socket =null;
     }
 
     public ConcurrentSkipListSet<GroupeNomme> getListeGroupe() {
@@ -142,9 +147,18 @@ public class Client {
         int errno;
         errno = c.connect();
         System.out.println(errno);
+        if(errno==1){
+            errno = c.authentification(new Utilisateur("","",0,"admin",null));
+            System.out.println(errno);
 
-        errno = c.authentification(new Utilisateur("","",0,"admin",null));
-        System.out.println(errno);
+            // errno = c.download();
+            // System.out.println(errno);
+
+        }
+
+
+
+
 
 
 

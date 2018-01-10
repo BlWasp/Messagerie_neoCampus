@@ -2,10 +2,11 @@ package utilisateurs;
 
 import discussion.FilDeDiscussion;
 
+import java.io.Serializable;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentSkipListSet;
 
-public class GroupeNomme extends Groupe implements Comparable<GroupeNomme>{
+public class GroupeNomme extends Groupe implements Serializable,Comparable<GroupeNomme>{
     private String nom;
     private UUID id = UUID.randomUUID();
     private ConcurrentSkipListSet<FilDeDiscussion> filsDeDiscussion = new ConcurrentSkipListSet<>();
