@@ -13,8 +13,8 @@ import java.util.Comparator;
 import java.util.concurrent.ConcurrentSkipListSet;
 
 public class Client {
-    ConcurrentSkipListSet<GroupeNomme> listeGroupe= new ConcurrentSkipListSet<>(Comparator.comparing(GroupeNomme::getNom));
-    Groupe global = new Groupe();
+    ConcurrentSkipListSet<GroupeNomme> listeGroupe= new ConcurrentSkipListSet<>();
+    Groupe groupeGlobal = new Groupe();
     ObjectOutputStream out;
     ObjectInputStream in;
     Utilisateur utilisateurCourant;
@@ -76,7 +76,7 @@ public class Client {
             get = (net.Paquet) in.readObject();
 
             this.utilisateurCourant = get.getUtilisateur();
-            this.global = get.getGlobal();
+            this.groupeGlobal = get.getGroupeGlobal();
             this.listeGroupe = get.getListeGroupe();
         } catch (IOException e) {
             e.printStackTrace();
@@ -91,7 +91,7 @@ public class Client {
     public int upload(){
         net.Paquet get=null;
         try {
-            out.writeObject(new net.Paquet(net.Paquet.Action.REPONSE,utilisateurCourant,listeGroupe,global));
+            out.writeObject(new net.Paquet(net.Paquet.Action.REPONSE,utilisateurCourant,listeGroupe,groupeGlobal));
         } catch (IOException e) {
             e.printStackTrace();
             return -1;
@@ -115,8 +115,8 @@ public class Client {
         return listeGroupe;
     }
 
-    public Groupe getGlobal() {
-        return global;
+    public Groupe getGroupeGlobal() {
+        return groupeGlobal;
     }
 
     public static void main(String[] args) {
@@ -128,8 +128,8 @@ public class Client {
             errno = c.authentification(new Utilisateur("","",0,"admin",null));
             System.out.println(errno);
 
-            // errno = c.download();
-            // System.out.println(errno);
+            errno = c.download();
+            System.out.println(errno);
 
         }
 

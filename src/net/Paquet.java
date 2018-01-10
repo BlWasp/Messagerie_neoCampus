@@ -29,7 +29,7 @@ public class Paquet implements Serializable{
         return listeGroupe;
     }
 
-    public Groupe getGlobal() {
+    public Groupe getGroupeGlobal() {
         return global;
     }
 

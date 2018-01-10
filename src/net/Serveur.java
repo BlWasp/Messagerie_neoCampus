@@ -15,7 +15,7 @@ import java.util.Comparator;
 import java.util.concurrent.ConcurrentSkipListSet;
 
 public class Serveur {
-    ConcurrentSkipListSet<GroupeNomme> listeGroupe= new ConcurrentSkipListSet<>(Comparator.comparing(GroupeNomme::getNom));
+    ConcurrentSkipListSet<GroupeNomme> listeGroupe= new ConcurrentSkipListSet<>();
     Groupe global = new Groupe();
     ObjectOutputStream out;
     ObjectInputStream in;
