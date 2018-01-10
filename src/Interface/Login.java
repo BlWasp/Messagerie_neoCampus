@@ -1,7 +1,6 @@
 package Interface;
 
 import net.Client;
-import paquet.Paquet;
 import utilisateurs.GroupeNomme;
 import utilisateurs.TypeUtilisateur;
 import utilisateurs.Utilisateur;
@@ -32,7 +31,7 @@ public class Login extends JDialog {
         loginFailed.setVisible(false);
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                onOK(c);
+                onOK();
             }
         });
 
@@ -66,27 +65,17 @@ public class Login extends JDialog {
                 !ipField.getText().isEmpty() &&
                 !portField.getText().isEmpty() &&
                 portField.getText().matches(".*\\d+.*")){
-            
-            c.authentification(new Utilisateur(null,null,Integer.parseInt(ident.getText()),mdp.getText(),null));
-            if (c.getUtilisateurCourant() != null){
+            Client c = new Client(ident.getText(),Integer.parseInt(portField.getText()));
 
-                //TODO juste pour le test a enlever
-                GroupeNomme grp = new GroupeNomme("L3",1200);
-                GroupeNomme grp2 = new GroupeNomme("L2",1201);
-                Utilisateur salim = new Utilisateur("CHERIFI","Salim",12700,"123", TypeUtilisateur.ETUDIANT);
-
-                c.gestionGroupeNomme(grp, Paquet.Action.ADD);
-                c.gestionGroupeNomme(grp2, Paquet.Action.ADD);
-
-                c.getGroupeName("L3").ajouterMembres(salim);
-
+            int errno = c.authentification(new Utilisateur("","",Integer.parseInt(ident.getText()),mdp.getText(),null));
+            if (errno == 1){
                 loginFailed.setVisible(false);
                 System.out.println("Authentification Reussi!");
                 //En fonction du statut de l'étudiant
-                dispose();
+               /* dispose();
                 Chat chat = new Chat(c);
                 chat.pack();
-                chat.setVisible(true);
+                chat.setVisible(true);*/
 
 
 
