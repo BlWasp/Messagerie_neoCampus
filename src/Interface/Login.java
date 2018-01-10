@@ -15,20 +15,20 @@ public class Login extends JDialog {
     private JButton buttonCancel;
     private JTextField ident;
     private JTextField mdp;
-    private JButton inscriptionButton;
-    private JLabel labelIdent;
-    private JLabel labelMdp;
     private JLabel loginFailed;
     private JTextField ipField;
-    private JLabel ipLabel;
     private JTextField portField;
+    private JLabel adressePortIncorrect;
 
 
     public Login() {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
+        ipField.setText("127.0.0.1");
+        portField.setText("12700");
         loginFailed.setVisible(false);
+        adressePortIncorrect.setVisible(false);
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onOK();
@@ -40,6 +40,7 @@ public class Login extends JDialog {
                 onCancel();
             }
         });
+
 
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -66,24 +67,26 @@ public class Login extends JDialog {
                 !portField.getText().isEmpty() &&
                 portField.getText().matches(".*\\d+.*")){
             Client c = new Client(ident.getText(),Integer.parseInt(portField.getText()));
-
-            int errno = c.authentification(new Utilisateur("","",Integer.parseInt(ident.getText()),mdp.getText(),null));
+            int errno = c.connect();
+            //TODO AJOUTER VERIF ADRESSE
             if (errno == 1){
-                loginFailed.setVisible(false);
-                System.out.println("Authentification Reussi!");
-                //En fonction du statut de l'étudiant
-               /* dispose();
-                Chat chat = new Chat(c);
-                chat.pack();
-                chat.setVisible(true);*/
-
-
-
-
-
+                adressePortIncorrect.setVisible(false);
+                errno = c.authentification(new Utilisateur("","",Integer.parseInt(ident.getText()),mdp.getText(),null));
+                if (errno == 1){
+                    loginFailed.setVisible(false);
+                    System.out.println("Authentification Reussi!");
+                    //En fonction du statut de l'étudiant
+                    dispose();
+                    Chat chat = new Chat(c);
+                    chat.pack();
+                    chat.setVisible(true);
+                }else{
+                    loginFailed.setVisible(true);
+                    this.pack();
+                }
 
             }else{
-                loginFailed.setVisible(true);
+                adressePortIncorrect.setVisible(true);
                 this.pack();
             }
         }else{

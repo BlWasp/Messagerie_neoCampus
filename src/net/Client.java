@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-
+import java.util.UUID;
 import java.util.concurrent.ConcurrentSkipListSet;
 
 import static utilisateurs.TypeUtilisateur.ENSEIGNANT;
@@ -53,6 +53,17 @@ public class Client {
             return 0;
         }
         return 1;
+    }
+
+
+    public GroupeNomme getGroupeName(String name){
+        for (GroupeNomme g :
+                this.listeGroupe) {
+            if (g.getNom().equals(name)) {
+                return g;
+            }
+        }
+        return null;
     }
 
     /**
@@ -159,6 +170,18 @@ public class Client {
     public Groupe getGroupeGlobal() {
         return groupeGlobal;
     }
+    
+    public GroupeNomme getGroupeID(UUID ID){
+        for (GroupeNomme g :
+                this.listeGroupe) {
+            if (g.getId().equals(ID)){
+                return g;
+            }
+        }
+        return null;
+    }
+
+
 
     /**
      * Test et exemples d'utilisation 
