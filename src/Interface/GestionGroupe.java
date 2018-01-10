@@ -1,6 +1,5 @@
 package Interface;
 
-import utilisateurs.ComparatorUtilisateur;
 import utilisateurs.GroupeNomme;
 import utilisateurs.Utilisateur;
 

@@ -2,5 +2,5 @@
 package utilisateurs;
 
 public enum TypeUtilisateur {
-    ETUDIANT,ENSEIGNANT,SECRETAIRE
+    ETUDIANT,ENSEIGNANT,TECHNIQUE,ADMINISTRATIF
 }

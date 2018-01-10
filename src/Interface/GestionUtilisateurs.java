@@ -1,7 +1,6 @@
 package Interface;
 
 import paquet.Client;
-import utilisateurs.ComparatorUtilisateur;
 import utilisateurs.Utilisateur;
 
 import javax.swing.*;
