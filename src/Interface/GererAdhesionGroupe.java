@@ -1,6 +1,6 @@
 package Interface;
 
-import paquet.Client;
+import net.Client;
 import utilisateurs.GroupeNomme;
 import utilisateurs.Utilisateur;
 

@@ -45,6 +45,9 @@ public class Client {
         global.ajouterMembres(u);
     }
 
+    public Utilisateur getUtilisateurCourant() {
+        return utilisateurCourant;
+    }
 
     public int authentification(Utilisateur u){
         try {

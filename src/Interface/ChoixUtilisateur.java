@@ -1,6 +1,6 @@
 package Interface;
 
-import paquet.Client;
+import net.Client;
 
 import javax.swing.*;
 import java.awt.event.*;

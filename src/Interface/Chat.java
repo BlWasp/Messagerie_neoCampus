@@ -2,7 +2,7 @@ package Interface;
 
 import discussion.FilDeDiscussion;
 import discussion.Message;
-import paquet.Client;
+import net.Client;
 import utilisateurs.GroupeNomme;
 import utilisateurs.TypeUtilisateur;
 import utilisateurs.Utilisateur;

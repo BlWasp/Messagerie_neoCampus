@@ -1,6 +1,6 @@
 package Interface;
 
-import paquet.Client;
+import net.Client;
 import paquet.Paquet;
 import utilisateurs.GroupeNomme;
 import utilisateurs.TypeUtilisateur;
@@ -20,8 +20,12 @@ public class Login extends JDialog {
     private JLabel labelIdent;
     private JLabel labelMdp;
     private JLabel loginFailed;
+    private JTextField ipField;
+    private JLabel ipLabel;
+    private JTextField portField;
 
-    public Login(Client c) {
+
+    public Login() {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -54,10 +58,16 @@ public class Login extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-    private void onOK(Client c) {
+    private void onOK() {
 
-        if (!ident.getText().isEmpty()  &&  !mdp.getText().isEmpty()){
-            c.authentification(Integer.parseInt(ident.getText()),mdp.getText());
+        if (!ident.getText().isEmpty()  &&
+                ident.getText().matches(".*\\d+.*") &&
+                !mdp.getText().isEmpty() &&
+                !ipField.getText().isEmpty() &&
+                !portField.getText().isEmpty() &&
+                portField.getText().matches(".*\\d+.*")){
+            
+            c.authentification(new Utilisateur(null,null,Integer.parseInt(ident.getText()),mdp.getText(),null));
             if (c.getUtilisateurCourant() != null){
 
                 //TODO juste pour le test a enlever
@@ -100,12 +110,8 @@ public class Login extends JDialog {
     }
 
     public static void main(String[] args) {
-        Client c = new Client();
 
-
-
-
-        Login dialog = new Login(c);
+        Login dialog = new Login();
         dialog.pack();
         dialog.setVisible(true);
     }
