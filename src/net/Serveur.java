@@ -33,7 +33,7 @@ public class Serveur {
         Utilisateur nadege = new Utilisateur("Lamarque","Nadege",0,"123",TypeUtilisateur.ADMINISTRATIF);
         Utilisateur nadege2 = new Utilisateur("Lamarque2","Nadege2",2,"123",TypeUtilisateur.ADMINISTRATIF);
         Utilisateur nadege3 = new Utilisateur("Lamarque3","Nadege3",3,"123",TypeUtilisateur.ADMINISTRATIF);
-        global.ajouterMembres(admin,sylvain,salim,guillaume,nadege,nadege2,nadege3);
+
 
 
 

@@ -41,9 +41,6 @@ public class Client {
         return 1;
     }
 
-    public void ajouterMembre(Utilisateur u){
-        global.ajouterMembres(u);
-    }
 
 
     public int authentification(Utilisateur u){
