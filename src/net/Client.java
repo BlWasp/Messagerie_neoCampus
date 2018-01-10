@@ -123,12 +123,6 @@ public class Client {
         errno = c.authentification(new Utilisateur("","",0,"admin",null));
         System.out.println(errno);
 
-        errno = c.download();
-        System.out.println(errno);
-        System.out.println(c.getGlobal());
-
-
-        errno = c.upload();
 
 
 
