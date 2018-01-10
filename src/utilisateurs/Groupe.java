@@ -12,7 +12,6 @@ import java.util.concurrent.ConcurrentSkipListSet;
 
 public class Groupe implements Serializable {
 
-//    private NavigableSet<Utilisateur> membres = new TreeSet<>();
     private ConcurrentSkipListSet<Utilisateur> membres = new ConcurrentSkipListSet<>();
 
     public boolean estMembre(Utilisateur u){

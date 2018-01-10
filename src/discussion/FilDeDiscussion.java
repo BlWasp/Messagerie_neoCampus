@@ -11,32 +11,31 @@ import utilisateurs.GroupeNomme;
 import utilisateurs.Utilisateur;
 
 
-public class FilDeDiscussion extends Groupe implements Serializable,Comparable<FilDeDiscussion>{
+public class FilDeDiscussion implements Serializable,Comparable<FilDeDiscussion>{
     private String sujet;
+    private Groupe groupe;
+    private Utilisateur createur;
     private List<Message> filsdediscussion = new ArrayList<>();
     private UUID id = UUID.randomUUID();
     private static Logger LOGGER = Logger.getLogger(FilDeDiscussion.class);
 
-    public FilDeDiscussion(String sujet) {
-        super();
+    public FilDeDiscussion(String sujet, Groupe groupe, Utilisateur createur) {
         this.sujet = sujet;
-    }
-
-    public FilDeDiscussion(String sujet, UUID id){
-        super();
-        this.sujet = sujet;
-        this.id = UUID.fromString("yolo");
+        this.groupe = groupe;
+        this.createur = createur;
     }
 
     public Message ajouterMessage(Utilisateur u, String m) {
         Message messageajoute = null;
-        if(this.estMembre(u)){
-            messageajoute = new Message(u,this, m);
+        if(groupe.estMembre(u) || u.equals(createur) ){
+            Groupe g = new Groupe();
+            g.ajouterMembres(groupe);
+            g.ajouterMembres(createur);
+            messageajoute = new Message(u,g, m);
             filsdediscussion.add(messageajoute);
         }
         else{
             LOGGER.error("ERREUR : " + u.getPrenom() + " ne participe pas à cette conversation");
-            System.exit(1);
         }
         return messageajoute;
     }
@@ -45,40 +44,6 @@ public class FilDeDiscussion extends Groupe implements Serializable,Comparable<F
         return  filsdediscussion.remove(m)?1:0;
     }
 
-    public int majMessage(Message m){
-        int i = filsdediscussion.indexOf(m);
-        if(i > -1){
-            filsdediscussion.remove(i);
-            filsdediscussion.add(m);
-        }
-        return i==-1?1:0;
-    }
-
-    public Message ajouterMessage(Message m) {
-        //TODO REMETTTRE LEXCEPTION
-        Utilisateur u = m.getFrom();
-       /* if(this.estMembre(u)){*/
-            filsdediscussion.add(m);
-      /*  }
-        else{
-            LOGGER.error("ERREUR : " + u.getPrenom() + " ne participe pas à cette conversation");
-            System.exit(1);
-        }*/
-        return m;
-    }
-
-
-    public Message lireLeMessage(int indice){
-        Message message = null;
-        int size = filsdediscussion.size();
-        if(size>0 && indice < size ){
-            message = filsdediscussion.get(size - indice -1);
-        }
-        else {
-            LOGGER.error("ATTENTION: lireMessage() : la file de discussion est vide ! ");
-        }
-        return message;
-    }
     public UUID getId() {
         return id;
     }

@@ -1,11 +1,7 @@
 package Interface;
 
-import org.apache.log4j.helpers.UtilLoggingLevel;
-import paquet.Client;
-import paquet.Paquet;
 import utilisateurs.ComparatorUtilisateur;
 import utilisateurs.GroupeNomme;
-import utilisateurs.TypeUtilisateur;
 import utilisateurs.Utilisateur;
 
 import javax.swing.*;

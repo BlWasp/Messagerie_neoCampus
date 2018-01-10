@@ -9,10 +9,11 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Comparator;
 import java.util.concurrent.ConcurrentSkipListSet;
 
 public class Client {
-    ConcurrentSkipListSet<GroupeNomme> listeGroupe= new ConcurrentSkipListSet<>();
+    ConcurrentSkipListSet<GroupeNomme> listeGroupe= new ConcurrentSkipListSet<>(Comparator.comparing(GroupeNomme::getNom));
     Groupe global = new Groupe();
     ObjectOutputStream out;
     ObjectInputStream in;
@@ -43,7 +44,7 @@ public class Client {
     public void ajouterMembre(Utilisateur u){
         global.ajouterMembres(u);
     }
-    
+
 
     public int authentification(Utilisateur u){
         try {
@@ -125,6 +126,10 @@ public class Client {
         errno = c.download();
         System.out.println(errno);
         System.out.println(c.getGlobal());
+
+
+        errno = c.upload();
+
 
 
         c.deconnect();
