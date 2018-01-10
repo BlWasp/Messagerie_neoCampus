@@ -15,12 +15,8 @@ public class Login extends JDialog {
     private JButton buttonCancel;
     private JTextField ident;
     private JTextField mdp;
-    private JButton inscriptionButton;
-    private JLabel labelIdent;
-    private JLabel labelMdp;
     private JLabel loginFailed;
     private JTextField ipField;
-    private JLabel ipLabel;
     private JTextField portField;
 
 
@@ -28,6 +24,8 @@ public class Login extends JDialog {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
+        ipField.setText("127.0.0.1");
+        portField.setText("12700");
         loginFailed.setVisible(false);
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -40,6 +38,7 @@ public class Login extends JDialog {
                 onCancel();
             }
         });
+
 
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -66,16 +65,16 @@ public class Login extends JDialog {
                 !portField.getText().isEmpty() &&
                 portField.getText().matches(".*\\d+.*")){
             Client c = new Client(ident.getText(),Integer.parseInt(portField.getText()));
-
+            c.connect();
             int errno = c.authentification(new Utilisateur("","",Integer.parseInt(ident.getText()),mdp.getText(),null));
             if (errno == 1){
                 loginFailed.setVisible(false);
                 System.out.println("Authentification Reussi!");
                 //En fonction du statut de l'étudiant
-               /* dispose();
+                dispose();
                 Chat chat = new Chat(c);
                 chat.pack();
-                chat.setVisible(true);*/
+                chat.setVisible(true);
 
 
 

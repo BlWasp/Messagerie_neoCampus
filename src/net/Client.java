@@ -10,6 +10,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Comparator;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentSkipListSet;
 
 public class Client {
@@ -39,6 +40,16 @@ public class Client {
             return 0;
         }
         return 1;
+    }
+
+    public GroupeNomme getGroupeName(String name){
+        for (GroupeNomme g :
+                this.listeGroupe) {
+            if (g.getNom().equals(name)) {
+                return g;
+            }
+        }
+        return null;
     }
 
 
@@ -113,6 +124,18 @@ public class Client {
     public Groupe getGlobal() {
         return global;
     }
+    
+    public GroupeNomme getGroupeID(UUID ID){
+        for (GroupeNomme g :
+                this.listeGroupe) {
+            if (g.getId().equals(ID)){
+                return g;
+            }
+        }
+        return null;
+    }
+
+
 
     public static void main(String[] args) {
         Client c = new Client("127.0.0.1",12700);
