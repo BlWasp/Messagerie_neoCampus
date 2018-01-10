@@ -12,6 +12,8 @@ import java.net.Socket;
 import java.util.Comparator;
 import java.util.concurrent.ConcurrentSkipListSet;
 
+import static utilisateurs.TypeUtilisateur.ENSEIGNANT;
+
 public class Client {
     ConcurrentSkipListSet<GroupeNomme> listeGroupe= new ConcurrentSkipListSet<>();
     Groupe groupeGlobal = new Groupe();
@@ -131,7 +133,10 @@ public class Client {
             errno = c.download();
             System.out.println(errno);
 
-            c.getGroupeGlobal().ajouterMembres()
+            // Ajout de Membres
+            errno = c.download();
+            System.out.println(errno);
+            c.getGroupeGlobal().ajouterMembres(new Utilisateur("Patrick","BLURP",36985,"mot",ENSEIGNANT));
             errno = c.upload();
             System.out.print(errno);
 

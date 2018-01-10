@@ -65,7 +65,7 @@ public class ThreadServeur implements Runnable {
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
-        }
+        }//while
 
     }
 
