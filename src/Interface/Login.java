@@ -1,12 +1,10 @@
 package Interface;
 
 import net.Client;
-import utilisateurs.GroupeNomme;
-import utilisateurs.TypeUtilisateur;
+
 import utilisateurs.Utilisateur;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
 
 public class Login extends JDialog {
@@ -66,11 +64,13 @@ public class Login extends JDialog {
                 !ipField.getText().isEmpty() &&
                 !portField.getText().isEmpty() &&
                 portField.getText().matches(".*\\d+.*")){
-            Client c = new Client(ident.getText(),Integer.parseInt(portField.getText()));
+            Client c = new Client(ipField.getText(),Integer.parseInt(portField.getText()));
             int errno = c.connect();
             //TODO AJOUTER VERIF ADRESSE
             if (errno == 1){
                 adressePortIncorrect.setVisible(false);
+                System.out.println(ident.getText());
+                System.out.println(mdp.getText());
                 errno = c.authentification(new Utilisateur("","",Integer.parseInt(ident.getText()),mdp.getText(),null));
                 if (errno == 1){
                     loginFailed.setVisible(false);

@@ -36,7 +36,7 @@ public class GroupeNomme extends Groupe implements Serializable,Comparable<Group
     public FilDeDiscussion getFilsDeDiscussion(String name){
         for (FilDeDiscussion f :
                 this.filsDeDiscussion) {
-            if (f.getSujet() == name){
+            if (f.getSujet().equals(name)){
                 return f;
             }
         }
@@ -56,6 +56,12 @@ public class GroupeNomme extends Groupe implements Serializable,Comparable<Group
         return id.equals(gr.id);
     }
 
-    
-
+    @Override
+    public String toString() {
+        return "GroupeNomme{" +
+                "nom='" + nom + '\'' +
+                ", id=" + id +
+                ", filsDeDiscussion=" + filsDeDiscussion +
+                '}';
+    }
 }

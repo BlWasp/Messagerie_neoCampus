@@ -1,28 +1,23 @@
 package Interface;
 
 import discussion.FilDeDiscussion;
-import discussion.Message;
 import net.Client;
 import utilisateurs.GroupeNomme;
 import utilisateurs.Utilisateur;
-
 import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeSelectionModel;
-
 import java.awt.*;
-
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+
 
 
 public class Chat extends JFrame {
-    private JPanel contentPane;
+    private JPanel contentPane = new JPanel(new BorderLayout());
     private JPanel treePanel = new JPanel(new GridLayout());
     private JPanel sendField = new JPanel(new BorderLayout());
     private JPanel contenuFenetreChat = new JPanel(new BorderLayout());
@@ -31,15 +26,14 @@ public class Chat extends JFrame {
     private JTextField chatField = new JTextField();
     private JButton sendButton = new JButton("Send");
     private JTextArea filDeChat = new JTextArea();
-    private JTree chatTree;
+    private JTree chatTree = new JTree();
     private JMenuBar menuBarre = new JMenuBar();
     private JMenu fichierMenu = new JMenu("Fichier");
     private JMenuItem ajoutTicket = new JMenuItem("Ajouter un ticket");
     private JMenuItem gestionUtilisateur = new JMenuItem("Gestion des utilisateurs");
     private JMenuItem gestionGroupe = new JMenuItem("Gestion des groupes");
-    //TODO Raffraichissement de la liste des groupes toutes les n secondes
     public Chat(Client c) {
-        contentPane = new JPanel(new BorderLayout());
+
         setContentPane(contentPane);
         this.setPreferredSize(new Dimension(500,500));
         // call onCancel() when cross is clicked
@@ -52,11 +46,11 @@ public class Chat extends JFrame {
         c.download();
         buildTree(c);
 
-        /*chatTree.setPreferredSize(new Dimension(100,200));*/
 
 
         //Fenetre de chat et zone d'envoi
         this.add(contenuFenetreChat,BorderLayout.CENTER);
+
         contenuFenetreChat.add(sendField,BorderLayout.SOUTH);
         contenuFenetreChat.add(filDeChat,BorderLayout.CENTER);
         sendField.add(new JScrollPane(chatField),BorderLayout.CENTER);
@@ -67,22 +61,6 @@ public class Chat extends JFrame {
         menuBarre.add(fichierMenu);
         fichierMenu.add(ajoutTicket);
         setJMenuBar(menuBarre);
-
-
-
-
-        this.addWindowFocusListener(new WindowFocusListener() {
-            @Override
-            public void windowGainedFocus(WindowEvent e) {
-                System.out.println("On focus");
-                buildTree(c);
-            }
-
-            @Override
-            public void windowLostFocus(WindowEvent e) {
-                //
-            }
-        });
 
 
 
@@ -108,6 +86,7 @@ public class Chat extends JFrame {
 
 
 
+
         chatTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         chatTree.addTreeSelectionListener(new TreeSelectionListener() {
             @Override
@@ -115,32 +94,23 @@ public class Chat extends JFrame {
                 majListMessage(c);
             }
         });
-
-
-
-
-
-
-
         sendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                c.download();
                 DefaultMutableTreeNode node = (DefaultMutableTreeNode)chatTree.getLastSelectedPathComponent();
-                if (node != null){
+                if (node != null && node.getLevel()>1){
 
-                    Message m = new Message( c.getUtilisateurCourant()
-                                            ,c.getGroupeName(node.getParent().toString())
-                                            ,chatField.getText().toString());
-                    Object nodeInfo = node.getUserObject();
-                    FilDeDiscussion fil = c.getGroupeName(node.getParent().toString()).getFilsDeDiscussion(nodeInfo.toString());
-                    System.out.println(fil);
-                    //TODO AJOUTER QUAND AJOUTERMESSAGE SERA FAIT
-                    //c.ajouterMessage(m.getMesage(),fil);
+
+
+                    c.getGroupeName(node.getParent().toString()).getFilsDeDiscussion(node.toString()).ajouterMessage(c.getUtilisateurCourant(),chatField.getText());
+                    System.out.println("affichage send "+c.getGroupeName(node.getParent().toString()).getFilsDeDiscussion(node.toString()));
+
                     majListMessage(c);
                     chatField.setText("");
+                    c.upload();
 
                 }
-
             }
         });
 
@@ -150,6 +120,7 @@ public class Chat extends JFrame {
                 chatField.setText("");
             }
         });
+
 
         // call onCancel() on ESCAPE
         contentPane.registerKeyboardAction(new ActionListener() {
@@ -163,7 +134,7 @@ public class Chat extends JFrame {
 
     //TODO
     private void majListMessage(Client c ){
-        c.download();
+        //c.download();
         filDeChat.setText("");
         DefaultMutableTreeNode node = (DefaultMutableTreeNode)chatTree.getLastSelectedPathComponent();
 
@@ -172,13 +143,11 @@ public class Chat extends JFrame {
 
                 /* retrieve the node that was selected */
         Object nodeInfo = node.getUserObject();
-
+        //System.out.println(nodeInfo.toString());
         if (node.getLevel()>1){
-            FilDeDiscussion fil = c.getGroupeName(node.getParent().toString()).getFilsDeDiscussion(nodeInfo.toString());
 
-
-
-            filDeChat.setText(fil.printMessage());
+            //System.out.println(c.getGroupeName("L3").getFilsDeDiscussion("WAZA"));
+            filDeChat.setText(c.getGroupeName(node.getParent().toString()).getFilsDeDiscussion(nodeInfo.toString()).printMessage());
         }
     }
 
@@ -186,9 +155,6 @@ public class Chat extends JFrame {
 
     private void buildTree(Client c){
         c.download();
-        if (chatTree != null) {
-            chatTree.removeAll();
-        }
         //List groupe est vide
         List<GroupeNomme> listGroupe = new ArrayList<>();
         listGroupe.addAll(c.getListeGroupe());
@@ -212,7 +178,7 @@ public class Chat extends JFrame {
         }
         //Nous créons, avec notre hiérarchie, un arbre
         this.chatTree = new JTree(racine);
-        chatTree.setRootVisible(false);
+        //chatTree.setRootVisible(false);
         chatTree.setPreferredSize(new Dimension(100,chatTree.getPreferredSize().height));
         //Que nous plaçons sur le ContentPane de notre JFrame à l'aide d'un scroll
         this.add(new JScrollPane(chatTree),BorderLayout.WEST);

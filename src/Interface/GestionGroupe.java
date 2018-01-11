@@ -47,12 +47,38 @@ public class GestionGroupe extends JFrame {
         });
 
 
-       /* this.listeGroupe.addListSelectionListener(new ListSelectionListener() {
+        this.listeGroupe.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 buildListUtilisateurGroupe(c,listeGroupe.getSelectedValue().toString());
             }
-        });*/
+        });
+        idMembreAajouter.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                idMembreAajouter.setText("");
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
 
         modifierAppartenanceAuGroupeButton.addActionListener(new ActionListener() {
             @Override
@@ -70,19 +96,19 @@ public class GestionGroupe extends JFrame {
 
 
                    if (c.getGroupeGlobal().getUtilisateur(Integer.parseInt(idMembreAajouter.getText())) != null){
-                       GroupeNomme g = c.getGroupeName(listeGroupe.getSelectedValue().toString());
-                       for (Utilisateur a : g.getMembres()) {
+
+                       Utilisateur ajout = c.getGroupeGlobal().getUtilisateur(Integer.parseInt(idMembreAajouter.getText()));
+                       /*for (Utilisateur a : g.getMembres()) {
                            if (a.getIdentifiant() == Integer.parseInt(idMembreAajouter.getText())){
                                found = true;
                                break;
                            }
-                       }
-                       if (!found){
-                           Utilisateur util = c.getGroupeGlobal().getUtilisateur(Integer.parseInt(idMembreAajouter.getText().toString()));
-                           System.out.println(util.toString());
-                           g.ajouterMembres(util);
-                       }
-                       buildListUtilisateurGroupe(c,g.getNom());
+                       }*/
+
+                       System.out.println(ajout.toString());
+                       c.getGroupeName(listeGroupe.getSelectedValue().toString()).ajouterMembres(ajout);
+
+                       buildListUtilisateurGroupe(c,listeGroupe.getSelectedValue().toString());
                    }else{
                        idMembreAajouter.setText("Utilisateur inconnu");
 
@@ -126,7 +152,7 @@ public class GestionGroupe extends JFrame {
         String col[] = {"<html><b>Identifiant</b></html>","<html><b>Nom</b></html>","<html><b>Prenom</b></html>"};
         DefaultTableModel tableModel = new DefaultTableModel(col, 0);
         tableModel.addRow(col);
-        
+
 
 
         for (GroupeNomme g :

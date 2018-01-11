@@ -1,6 +1,7 @@
 package net;
 
 
+import discussion.FilDeDiscussion;
 import utilisateurs.Groupe;
 import utilisateurs.GroupeNomme;
 import utilisateurs.TypeUtilisateur;
@@ -36,8 +37,17 @@ public class Serveur {
         global.ajouterMembres(admin,sylvain,guillaume,salim,nadege,nadege2,nadege3);
 
         GroupeNomme l3 = new GroupeNomme("L3");
+        l3.ajouterMembres(admin);
+        l3.ajouterMembres(salim);
         GroupeNomme l2 = new GroupeNomme("L2");
         GroupeNomme m2 = new GroupeNomme("M2");
+
+        this.listeGroupe.add(l3);
+        this.listeGroupe.add(l2);
+        this.listeGroupe.add(m2);
+
+
+        l3.ajouterFilDeDiscussion(admin,"WAZA");
 
         listeGroupe.add(l3);
         listeGroupe.add(l2);
@@ -67,7 +77,7 @@ public class Serveur {
             try {
                 Socket socket = socketServer.accept();
                 System.out.println("Nouvelle connexion");
-                ThreadServeur threadServeur = new ThreadServeur(socket, global, listeGroupe);
+                ThreadServeur threadServeur = new ThreadServeur(socket, global, listeGroupe,this);
                 Thread thread = new Thread(threadServeur);
                 thread.start();
 
@@ -76,6 +86,14 @@ public class Serveur {
                 e.printStackTrace();
             }
         }
+
+
+
+    }
+
+    synchronized public void maj(ConcurrentSkipListSet<GroupeNomme> listeGroupe, Groupe groupe){
+        this.listeGroupe = listeGroupe;
+        this.global = groupe;
     }
 
     public static void main(String[] args) {
