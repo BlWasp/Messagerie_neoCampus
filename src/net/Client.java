@@ -204,7 +204,7 @@ public class Client {
             System.out.println(errno);
             c.getGroupeGlobal().ajouterMembres(new Utilisateur("Patrick","BLURP",36985,"mot",ENSEIGNANT));
             errno = c.upload();
-            System.out.print(errno);
+            System.out.println(errno);
 
             //Ajout groupe
             errno = c.download();
