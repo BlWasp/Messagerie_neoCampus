@@ -54,6 +54,9 @@ public class ThreadServeur implements Runnable {
                     System.out.println("Envoi infos depuis le Client " + paquet.getUtilisateur().getIdentifiant());
                     this.global = paquet.getGroupeGlobal();
                     this.listeGroupe = paquet.getListeGroupe();
+                    if ( ! listeGroupe.isEmpty()) {
+                        System.out.println(listeGroupe.first().getFilsDeDiscussion());
+                    }
                 }
                 
                 else if (paquet.getAction()== Paquet.Action.DECONNECT){
@@ -66,10 +69,15 @@ public class ThreadServeur implements Runnable {
                 e.printStackTrace();
             }
         }//while
+        /*try {
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
 
     }
 
-    Paquet authentification(Paquet paquet){
+    synchronized Paquet authentification(Paquet paquet){
         Utilisateur co =null;
         for(Utilisateur u : global.getMembres() ){
             if(u.getIdentifiant()==paquet.getUtilisateur().getIdentifiant()  && u.getMotDePasse().equals(paquet.getUtilisateur().getMotDePasse())){

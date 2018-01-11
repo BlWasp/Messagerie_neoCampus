@@ -209,7 +209,24 @@ public class Client {
             System.out.println(errno);
             c.getGroupeGlobal().ajouterMembres(new Utilisateur("Patrick","BLURP",36985,"mot",ENSEIGNANT));
             errno = c.upload();
-            System.out.print(errno);
+            System.out.println(errno);
+
+            //Ajout groupe
+            errno = c.download();
+            System.out.println(errno);
+            c.listeGroupe.add(new GroupeNomme("L3"));
+            c.listeGroupe.first().ajouterMembres(c.utilisateurCourant);
+            errno = c.upload();
+            System.out.println(errno);
+
+            //Ajout fil de discussion et message au fil
+            errno = c.download();
+            System.out.println(errno);
+            c.listeGroupe.first().ajouterFilDeDiscussion(c.utilisateurCourant,"La cuite, parlons-en");
+            c.listeGroupe.first().getFilsDeDiscussion("La cuite, parlons-en").ajouterMessage(c.utilisateurCourant,"Vomir c'est repartir");
+            errno = c.upload();
+            System.out.println(errno);
+
 
 
         }
