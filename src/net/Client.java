@@ -55,6 +55,11 @@ public class Client {
         return 1;
     }
 
+    /**
+     * Methode permettant de
+     * @param name
+     * @return
+     */
 
     public GroupeNomme getGroupeName(String name){
         for (GroupeNomme g :
