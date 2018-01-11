@@ -19,7 +19,7 @@ public class Serveur {
     Groupe global = new Groupe();
     ObjectOutputStream out;
     ObjectInputStream in;
-    ServerSocket socketServer;
+    ServerSocket socketServer = null;
     int port;
 
     public Serveur(int port){
@@ -49,9 +49,13 @@ public class Serveur {
 
     public void start(){
 
+        try {
+            socketServer = new ServerSocket(port);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         while(true) {
             try {
-                socketServer = new ServerSocket(port);
                 Socket socket = socketServer.accept();
                 System.out.println("Nouvelle connexion");
                 ThreadServeur threadServeur = new ThreadServeur(socket, global, listeGroupe);

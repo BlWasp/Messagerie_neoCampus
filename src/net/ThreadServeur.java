@@ -66,6 +66,11 @@ public class ThreadServeur implements Runnable {
                 e.printStackTrace();
             }
         }//while
+        /*try {
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
 
     }
 
