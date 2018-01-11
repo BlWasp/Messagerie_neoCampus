@@ -206,6 +206,12 @@ public class Client {
             errno = c.upload();
             System.out.print(errno);
 
+            c.listeGroupe.first().ajouterFilDeDiscussion(c.utilisateurCourant,"La cuite, parlons-en");
+            c.listeGroupe.first().getFilsDeDiscussion("La cuite, parlons-en").ajouterMessage(c.utilisateurCourant,"Vomir c'est repartir");
+
+            c.upload();
+
+
 
         }
 

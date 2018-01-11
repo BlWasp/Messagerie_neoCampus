@@ -47,23 +47,22 @@ public class Serveur {
         this.port = port;
     }
 
-    public int start(){
-        try {
-            socketServer = new ServerSocket(port);
-            Socket socket = socketServer.accept();
-            System.out.println("Nouvelle connexion");
-            ThreadServeur threadServeur= new ThreadServeur(socket,global,listeGroupe);
-            Thread thread = new Thread(threadServeur);
-            thread.start();
+    public void start(){
 
-        } catch (IOException e) {
+        while(true) {
+            try {
+                socketServer = new ServerSocket(port);
+                Socket socket = socketServer.accept();
+                System.out.println("Nouvelle connexion");
+                ThreadServeur threadServeur = new ThreadServeur(socket, global, listeGroupe);
+                Thread thread = new Thread(threadServeur);
+                thread.start();
 
-            e.printStackTrace();
-            return 0;
+            } catch (IOException e) {
+
+                e.printStackTrace();
+            }
         }
-
-
-        return 1;
     }
 
     public static void main(String[] args) {
