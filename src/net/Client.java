@@ -55,6 +55,11 @@ public class Client {
         return 1;
     }
 
+    /**
+     * Methode permettant de
+     * @param name
+     * @return
+     */
 
     public GroupeNomme getGroupeName(String name){
         for (GroupeNomme g :
@@ -204,7 +209,7 @@ public class Client {
             System.out.println(errno);
             c.getGroupeGlobal().ajouterMembres(new Utilisateur("Patrick","BLURP",36985,"mot",ENSEIGNANT));
             errno = c.upload();
-            System.out.print(errno);
+            System.out.println(errno);
 
             //Ajout groupe
             errno = c.download();

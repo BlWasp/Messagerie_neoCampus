@@ -49,22 +49,17 @@ public class ThreadServeur implements Runnable {
                     out.writeObject(retour);
                 }
                 else if(paquet.getAction()== Paquet.Action.REQUETTE){
-                    for (GroupeNomme g :
-                            this.listeGroupe) {
-                        System.out.println(g.getFilsDeDiscussion());
-                    }
+                    
                     System.out.println("Demande de téléchargement pour de "+paquet.getUtilisateur().getIdentifiant());
                     Paquet retour = new Paquet(Paquet.Action.REPONSE,paquet.getUtilisateur(),listeGroupe,global);
                     out.writeObject(retour);
                 }else if(paquet.getAction()== Paquet.Action.REPONSE){
-                    for (GroupeNomme g :
-                            this.listeGroupe) {
-                        System.out.println(g.getFilsDeDiscussion());
-                    }
+                   
                     System.out.println("Envoi infos depuis le Client " + paquet.getUtilisateur().getIdentifiant());
-//                    this.global = paquet.getGroupeGlobal();
-//                    this.listeGroupe = paquet.getListeGroupe();
                     serveur.maj(paquet.getListeGroupe(),paquet.getGroupeGlobal());
+                    if ( ! listeGroupe.isEmpty()) {
+                        System.out.println(listeGroupe.first().getFilsDeDiscussion());
+                    }
                 }
                 
                 else if (paquet.getAction()== Paquet.Action.DECONNECT){
@@ -85,7 +80,7 @@ public class ThreadServeur implements Runnable {
 
     }
 
-    Paquet authentification(Paquet paquet){
+    synchronized Paquet authentification(Paquet paquet){
         Utilisateur co =null;
         for(Utilisateur u : global.getMembres() ){
             if(u.getIdentifiant()==paquet.getUtilisateur().getIdentifiant()  && u.getMotDePasse().equals(paquet.getUtilisateur().getMotDePasse())){
