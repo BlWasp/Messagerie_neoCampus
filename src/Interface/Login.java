@@ -75,17 +75,18 @@ public class Login extends JDialog {
                 if (errno == 1){
                     loginFailed.setVisible(false);
                     System.out.println("Authentification Reussi!");
-                    //En fonction du statut de l'étudiant
                     dispose();
                     Chat chat = new Chat(c);
                     chat.pack();
                     chat.setVisible(true);
                 }else{
+                    c.deconnect();
                     loginFailed.setVisible(true);
                     this.pack();
                 }
 
             }else{
+                c.deconnect();
                 adressePortIncorrect.setVisible(true);
                 this.pack();
             }
@@ -97,7 +98,6 @@ public class Login extends JDialog {
     }
 
     private void onCancel() {
-        // add your code here if necessary
         dispose();
     }
 

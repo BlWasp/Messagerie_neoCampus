@@ -17,6 +17,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class Chat extends JFrame {
@@ -47,16 +49,17 @@ public class Chat extends JFrame {
                 onCancel(c);
             }
         });
+        c.download();
         buildTree(c);
 
-        chatTree.setPreferredSize(new Dimension(100,200));
+        /*chatTree.setPreferredSize(new Dimension(100,200));*/
 
 
         //Fenetre de chat et zone d'envoi
         this.add(contenuFenetreChat,BorderLayout.CENTER);
         contenuFenetreChat.add(sendField,BorderLayout.SOUTH);
         contenuFenetreChat.add(filDeChat,BorderLayout.CENTER);
-        sendField.add(chatField,BorderLayout.CENTER);
+        sendField.add(new JScrollPane(chatField),BorderLayout.CENTER);
         sendField.add(sendButton,BorderLayout.EAST);
 
         filDeChat.setEditable(false);
@@ -68,6 +71,20 @@ public class Chat extends JFrame {
 
 
 
+        this.addWindowFocusListener(new WindowFocusListener() {
+            @Override
+            public void windowGainedFocus(WindowEvent e) {
+                System.out.println("On focus");
+                buildTree(c);
+            }
+
+            @Override
+            public void windowLostFocus(WindowEvent e) {
+                //
+            }
+        });
+
+
 
 
 
@@ -75,22 +92,17 @@ public class Chat extends JFrame {
         if (c.getUtilisateurCourant().getPrivilege() == Utilisateur.Privilege.ADMIN){
             fichierMenu.add(gestionUtilisateur);
             fichierMenu.add(gestionGroupe);
-            gestionUtilisateur.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
 
-                    GestionUtilisateurs gestion = new GestionUtilisateurs(c);
-                    gestion.pack();
-                    gestion.setVisible(true);
-                }
+            gestionUtilisateur.addActionListener(e -> {
+                GestionUtilisateurs gestion = new GestionUtilisateurs(c);
+                gestion.pack();
+                gestion.setVisible(true);
             });
-            gestionGroupe.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    GestionGroupe gestion = new GestionGroupe(c);
-                    gestion.pack();
-                    gestion.setVisible(true);
-                }
+
+            gestionGroupe.addActionListener(e -> {
+                GestionGroupe gestion = new GestionGroupe(c);
+                gestion.pack();
+                gestion.setVisible(true);
             });
         }
 
@@ -174,6 +186,9 @@ public class Chat extends JFrame {
 
     private void buildTree(Client c){
         c.download();
+        if (chatTree != null) {
+            chatTree.removeAll();
+        }
         //List groupe est vide
         List<GroupeNomme> listGroupe = new ArrayList<>();
         listGroupe.addAll(c.getListeGroupe());
@@ -198,6 +213,7 @@ public class Chat extends JFrame {
         //Nous créons, avec notre hiérarchie, un arbre
         this.chatTree = new JTree(racine);
         chatTree.setRootVisible(false);
+        chatTree.setPreferredSize(new Dimension(100,chatTree.getPreferredSize().height));
         //Que nous plaçons sur le ContentPane de notre JFrame à l'aide d'un scroll
         this.add(new JScrollPane(chatTree),BorderLayout.WEST);
 

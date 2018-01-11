@@ -35,6 +35,15 @@ public class Serveur {
         Utilisateur nadege3 = new Utilisateur("Lamarque3","Nadege3",3,"123",TypeUtilisateur.ADMINISTRATIF);
         global.ajouterMembres(admin,sylvain,guillaume,salim,nadege,nadege2,nadege3);
 
+        GroupeNomme l3 = new GroupeNomme("L3");
+        GroupeNomme l2 = new GroupeNomme("L2");
+        GroupeNomme m2 = new GroupeNomme("M2");
+
+        listeGroupe.add(l3);
+        listeGroupe.add(l2);
+        listeGroupe.add(m2);
+
+
 
 
 

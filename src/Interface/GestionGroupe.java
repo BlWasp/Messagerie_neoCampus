@@ -27,6 +27,8 @@ public class GestionGroupe extends JFrame {
     public GestionGroupe(Client c) {
         setContentPane(contentPane);
         //setModal(true);
+        c.download();
+
         buildListGroupe(c);
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -45,12 +47,12 @@ public class GestionGroupe extends JFrame {
         });
 
 
-        this.listeGroupe.addListSelectionListener(new ListSelectionListener() {
+       /* this.listeGroupe.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 buildListUtilisateurGroupe(c,listeGroupe.getSelectedValue().toString());
             }
-        });
+        });*/
 
         modifierAppartenanceAuGroupeButton.addActionListener(new ActionListener() {
             @Override
@@ -67,8 +69,7 @@ public class GestionGroupe extends JFrame {
                Boolean found = false;
 
 
-                    //TODO ATTENDRE CORRRECTION SERVEUR BASE DES UTILISATEUR DANS GROUPE != UTILISATATEUR GLOBAL
-                   //if (c.getUtilisateur(Integer.parseInt(idMembreAajouter.getText())) != null){
+                   if (c.getGroupeGlobal().getUtilisateur(Integer.parseInt(idMembreAajouter.getText())) != null){
                        GroupeNomme g = c.getGroupeName(listeGroupe.getSelectedValue().toString());
                        for (Utilisateur a : g.getMembres()) {
                            if (a.getIdentifiant() == Integer.parseInt(idMembreAajouter.getText())){
@@ -81,19 +82,27 @@ public class GestionGroupe extends JFrame {
                            System.out.println(util.toString());
                            g.ajouterMembres(util);
                        }
-                   //}
+                       buildListUtilisateurGroupe(c,g.getNom());
+                   }else{
+                       idMembreAajouter.setText("Utilisateur inconnu");
+
+                   }
 
            }
        });
 
-       //TODO Quand upload fonctionnera
-       /*supprimerGroupeButton.addActionListener(new ActionListener() {
+
+
+       supprimerGroupeButton.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-               c.gestionGroupeNomme(c.getGroupeName(listeGroupe.getSelectedValue().toString()), Paquet.Action.SUPP);
+               String nomGroupe = listeGroupe.getSelectedValue().toString();
+               c.getListeGroupe().remove(c.getGroupeName(nomGroupe));
+               c.upload();
+
                buildListGroupe(c);
            }
-       });*/
+       });
 
        //TODO modifier le groupe ajouter interface modif
 
@@ -109,13 +118,15 @@ public class GestionGroupe extends JFrame {
 
 
     private void buildListUtilisateurGroupe(Client c, String selectedGroupe){
-        List<GroupeNomme> listGroupe = null;
+        c.download();
+        List<GroupeNomme> listGroupe = new ArrayList<>();
         listGroupe.addAll( c.getListeGroupe());
         NavigableSet<Utilisateur> listUtilisateur = new TreeSet<>(Comparator.comparing(Utilisateur::getNom));
 
         String col[] = {"<html><b>Identifiant</b></html>","<html><b>Nom</b></html>","<html><b>Prenom</b></html>"};
         DefaultTableModel tableModel = new DefaultTableModel(col, 0);
         tableModel.addRow(col);
+        
 
 
         for (GroupeNomme g :
@@ -138,12 +149,13 @@ public class GestionGroupe extends JFrame {
 
 
     private void buildListGroupe(Client c){
+        c.download();
         DefaultListModel<String> model = new DefaultListModel<>();
         this.listeGroupe.setModel(model);
 
 
 
-        List<GroupeNomme> listGroupe = null;
+        List<GroupeNomme> listGroupe = new ArrayList<>();
         listGroupe.addAll(c.getListeGroupe());
         JList<String> list = new JList<>( model );
         if (!listGroupe.isEmpty()) {
