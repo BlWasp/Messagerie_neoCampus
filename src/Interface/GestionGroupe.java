@@ -109,11 +109,11 @@ public class GestionGroupe extends JFrame {
 
        ajouterUnMembreExistantButton.addActionListener(e -> {
 
-           Boolean found = false;
+
                if (c.getGroupeGlobal().getUtilisateur(Integer.parseInt(idMembreAajouter.getText())) != null){
-                   Utilisateur ajout = c.getGroupeGlobal().getUtilisateur(Integer.parseInt(idMembreAajouter.getText()));
-                   System.out.println(ajout.toString());
-                   c.getGroupeName(listeGroupe.getSelectedValue().toString()).ajouterMembres(ajout);
+
+                   c.getGroupeName(listeGroupe.getSelectedValue().toString()).ajouterMembres(c.getGroupeGlobal().getUtilisateur(Integer.parseInt(idMembreAajouter.getText())));
+                   c.upload();
                    buildListUtilisateurGroupe(c,listeGroupe.getSelectedValue().toString());
                }else{
                    idMembreAajouter.setText("Utilisateur inconnu");
@@ -133,7 +133,6 @@ public class GestionGroupe extends JFrame {
            }
        });
 
-       //TODO modifier le groupe ajouter interface modif
 
 
         // call onCancel() on ESCAPE
@@ -157,7 +156,7 @@ public class GestionGroupe extends JFrame {
         tableModel.addRow(col);
 
 
-       
+
         for (Utilisateur u : c.getGroupeName(listeGroupe.getSelectedValue().toString()).getMembres()) {
 
             Object[] data = {u.getIdentifiant(),u.getNom(),u.getPrenom()};
