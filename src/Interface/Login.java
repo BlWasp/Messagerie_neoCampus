@@ -78,6 +78,7 @@ public class Login extends JDialog {
                     dispose();
                     Chat chat = new Chat(c);
                     chat.pack();
+                    chat.setTitle(c.getUtilisateurCourant().getPrenom()+"."+c.getUtilisateurCourant().getPrenom()+"@"+c.getHost()+":"+c.getPort());
                     chat.setVisible(true);
                 }else{
                     c.deconnect();

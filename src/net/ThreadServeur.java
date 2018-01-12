@@ -88,7 +88,7 @@ public class ThreadServeur implements Runnable {
 
     synchronized Paquet authentification(Paquet paquet){
         Groupe global;
-        
+
         Paquet bdd = SimuBDD.download();
         global = bdd.getGlobal();
         Utilisateur co =null;
