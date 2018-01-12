@@ -74,7 +74,7 @@ public class Message implements Serializable{
         this.etat = etat;
     }
 
-    public String getMesage() {
+    public String getMessage() {
         return message;
     }
 
