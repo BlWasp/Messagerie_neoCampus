@@ -27,7 +27,6 @@ public class GestionGroupe extends JFrame {
 
     public GestionGroupe(Client c) {
         setContentPane(contentPane);
-        //setModal(true);
         c.download();
 
         buildListGroupe(c);
@@ -46,6 +45,7 @@ public class GestionGroupe extends JFrame {
                 ajouterUnMembreExistantButton.setEnabled(true);
             }
         });
+
 
         this.listeGroupe.addMouseListener(new MouseListener() {
             @Override
@@ -73,12 +73,7 @@ public class GestionGroupe extends JFrame {
 
             }
         });
-        /*this.listeGroupe.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                buildListUtilisateurGroupe(c,listeGroupe.getSelectedValue().toString());
-            }
-        });*/
+
         idMembreAajouter.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -162,15 +157,8 @@ public class GestionGroupe extends JFrame {
         tableModel.addRow(col);
 
 
-
-        for (GroupeNomme g :
-                listGroupe) {
-            if (g.getNom() == selectedGroupe){
-                listUtilisateur = g.getMembres();
-                break;
-            }
-        }
-        for (Utilisateur u : listUtilisateur) {
+       
+        for (Utilisateur u : c.getGroupeName(listeGroupe.getSelectedValue().toString()).getMembres()) {
 
             Object[] data = {u.getIdentifiant(),u.getNom(),u.getPrenom()};
             tableModel.addRow(data);
