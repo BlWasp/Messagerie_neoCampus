@@ -134,7 +134,7 @@ public class Chat extends JFrame {
 
     //TODO
     private void majListMessage(Client c ){
-        //c.download();
+        c.download();
         filDeChat.setText("");
         DefaultMutableTreeNode node = (DefaultMutableTreeNode)chatTree.getLastSelectedPathComponent();
 

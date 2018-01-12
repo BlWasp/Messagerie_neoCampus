@@ -54,7 +54,7 @@ public class Serveur {
         listeGroupe.add(m2);
 
 
-
+        SimuBDD.upload(new Paquet(null,null,listeGroupe,global));
 
 
         // FIN zone de TEST

@@ -36,4 +36,24 @@ public class Paquet implements Serializable{
     public Utilisateur getUtilisateur() {
         return utilisateur;
     }
+
+    public void setAction(Action action) {
+        this.action = action;
+    }
+
+    public void setListeGroupe(ConcurrentSkipListSet<GroupeNomme> listeGroupe) {
+        this.listeGroupe = listeGroupe;
+    }
+
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
+    }
+
+    public Groupe getGlobal() {
+        return global;
+    }
+
+    public void setGlobal(Groupe global) {
+        this.global = global;
+    }
 }
