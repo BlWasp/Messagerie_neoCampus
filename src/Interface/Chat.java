@@ -88,37 +88,14 @@ public class Chat extends JFrame {
 
 
         chatTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-        chatTree.addTreeSelectionListener(new TreeSelectionListener() {
-            @Override
-            public void valueChanged(TreeSelectionEvent e) {
-                majListMessage(c);
-            }
-        });
-        sendButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                c.download();
-                DefaultMutableTreeNode node = (DefaultMutableTreeNode)chatTree.getLastSelectedPathComponent();
-                if (node != null && node.getLevel()>1){
+        chatTree.addTreeSelectionListener(e -> majListMessage(c));
 
-
-
-                    c.getGroupeName(node.getParent().toString()).getFilsDeDiscussion(node.toString()).ajouterMessage(c.getUtilisateurCourant(),chatField.getText());
-                    System.out.println("affichage send "+c.getGroupeName(node.getParent().toString()).getFilsDeDiscussion(node.toString()));
-
-                    majListMessage(c);
-                    chatField.setText("");
-                    c.upload();
-
-                }
-            }
+        sendButton.addActionListener(e -> {
+           okPressed(c);
         });
 
-        chatField.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                chatField.setText("");
-            }
+        chatField.addActionListener(e -> {
+            okPressed(c);
         });
 
 
@@ -132,21 +109,31 @@ public class Chat extends JFrame {
 
 
 
+    public void okPressed(Client c){
+        c.download();
+        DefaultMutableTreeNode node = (DefaultMutableTreeNode)chatTree.getLastSelectedPathComponent();
+        if (node != null && node.getLevel()>1){
+
+
+            c.getGroupeName(node.getParent().toString()).getFilsDeDiscussion(node.toString()).ajouterMessage(c.getUtilisateurCourant(),chatField.getText());
+
+            chatField.setText("");
+            c.upload();
+
+        }
+        majListMessage(c);
+    }
+
+
     //TODO
     private void majListMessage(Client c ){
-        c.download();
         filDeChat.setText("");
+        c.download();
         DefaultMutableTreeNode node = (DefaultMutableTreeNode)chatTree.getLastSelectedPathComponent();
-
-                /* if nothing is selected */
         if (node == null) return;
 
-                /* retrieve the node that was selected */
         Object nodeInfo = node.getUserObject();
-        //System.out.println(nodeInfo.toString());
         if (node.getLevel()>1){
-
-            //System.out.println(c.getGroupeName("L3").getFilsDeDiscussion("WAZA"));
             filDeChat.setText(c.getGroupeName(node.getParent().toString()).getFilsDeDiscussion(nodeInfo.toString()).printMessage());
         }
     }
@@ -178,20 +165,12 @@ public class Chat extends JFrame {
         }
         //Nous créons, avec notre hiérarchie, un arbre
         this.chatTree = new JTree(racine);
-        //chatTree.setRootVisible(false);
+        chatTree.setRootVisible(false);
         chatTree.setPreferredSize(new Dimension(100,chatTree.getPreferredSize().height));
         //Que nous plaçons sur le ContentPane de notre JFrame à l'aide d'un scroll
         this.add(new JScrollPane(chatTree),BorderLayout.WEST);
 
     }
-
-
-
-
-
-
-
-
 
     private void onCancel(Client c) {
         // add your code here if necessary

@@ -9,6 +9,7 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.util.*;
 import java.awt.event.*;
 import java.util.List;
@@ -21,12 +22,10 @@ public class GestionGroupe extends JFrame {
     private JButton supprimerMembreButton;
     private JButton modifierAppartenanceAuGroupeButton;
     private JList listeGroupe;
-    private JButton modifierGroupeButton;
     private JTextField idMembreAajouter;
 
     public GestionGroupe(Client c) {
         setContentPane(contentPane);
-        //setModal(true);
         c.download();
 
         buildListGroupe(c);
@@ -47,12 +46,33 @@ public class GestionGroupe extends JFrame {
         });
 
 
-        this.listeGroupe.addListSelectionListener(new ListSelectionListener() {
+        this.listeGroupe.addMouseListener(new MouseListener() {
             @Override
-            public void valueChanged(ListSelectionEvent e) {
+            public void mouseClicked(MouseEvent e) {
                 buildListUtilisateurGroupe(c,listeGroupe.getSelectedValue().toString());
             }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
         });
+
         idMembreAajouter.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -80,43 +100,36 @@ public class GestionGroupe extends JFrame {
             }
         });
 
-        modifierAppartenanceAuGroupeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                GererAdhesionGroupe a = new GererAdhesionGroupe(c);
-                a.pack();
-                a.setVisible(true);
-            }
+        modifierAppartenanceAuGroupeButton.addActionListener(e -> {
+            GererAdhesionGroupe a = new GererAdhesionGroupe(c);
+            a.pack();
+            a.setVisible(true);
         });
 
-       ajouterUnMembreExistantButton.addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               Boolean found = false;
+       ajouterUnMembreExistantButton.addActionListener(e -> {
 
 
-                   if (c.getGroupeGlobal().getUtilisateur(Integer.parseInt(idMembreAajouter.getText())) != null){
+               if (c.getGroupeGlobal().getUtilisateur(Integer.parseInt(idMembreAajouter.getText())) != null){
 
-                       Utilisateur ajout = c.getGroupeGlobal().getUtilisateur(Integer.parseInt(idMembreAajouter.getText()));
-                       /*for (Utilisateur a : g.getMembres()) {
-                           if (a.getIdentifiant() == Integer.parseInt(idMembreAajouter.getText())){
-                               found = true;
-                               break;
-                           }
-                       }*/
+                   c.getGroupeName(listeGroupe.getSelectedValue().toString()).ajouterMembres(c.getGroupeGlobal().getUtilisateur(Integer.parseInt(idMembreAajouter.getText())));
+                   c.upload();
+                   buildListUtilisateurGroupe(c,listeGroupe.getSelectedValue().toString());
+               }else{
+                   idMembreAajouter.setText("Utilisateur inconnu");
+               }
 
-                       System.out.println(ajout.toString());
-                       c.getGroupeName(listeGroupe.getSelectedValue().toString()).ajouterMembres(ajout);
-
-                       buildListUtilisateurGroupe(c,listeGroupe.getSelectedValue().toString());
-                   }else{
-                       idMembreAajouter.setText("Utilisateur inconnu");
-
-                   }
-
-           }
        });
 
+
+       supprimerMembreButton.addActionListener(new ActionListener() {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               int id = (int)listeUtilisateurGroupe.getValueAt(listeUtilisateurGroupe.getSelectedRow(),0);
+               c.getGroupeName(listeGroupe.getSelectedValue().toString()).retirerMembre(id);
+               c.upload();
+               buildListUtilisateurGroupe(c,listeGroupe.getSelectedValue().toString());
+           }
+       });
 
 
        supprimerGroupeButton.addActionListener(new ActionListener() {
@@ -125,12 +138,10 @@ public class GestionGroupe extends JFrame {
                String nomGroupe = listeGroupe.getSelectedValue().toString();
                c.getListeGroupe().remove(c.getGroupeName(nomGroupe));
                c.upload();
-
                buildListGroupe(c);
            }
        });
 
-       //TODO modifier le groupe ajouter interface modif
 
 
         // call onCancel() on ESCAPE
@@ -155,14 +166,7 @@ public class GestionGroupe extends JFrame {
 
 
 
-        for (GroupeNomme g :
-                listGroupe) {
-            if (g.getNom() == selectedGroupe){
-                listUtilisateur = g.getMembres();
-                break;
-            }
-        }
-        for (Utilisateur u : listUtilisateur) {
+        for (Utilisateur u : c.getGroupeName(listeGroupe.getSelectedValue().toString()).getMembres()) {
 
             Object[] data = {u.getIdentifiant(),u.getNom(),u.getPrenom()};
             tableModel.addRow(data);

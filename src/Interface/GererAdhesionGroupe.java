@@ -6,6 +6,7 @@ import utilisateurs.Utilisateur;
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,8 +31,10 @@ public class GererAdhesionGroupe extends JDialog {
     public GererAdhesionGroupe(Client c) {
         setContentPane(contentPane);
         setModal(true);
+        c.download();
         getRootPane().setDefaultButton(buttonOK);
         groupeInexistantLabel.setVisible(false);
+        utilisateurInconnu.setVisible(false);
 
         changerButton.addActionListener(new ActionListener() {
             @Override
@@ -78,27 +81,33 @@ public class GererAdhesionGroupe extends JDialog {
     }
 
     private void changerGroupe(Client c){
-
-        GroupeNomme g = c.getGroupeID(idOldGroupe);
-        g.retirerMembre(Integer.parseInt(ID.getText()));
+        GroupeNomme oldGroupe = c.getGroupeID(idOldGroupe);
+        oldGroupe.retirerMembre(Integer.parseInt(ID.getText()));
         GroupeNomme newGroupe = c.getGroupeName(groupe.getText());
         if (newGroupe == null){
             groupeInexistantLabel.setVisible(true);
+            this.pack();
         }else{
-            newGroupe.ajouterMembres(c.getGroupeGlobal().getUtilisateur(Integer.parseInt(ID.getText())));
+            groupeInexistantLabel.setVisible(false);
+            this.pack();
+            GroupeNomme g = c.getGroupeName(groupe.getText());
+            Utilisateur ajout = g.getUtilisateur(Integer.parseInt(ID.getText()));
+            g.ajouterMembres(g);
         }
+        c.upload();
 
     }
 
 
     private void setFields(Client c, int id){
+        c.download();
         Utilisateur u = c.getGroupeGlobal().getUtilisateur(id);
         if (u != null){
             utilisateurInconnu.setVisible(false);
             nom.setText(u.getNom());
             prenom.setText(u.getPrenom());
 
-            List<GroupeNomme> grps = null;
+            List<GroupeNomme> grps = new ArrayList<>();
             grps.addAll(c.getListeGroupe());
             for (GroupeNomme grp :
                     grps) {
