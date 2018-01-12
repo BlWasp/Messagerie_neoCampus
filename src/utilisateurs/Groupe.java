@@ -158,7 +158,7 @@ public class Groupe implements Serializable {
         }
         return cat.toString();
     }
-    
+
     @Override
     public String toString() {
         String cat = "";

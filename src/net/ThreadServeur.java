@@ -50,13 +50,19 @@ public class ThreadServeur implements Runnable {
                 }
                 else if(paquet.getAction()== Paquet.Action.REQUETTE){
                     
-                    System.out.println("Demande de téléchargement pour de "+paquet.getUtilisateur().getIdentifiant());
-                    Paquet retour = new Paquet(Paquet.Action.REPONSE,paquet.getUtilisateur(),listeGroupe,global);
+                    System.out.println("Demande de téléchargement de "+paquet.getUtilisateur().getIdentifiant());
+
+//                    Paquet retour = new Paquet(Paquet.Action.REPONSE,paquet.getUtilisateur(),listeGroupe,global);
+                    Paquet retour = SimuBDD.download();
+
+                    retour.setAction(Paquet.Action.REPONSE);
+                    retour.setUtilisateur(paquet.utilisateur);
                     out.writeObject(retour);
                 }else if(paquet.getAction()== Paquet.Action.REPONSE){
                    
                     System.out.println("Envoi infos depuis le Client " + paquet.getUtilisateur().getIdentifiant());
-                    serveur.maj(paquet.getListeGroupe(),paquet.getGroupeGlobal());
+                   // serveur.maj(paquet.getListeGroupe(),paquet.getGroupeGlobal());
+                    SimuBDD.upload(new Paquet(null,null,paquet.getListeGroupe(),paquet.getGlobal()));
                     if ( ! listeGroupe.isEmpty()) {
                         System.out.println(listeGroupe.first().getFilsDeDiscussion());
                     }
