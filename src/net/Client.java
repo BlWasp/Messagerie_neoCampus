@@ -186,7 +186,13 @@ public class Client {
         return null;
     }
 
+    public String getHost() {
+        return host;
+    }
 
+    public int getPort() {
+        return port;
+    }
 
     /**
      * Test et exemples d'utilisation 

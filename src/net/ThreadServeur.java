@@ -88,10 +88,9 @@ public class ThreadServeur implements Runnable {
 
     synchronized Paquet authentification(Paquet paquet){
         Groupe global;
-        ConcurrentSkipListSet<GroupeNomme> listeGroupe;
+
         Paquet bdd = SimuBDD.download();
         global = bdd.getGlobal();
-        listeGroupe = bdd.getListeGroupe();
         Utilisateur co =null;
         for(Utilisateur u : global.getMembres() ){
             if(u.getIdentifiant()==paquet.getUtilisateur().getIdentifiant()  && u.getMotDePasse().equals(paquet.getUtilisateur().getMotDePasse())){
