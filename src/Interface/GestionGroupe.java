@@ -22,7 +22,6 @@ public class GestionGroupe extends JFrame {
     private JButton supprimerMembreButton;
     private JButton modifierAppartenanceAuGroupeButton;
     private JList listeGroupe;
-    private JButton modifierGroupeButton;
     private JTextField idMembreAajouter;
 
     public GestionGroupe(Client c) {
@@ -121,6 +120,16 @@ public class GestionGroupe extends JFrame {
 
        });
 
+
+       supprimerMembreButton.addActionListener(new ActionListener() {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               int id = (int)listeUtilisateurGroupe.getValueAt(listeUtilisateurGroupe.getSelectedRow(),0);
+               c.getGroupeName(listeGroupe.getSelectedValue().toString()).retirerMembre(id);
+               c.upload();
+               buildListUtilisateurGroupe(c,listeGroupe.getSelectedValue().toString());
+           }
+       });
 
 
        supprimerGroupeButton.addActionListener(new ActionListener() {

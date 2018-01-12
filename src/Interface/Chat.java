@@ -116,21 +116,19 @@ public class Chat extends JFrame {
 
 
             c.getGroupeName(node.getParent().toString()).getFilsDeDiscussion(node.toString()).ajouterMessage(c.getUtilisateurCourant(),chatField.getText());
-            System.out.println("affichage send "+c.getGroupeName(node.getParent().toString()).getFilsDeDiscussion(node.toString()));
 
-            majListMessage(c);
             chatField.setText("");
             c.upload();
 
         }
-        chatField.setText("");
+        majListMessage(c);
     }
 
 
     //TODO
     private void majListMessage(Client c ){
-        c.download();
         filDeChat.setText("");
+        c.download();
         DefaultMutableTreeNode node = (DefaultMutableTreeNode)chatTree.getLastSelectedPathComponent();
         if (node == null) return;
 

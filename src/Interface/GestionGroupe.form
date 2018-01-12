@@ -78,12 +78,6 @@
               <text value="Supprimer membre"/>
             </properties>
           </component>
-          <component id="6501b" class="javax.swing.JButton" binding="modifierGroupeButton" default-binding="true">
-            <constraints/>
-            <properties>
-              <text value="Modifier groupe "/>
-            </properties>
-          </component>
           <component id="2c6ec" class="javax.swing.JButton" binding="supprimerGroupeButton" default-binding="true">
             <constraints/>
             <properties>
