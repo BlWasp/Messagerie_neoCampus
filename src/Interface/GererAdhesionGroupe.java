@@ -83,8 +83,6 @@ public class GererAdhesionGroupe extends JDialog {
     private void changerGroupe(Client c){
         GroupeNomme oldGroupe = c.getGroupeID(idOldGroupe);
         oldGroupe.retirerMembre(Integer.parseInt(ID.getText()));
-
-
         GroupeNomme newGroupe = c.getGroupeName(groupe.getText());
         if (newGroupe == null){
             groupeInexistantLabel.setVisible(true);
