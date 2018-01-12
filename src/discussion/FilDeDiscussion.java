@@ -79,7 +79,7 @@ public class FilDeDiscussion implements Serializable,Comparable<FilDeDiscussion>
         StringBuilder ch = new StringBuilder();
         for (Message m :
                 this.getListMessage()) {
-            ch.append(m.getMesage());
+            ch.append(m.getFrom().getNom()+" "+m.getFrom().getPrenom()+" :   "+m.getMesage()+"  "+m.getLu());
             ch.append("\n");
 
         }

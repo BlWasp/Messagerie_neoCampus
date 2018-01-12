@@ -23,6 +23,7 @@ public class GestionGroupe extends JFrame {
     private JButton modifierAppartenanceAuGroupeButton;
     private JList listeGroupe;
     private JTextField idMembreAajouter;
+    private JButton ajouterUnGroupeButton;
 
     public GestionGroupe(Client c) {
         setContentPane(contentPane);
@@ -37,12 +38,9 @@ public class GestionGroupe extends JFrame {
             }
         });
 
-        listeGroupe.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                idMembreAajouter.setEnabled(true);
-                ajouterUnMembreExistantButton.setEnabled(true);
-            }
+        listeGroupe.addListSelectionListener(e -> {
+            idMembreAajouter.setEnabled(true);
+            ajouterUnMembreExistantButton.setEnabled(true);
         });
 
 
@@ -107,17 +105,13 @@ public class GestionGroupe extends JFrame {
         });
 
        ajouterUnMembreExistantButton.addActionListener(e -> {
-
-
                if (c.getGroupeGlobal().getUtilisateur(Integer.parseInt(idMembreAajouter.getText())) != null){
-
                    c.getGroupeName(listeGroupe.getSelectedValue().toString()).ajouterMembres(c.getGroupeGlobal().getUtilisateur(Integer.parseInt(idMembreAajouter.getText())));
                    c.upload();
                    buildListUtilisateurGroupe(c,listeGroupe.getSelectedValue().toString());
                }else{
                    idMembreAajouter.setText("Utilisateur inconnu");
                }
-
        });
 
 
@@ -131,6 +125,15 @@ public class GestionGroupe extends JFrame {
            }
        });
 
+       ajouterUnGroupeButton.addActionListener(new ActionListener() {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               AjouterGroupe ajout = new AjouterGroupe(c);
+               ajout.pack();
+               ajout.setVisible(true);
+               buildListGroupe(c);
+           }
+       });
 
        supprimerGroupeButton.addActionListener(new ActionListener() {
            @Override
@@ -159,15 +162,10 @@ public class GestionGroupe extends JFrame {
         List<GroupeNomme> listGroupe = new ArrayList<>();
         listGroupe.addAll( c.getListeGroupe());
         NavigableSet<Utilisateur> listUtilisateur = new TreeSet<>(Comparator.comparing(Utilisateur::getNom));
-
         String col[] = {"<html><b>Identifiant</b></html>","<html><b>Nom</b></html>","<html><b>Prenom</b></html>"};
         DefaultTableModel tableModel = new DefaultTableModel(col, 0);
         tableModel.addRow(col);
-
-
-
         for (Utilisateur u : c.getGroupeName(listeGroupe.getSelectedValue().toString()).getMembres()) {
-
             Object[] data = {u.getIdentifiant(),u.getNom(),u.getPrenom()};
             tableModel.addRow(data);
         }
@@ -182,9 +180,6 @@ public class GestionGroupe extends JFrame {
         c.download();
         DefaultListModel<String> model = new DefaultListModel<>();
         this.listeGroupe.setModel(model);
-
-
-
         List<GroupeNomme> listGroupe = new ArrayList<>();
         listGroupe.addAll(c.getListeGroupe());
         JList<String> list = new JList<>( model );
