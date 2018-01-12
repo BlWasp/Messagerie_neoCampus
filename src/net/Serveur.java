@@ -16,14 +16,16 @@ import java.util.Comparator;
 import java.util.concurrent.ConcurrentSkipListSet;
 
 public class Serveur {
-    ConcurrentSkipListSet<GroupeNomme> listeGroupe= new ConcurrentSkipListSet<>();
-    Groupe global = new Groupe();
+
     ObjectOutputStream out;
     ObjectInputStream in;
     ServerSocket socketServer = null;
     int port;
 
     public Serveur(int port){
+
+        ConcurrentSkipListSet<GroupeNomme> listeGroupe= new ConcurrentSkipListSet<>();
+        Groupe global = new Groupe();
         // Zone de TEST
         Utilisateur admin = new Utilisateur("Admin", "admin", 0, "admin", null);
         admin.setPrivilege(Utilisateur.Privilege.ADMIN);
@@ -42,9 +44,9 @@ public class Serveur {
         GroupeNomme l2 = new GroupeNomme("L2");
         GroupeNomme m2 = new GroupeNomme("M2");
 
-        this.listeGroupe.add(l3);
-        this.listeGroupe.add(l2);
-        this.listeGroupe.add(m2);
+        listeGroupe.add(l3);
+        listeGroupe.add(l2);
+        listeGroupe.add(m2);
 
 
         l3.ajouterFilDeDiscussion(admin,"WAZA");
@@ -53,15 +55,9 @@ public class Serveur {
         listeGroupe.add(l2);
         listeGroupe.add(m2);
 
-
-        SimuBDD.upload(new Paquet(null,null,listeGroupe,global));
-
-
         // FIN zone de TEST
 
-
-
-
+        SimuBDD.upload(new Paquet(null,null,listeGroupe,global));
 
         this.port = port;
     }
@@ -77,7 +73,7 @@ public class Serveur {
             try {
                 Socket socket = socketServer.accept();
                 System.out.println("Nouvelle connexion");
-                ThreadServeur threadServeur = new ThreadServeur(socket, global, listeGroupe,this);
+                ThreadServeur threadServeur = new ThreadServeur(socket,this);
                 Thread thread = new Thread(threadServeur);
                 thread.start();
 
@@ -90,11 +86,12 @@ public class Serveur {
 
 
     }
-
+    /*
     synchronized public void maj(ConcurrentSkipListSet<GroupeNomme> listeGroupe, Groupe groupe){
         this.listeGroupe = listeGroupe;
         this.global = groupe;
     }
+    */
 
     public static void main(String[] args) {
         Serveur s = new Serveur(12700);

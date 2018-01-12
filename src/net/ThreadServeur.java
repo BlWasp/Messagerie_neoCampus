@@ -12,19 +12,17 @@ import java.net.Socket;
 import java.util.concurrent.ConcurrentSkipListSet;
 
 public class ThreadServeur implements Runnable {
-    private Groupe global;
-    private ConcurrentSkipListSet<GroupeNomme> listeGroupe;
+
     Socket socket;
     ObjectOutputStream out;
     ObjectInputStream in;
     boolean connecte;
     Serveur serveur;
 
-    public ThreadServeur( Socket socket, Groupe global, ConcurrentSkipListSet<GroupeNomme> listeGroupe,Serveur serveur) {
+    public ThreadServeur( Socket socket,Serveur serveur) {
         this.socket = socket;
         this.serveur = serveur;
-        this.listeGroupe = listeGroupe;
-        this.global =global;
+
 
         try {
             this.in = new ObjectInputStream(socket.getInputStream());
@@ -39,6 +37,8 @@ public class ThreadServeur implements Runnable {
 
     @Override
     public void run() {
+        Groupe global;
+        ConcurrentSkipListSet<GroupeNomme> listeGroupe;
         while(connecte){
             try {
                 Paquet paquet = (Paquet) in.readObject();
@@ -61,10 +61,10 @@ public class ThreadServeur implements Runnable {
                 }else if(paquet.getAction()== Paquet.Action.REPONSE){
                    
                     System.out.println("Envoi infos depuis le Client " + paquet.getUtilisateur().getIdentifiant());
-                   // serveur.maj(paquet.getListeGroupe(),paquet.getGroupeGlobal());
+                    // serveur.maj(paquet.getListeGroupe(),paquet.getGroupeGlobal());
                     SimuBDD.upload(new Paquet(null,null,paquet.getListeGroupe(),paquet.getGlobal()));
-                    if ( ! listeGroupe.isEmpty()) {
-                        System.out.println(listeGroupe.first().getFilsDeDiscussion());
+                    if ( ! paquet.getListeGroupe().isEmpty()) {
+                        System.out.println(paquet.getListeGroupe().first().getFilsDeDiscussion());
                     }
                 }
                 
@@ -87,6 +87,11 @@ public class ThreadServeur implements Runnable {
     }
 
     synchronized Paquet authentification(Paquet paquet){
+        Groupe global;
+        ConcurrentSkipListSet<GroupeNomme> listeGroupe;
+        Paquet bdd = SimuBDD.download();
+        global = bdd.getGlobal();
+        listeGroupe = bdd.getListeGroupe();
         Utilisateur co =null;
         for(Utilisateur u : global.getMembres() ){
             if(u.getIdentifiant()==paquet.getUtilisateur().getIdentifiant()  && u.getMotDePasse().equals(paquet.getUtilisateur().getMotDePasse())){
