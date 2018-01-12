@@ -9,6 +9,7 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.util.*;
 import java.awt.event.*;
 import java.util.List;
@@ -46,13 +47,38 @@ public class GestionGroupe extends JFrame {
             }
         });
 
+        this.listeGroupe.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                buildListUtilisateurGroupe(c,listeGroupe.getSelectedValue().toString());
+            }
 
-        this.listeGroupe.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+        /*this.listeGroupe.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 buildListUtilisateurGroupe(c,listeGroupe.getSelectedValue().toString());
             }
-        });
+        });*/
         idMembreAajouter.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -80,41 +106,24 @@ public class GestionGroupe extends JFrame {
             }
         });
 
-        modifierAppartenanceAuGroupeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                GererAdhesionGroupe a = new GererAdhesionGroupe(c);
-                a.pack();
-                a.setVisible(true);
-            }
+        modifierAppartenanceAuGroupeButton.addActionListener(e -> {
+            GererAdhesionGroupe a = new GererAdhesionGroupe(c);
+            a.pack();
+            a.setVisible(true);
         });
 
-       ajouterUnMembreExistantButton.addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               Boolean found = false;
+       ajouterUnMembreExistantButton.addActionListener(e -> {
 
+           Boolean found = false;
+               if (c.getGroupeGlobal().getUtilisateur(Integer.parseInt(idMembreAajouter.getText())) != null){
+                   Utilisateur ajout = c.getGroupeGlobal().getUtilisateur(Integer.parseInt(idMembreAajouter.getText()));
+                   System.out.println(ajout.toString());
+                   c.getGroupeName(listeGroupe.getSelectedValue().toString()).ajouterMembres(ajout);
+                   buildListUtilisateurGroupe(c,listeGroupe.getSelectedValue().toString());
+               }else{
+                   idMembreAajouter.setText("Utilisateur inconnu");
+               }
 
-                   if (c.getGroupeGlobal().getUtilisateur(Integer.parseInt(idMembreAajouter.getText())) != null){
-
-                       Utilisateur ajout = c.getGroupeGlobal().getUtilisateur(Integer.parseInt(idMembreAajouter.getText()));
-                       /*for (Utilisateur a : g.getMembres()) {
-                           if (a.getIdentifiant() == Integer.parseInt(idMembreAajouter.getText())){
-                               found = true;
-                               break;
-                           }
-                       }*/
-
-                       System.out.println(ajout.toString());
-                       c.getGroupeName(listeGroupe.getSelectedValue().toString()).ajouterMembres(ajout);
-
-                       buildListUtilisateurGroupe(c,listeGroupe.getSelectedValue().toString());
-                   }else{
-                       idMembreAajouter.setText("Utilisateur inconnu");
-
-                   }
-
-           }
        });
 
 
@@ -125,7 +134,6 @@ public class GestionGroupe extends JFrame {
                String nomGroupe = listeGroupe.getSelectedValue().toString();
                c.getListeGroupe().remove(c.getGroupeName(nomGroupe));
                c.upload();
-
                buildListGroupe(c);
            }
        });
