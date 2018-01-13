@@ -54,7 +54,7 @@ public class FilDeDiscussion implements Serializable,Comparable<FilDeDiscussion>
 
     public void printFil(){
         for (Message m : filsdediscussion){
-            System.out.println("["+m.getFrom().getPrenom() + "] : " + m.getMesage());
+            System.out.println("["+m.getFrom().getPrenom() + "] : " + m.getMessage());
             System.out.print("............. Utilisateur en attente : ");
             for(Utilisateur u : m.getEnAttente().getMembres()){
                 System.out.print( u.getPrenom() + ", ");
@@ -79,7 +79,7 @@ public class FilDeDiscussion implements Serializable,Comparable<FilDeDiscussion>
         StringBuilder ch = new StringBuilder();
         for (Message m :
                 this.getListMessage()) {
-            ch.append(m.getFrom().getNom()+" "+m.getFrom().getPrenom()+" :   "+m.getMesage()+"  "+m.getLu());
+            ch.append(m.getFrom().getNom()+" "+m.getFrom().getPrenom()+" :   "+m.getMessage()+"  "+m.getLu());
             ch.append("\n");
 
         }
