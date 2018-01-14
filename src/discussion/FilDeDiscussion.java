@@ -57,6 +57,14 @@ public class FilDeDiscussion implements Serializable,Comparable<FilDeDiscussion>
         return sujet;
     }
 
+    public Groupe getGroupe() {
+        return groupe;
+    }
+
+    public Utilisateur getCreateur() {
+        return createur;
+    }
+
     public void printFil(){
         for (Message m : filsdediscussion){
             System.out.println("["+m.getFrom().getPrenom() + "] : " + m.getMessage());

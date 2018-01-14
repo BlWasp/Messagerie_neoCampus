@@ -61,8 +61,6 @@ public class ExtractDataBDD {
             int cptGr = 0;
             FilDeDiscussion[] listFil = null;
             int cptFil = 0;
-            Message[] listMess = null;
-            int cptMess = 0;
 
             //Creation liste de tous les groupes
             resultGr = state.executeQuery("SELECT id,nom FROM GroupeNomme");
@@ -102,13 +100,14 @@ public class ExtractDataBDD {
             }
 
 
-            //Ajout des fils de discussion au groupe
+            //Ajout des fils de discussion aux groupes puis ajout groupe au paquet
             for (int i=0;i<cptGr;i++) {
-                for (int j=0;j<cptFil;j++) {
+                for (int j = 0; j < cptFil; j++) {
                     if (listGr[i].equals(listFil[j].getGroupe())) {
-                        listGr[i].ajouterFilDeDiscussion(listFil[j].);
+                        listGr[i].ajouterFilDeDiscussion(listFil[j].getCreateur(), listFil[i].getSujet());
                     }
                 }
+                paquet.getListeGroupe().add(listGr[i]);
             }
 
 
