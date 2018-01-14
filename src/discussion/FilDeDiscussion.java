@@ -1,14 +1,18 @@
 package discussion;
 
+import java.awt.*;
 import java.io.Serializable;
-import java.util.ArrayList;
+
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.List;
-import java.util.UUID;
 
 import org.apache.log4j.Logger;
 import utilisateurs.Groupe;
-import utilisateurs.GroupeNomme;
 import utilisateurs.Utilisateur;
+
+import javax.swing.*;
+import javax.swing.text.*;
 
 
 public class FilDeDiscussion implements Serializable,Comparable<FilDeDiscussion>{
@@ -18,6 +22,7 @@ public class FilDeDiscussion implements Serializable,Comparable<FilDeDiscussion>
     private List<Message> filsdediscussion = new ArrayList<>();
     private UUID id = UUID.randomUUID();
     private static Logger LOGGER = Logger.getLogger(FilDeDiscussion.class);
+
 
     public FilDeDiscussion(String sujet, Groupe groupe, Utilisateur createur) {
         this.sujet = sujet;
@@ -75,15 +80,45 @@ public class FilDeDiscussion implements Serializable,Comparable<FilDeDiscussion>
         }
     }
 
-    public String printMessage(){
-        StringBuilder ch = new StringBuilder();
-        for (Message m :
-                this.getListMessage()) {
-            ch.append(m.getFrom().getNom()+" "+m.getFrom().getPrenom()+" :   "+m.getMessage()+"  "+m.getLu());
-            ch.append("\n");
+    public void printMessage(Utilisateur utilisateurCourant,JTextPane pane) throws BadLocationException {
 
+
+        MutableAttributeSet right = new SimpleAttributeSet();
+        StyleConstants.setAlignment(right, StyleConstants.ALIGN_RIGHT);
+        StyleConstants.setFontFamily(right,"Tahoma");
+        StyleConstants.setForeground(right, Color.BLUE);
+
+        MutableAttributeSet left = new SimpleAttributeSet();
+        StyleConstants.setAlignment(left, StyleConstants.ALIGN_LEFT);
+        StyleConstants.setFontFamily(left,"Tahoma");
+        StyleConstants.setForeground(left, Color.RED);
+
+        StyledDocument sDoc = new DefaultStyledDocument();
+        pane.setStyledDocument(sDoc);
+
+
+
+        StringBuilder ch = new StringBuilder();
+        for (Message m : this.getListMessage()) {
+            ch.append(m.getDateEnvoi());
+            ch.append("\n");
+            ch.append(m.getFrom().getNom() + " " + m.getFrom().getPrenom() + " : ");
+            ch.append("\n");
+            ch.append(m.getMessage() + "  " + m.getLu());
+            ch.append("\n\n");
+
+
+            if (utilisateurCourant.equals(m.getFrom())){
+                sDoc.setParagraphAttributes(sDoc.getLength(),ch.length(),right,true);
+                sDoc.insertString(sDoc.getLength(),ch.toString(),right);
+            }else{
+                sDoc.setParagraphAttributes(sDoc.getLength(),ch.length(),left,true);
+                sDoc.insertString(sDoc.getLength(),ch.toString(),left);
+            }
+
+            ch.setLength(0);
         }
-        return ch.toString();
+
     }
 
     public List<Message> getListMessage() {

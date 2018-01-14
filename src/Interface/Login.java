@@ -5,12 +5,12 @@ import net.Client;
 import utilisateurs.Utilisateur;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 
 public class Login extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
-    private JButton buttonCancel;
     private JTextField ident;
     private JTextField mdp;
     private JLabel loginFailed;
@@ -21,6 +21,7 @@ public class Login extends JDialog {
 
     public Login() {
         setContentPane(contentPane);
+        this.setPreferredSize(new Dimension(200,300));
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
         ipField.setText("127.0.0.1");
@@ -33,11 +34,7 @@ public class Login extends JDialog {
             }
         });
 
-        buttonCancel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        });
+
 
 
         // call onCancel() when cross is clicked
@@ -47,7 +44,8 @@ public class Login extends JDialog {
                 onCancel();
             }
         });
-
+        this.pack();
+        this.setLocationRelativeTo(null);
         // call onCancel() on ESCAPE
         contentPane.registerKeyboardAction(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

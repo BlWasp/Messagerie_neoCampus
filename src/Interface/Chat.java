@@ -5,8 +5,8 @@ import net.Client;
 import utilisateurs.GroupeNomme;
 import utilisateurs.Utilisateur;
 import javax.swing.*;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
+
+import javax.swing.text.BadLocationException;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
@@ -25,7 +25,7 @@ public class Chat extends JFrame {
 
     private JTextField chatField = new JTextField();
     private JButton sendButton = new JButton("Send");
-    private JTextArea filDeChat = new JTextArea();
+    private JTextPane filDeChat = new JTextPane();
     private JTree chatTree = new JTree();
     private JMenuBar menuBarre = new JMenuBar();
     private JMenu fichierMenu = new JMenu("Fichier");
@@ -38,22 +38,35 @@ public class Chat extends JFrame {
         this.setPreferredSize(new Dimension(500,500));
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+
+
+        int delay = 500; //milliseconds
+        ActionListener taskPerformer = new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                majListMessage(c);
+            }
+        };
+        Timer t = new Timer(delay, taskPerformer);
+        t.start();
+
+
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                onCancel(c);
+                onCancel(c,t);
             }
         });
         c.download();
         buildTree(c);
 
 
-
         //Fenetre de chat et zone d'envoi
         this.add(contenuFenetreChat,BorderLayout.CENTER);
 
+
         contenuFenetreChat.add(sendField,BorderLayout.SOUTH);
-        contenuFenetreChat.add(filDeChat,BorderLayout.CENTER);
+        contenuFenetreChat.add(new JScrollPane(filDeChat),BorderLayout.CENTER);
         sendField.add(new JScrollPane(chatField),BorderLayout.CENTER);
+
         sendField.add(sendButton,BorderLayout.EAST);
 
         filDeChat.setEditable(false);
@@ -61,7 +74,6 @@ public class Chat extends JFrame {
         menuBarre.add(fichierMenu);
         fichierMenu.add(ajoutTicket);
         setJMenuBar(menuBarre);
-
 
 
 
@@ -98,11 +110,12 @@ public class Chat extends JFrame {
             okPressed(c);
         });
 
-
+        this.pack();
+        this.setLocationRelativeTo(null);
         // call onCancel() on ESCAPE
         contentPane.registerKeyboardAction(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                onCancel(c);
+                onCancel(c,t);
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
@@ -134,7 +147,14 @@ public class Chat extends JFrame {
 
         Object nodeInfo = node.getUserObject();
         if (node.getLevel()>1){
-            filDeChat.setText(c.getGroupeName(node.getParent().toString()).getFilsDeDiscussion(nodeInfo.toString()).printMessage());
+            GroupeNomme g = c.getGroupeName(node.getParent().toString());
+            FilDeDiscussion f = g.getFilsDeDiscussion(nodeInfo.toString());
+            filDeChat.setText("");
+            try {
+                f.printMessage(c.getUtilisateurCourant(),this.filDeChat);
+            } catch (BadLocationException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -172,8 +192,9 @@ public class Chat extends JFrame {
 
     }
 
-    private void onCancel(Client c) {
+    private void onCancel(Client c,Timer t) {
         // add your code here if necessary
+        t.stop();
         c.deconnect();
         dispose();
     }

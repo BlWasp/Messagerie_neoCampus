@@ -6,6 +6,9 @@ import utilisateurs.Groupe;
 import utilisateurs.Utilisateur;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.UUID;
 
 
@@ -18,6 +21,7 @@ public class Message implements Serializable{
     private final UUID id = UUID.randomUUID();
     private Etat etat;
     private static Logger LOGGER = Logger.getLogger(Message.class);
+    private String dateEnvoi;
     enum Etat{
         ENVOIE_SERVEUR, // [GRIS] le message n'est pas encore recu par le server
         PAS_RECU_PAR_TOUS, // [ROUGE] le message n'est pas recu par tout les destinataires
@@ -32,6 +36,10 @@ public class Message implements Serializable{
         enAttente.ajouterMembres(to);
         enAttente.ajouterMembres(from);
         etat = Etat.ENVOIE_SERVEUR;
+
+        SimpleDateFormat formater = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date auj = new Date();
+        this.dateEnvoi = formater.format(auj);
     }
 
     public Utilisateur getFrom() {
@@ -104,5 +112,9 @@ public class Message implements Serializable{
 
     public UUID getId() {
         return id;
+    }
+
+    public String getDateEnvoi() {
+        return dateEnvoi;
     }
 }
