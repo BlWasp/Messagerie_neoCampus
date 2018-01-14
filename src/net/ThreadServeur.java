@@ -51,7 +51,7 @@ public class ThreadServeur implements Runnable {
                     out.writeObject(retour);
                 }
                 else if(paquet.getAction()== Paquet.Action.REQUETTE){
-                    
+
                     System.out.println("Demande de téléchargement de "+paquet.getUtilisateur().getIdentifiant());
 
 //                    Paquet retour = new Paquet(Paquet.Action.REPONSE,paquet.getUtilisateur(),listeGroupe,global);
@@ -61,13 +61,13 @@ public class ThreadServeur implements Runnable {
                         retour = ExtractDataBDD.download();
                     } catch (SQLException e) {
                         e.printStackTrace();
-                    }*/
-
+                    }
+*/
                     retour.setAction(Paquet.Action.REPONSE);
                     retour.setUtilisateur(paquet.utilisateur);
                     out.writeObject(retour);
                 }else if(paquet.getAction()== Paquet.Action.REPONSE){
-                   
+
                     System.out.println("Envoi infos depuis le Client " + paquet.getUtilisateur().getIdentifiant());
                     // serveur.maj(paquet.getListeGroupe(),paquet.getGroupeGlobal());
                     SimuBDD.upload(new Paquet(null,null,paquet.getListeGroupe(),paquet.getGlobal()));
@@ -75,7 +75,7 @@ public class ThreadServeur implements Runnable {
                         System.out.println(paquet.getListeGroupe().first().getFilsDeDiscussion());
                     }
                 }
-                
+
                 else if (paquet.getAction()== Paquet.Action.DECONNECT){
                     System.out.println("Déconnexion de "+paquet.getUtilisateur());
                     connecte=false;
@@ -110,5 +110,3 @@ public class ThreadServeur implements Runnable {
     }
 
 }
-
-

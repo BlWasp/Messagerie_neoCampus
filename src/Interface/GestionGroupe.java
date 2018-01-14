@@ -24,11 +24,13 @@ public class GestionGroupe extends JFrame {
     private JList listeGroupe;
     private JTextField idMembreAajouter;
     private JButton ajouterUnGroupeButton;
+    private JButton rafraichirButton;
 
     public GestionGroupe(Client c) {
         setContentPane(contentPane);
         c.download();
-
+        this.setPreferredSize(new Dimension(1000,800));
+        this.setTitle("Gestion des groupes");
         buildListGroupe(c);
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -38,15 +40,25 @@ public class GestionGroupe extends JFrame {
             }
         });
 
+        supprimerMembreButton.setEnabled(false);
+        supprimerGroupeButton.setEnabled(false);
+        rafraichirButton.setEnabled(false);
+        modifierAppartenanceAuGroupeButton.setEnabled(false);
+
         listeGroupe.addListSelectionListener(e -> {
             idMembreAajouter.setEnabled(true);
             ajouterUnMembreExistantButton.setEnabled(true);
+            supprimerGroupeButton.setEnabled(true);
+            rafraichirButton.setEnabled(true);
+
         });
+
 
 
         this.listeGroupe.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+
                 buildListUtilisateurGroupe(c,listeGroupe.getSelectedValue().toString());
             }
 
@@ -98,19 +110,84 @@ public class GestionGroupe extends JFrame {
             }
         });
 
+
+        listeGroupe.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                modifierAppartenanceAuGroupeButton.setEnabled(true);
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+
+        listeUtilisateurGroupe.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                supprimerMembreButton.setEnabled(true);
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+
+
+        rafraichirButton.addActionListener(e -> buildListUtilisateurGroupe(c,listeGroupe.getSelectedValue().toString()));
+
         modifierAppartenanceAuGroupeButton.addActionListener(e -> {
             GererAdhesionGroupe a = new GererAdhesionGroupe(c);
             a.pack();
             a.setVisible(true);
+            buildListUtilisateurGroupe(c,listeGroupe.getSelectedValue().toString());
         });
+
+
 
        ajouterUnMembreExistantButton.addActionListener(e -> {
                if (c.getGroupeGlobal().getUtilisateur(Integer.parseInt(idMembreAajouter.getText())) != null){
-                   c.getGroupeName(listeGroupe.getSelectedValue().toString()).ajouterMembres(c.getGroupeGlobal().getUtilisateur(Integer.parseInt(idMembreAajouter.getText())));
-                   c.upload();
-                   buildListUtilisateurGroupe(c,listeGroupe.getSelectedValue().toString());
+                   if (c.getGroupeGlobal().getUtilisateur(Integer.parseInt(idMembreAajouter.getText())) == null) {
+                       c.getGroupeName(listeGroupe.getSelectedValue().toString()).ajouterMembres(c.getGroupeGlobal().getUtilisateur(Integer.parseInt(idMembreAajouter.getText())));
+                       c.upload();
+                       buildListUtilisateurGroupe(c, listeGroupe.getSelectedValue().toString());
+                   }else{
+                       JOptionPane.showMessageDialog(null,"Utilisateur déjà présent dans ce groupe");
+                   }
                }else{
-                   idMembreAajouter.setText("Utilisateur inconnu");
+                   JOptionPane.showMessageDialog(null,"Utilisateur inconnu");
                }
        });
 
@@ -118,10 +195,17 @@ public class GestionGroupe extends JFrame {
        supprimerMembreButton.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-               int id = (int)listeUtilisateurGroupe.getValueAt(listeUtilisateurGroupe.getSelectedRow(),0);
-               c.getGroupeName(listeGroupe.getSelectedValue().toString()).retirerMembre(id);
-               c.upload();
-               buildListUtilisateurGroupe(c,listeGroupe.getSelectedValue().toString());
+               if (listeUtilisateurGroupe.getSelectedRow() != -1) {
+                   int result = JOptionPane.showConfirmDialog(null,"Etes vous sur de vouloir supprimer l'utilisateur ?");
+                   if (result == JOptionPane.YES_OPTION) {
+                       int id = (int) listeUtilisateurGroupe.getValueAt(listeUtilisateurGroupe.getSelectedRow(), 0);
+                       c.getGroupeName(listeGroupe.getSelectedValue().toString()).retirerMembre(id);
+                       c.upload();
+                       buildListUtilisateurGroupe(c, listeGroupe.getSelectedValue().toString());
+                   }
+               }else{
+                   JOptionPane.showMessageDialog(null, "Veuillez sélectionner un utilisateur");
+               }
            }
        });
 
@@ -138,10 +222,18 @@ public class GestionGroupe extends JFrame {
        supprimerGroupeButton.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-               String nomGroupe = listeGroupe.getSelectedValue().toString();
-               c.getListeGroupe().remove(c.getGroupeName(nomGroupe));
-               c.upload();
-               buildListGroupe(c);
+               if (!listeGroupe.getSelectedValue().toString().isEmpty()) {
+                   int result = JOptionPane.showConfirmDialog(null, "Etes-vous sur ?");
+
+                   if (result == JOptionPane.YES_OPTION) {
+                       String nomGroupe = listeGroupe.getSelectedValue().toString();
+                       c.getListeGroupe().remove(c.getGroupeName(nomGroupe));
+                       c.upload();
+                       buildListGroupe(c);
+                   }
+               }else{
+                   JOptionPane.showMessageDialog(null, "Veuillez sélectionner un groupe");
+               }
            }
        });
 
@@ -153,6 +245,10 @@ public class GestionGroupe extends JFrame {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
+
+        this.pack();
+        this.setLocationRelativeTo(null);
     }
 
 

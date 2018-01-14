@@ -28,10 +28,15 @@ public class Chat extends JFrame {
     private JTextPane filDeChat = new JTextPane();
     private JTree chatTree = new JTree();
     private JMenuBar menuBarre = new JMenuBar();
-    private JMenu fichierMenu = new JMenu("Fichier");
-    private JMenuItem ajoutTicket = new JMenuItem("Ajouter un ticket");
-    private JMenuItem gestionUtilisateur = new JMenuItem("Gestion des utilisateurs");
-    private JMenuItem gestionGroupe = new JMenuItem("Gestion des groupes");
+    private JToolBar toolBar = new JToolBar();
+
+    private JSplitPane split = new JSplitPane();
+
+
+    //private JMenu fichierMenu = new JMenu("Fichier");
+    private JButton ajoutTicket = new JButton("Ajouter un ticket");
+    private JButton gestionUtilisateur = new JButton("Gestion des utilisateurs");
+    private JButton gestionGroupe = new JButton("Gestion des groupes");
     public Chat(Client c) {
 
         setContentPane(contentPane);
@@ -44,6 +49,7 @@ public class Chat extends JFrame {
         ActionListener taskPerformer = new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 majListMessage(c);
+
             }
         };
         Timer t = new Timer(delay, taskPerformer);
@@ -60,8 +66,10 @@ public class Chat extends JFrame {
 
 
         //Fenetre de chat et zone d'envoi
-        this.add(contenuFenetreChat,BorderLayout.CENTER);
 
+        //this.add(contenuFenetreChat,BorderLayout.CENTER);
+        this.add(split);
+        split.setRightComponent(contenuFenetreChat);
 
         contenuFenetreChat.add(sendField,BorderLayout.SOUTH);
         contenuFenetreChat.add(new JScrollPane(filDeChat),BorderLayout.CENTER);
@@ -69,19 +77,23 @@ public class Chat extends JFrame {
 
         sendField.add(sendButton,BorderLayout.EAST);
 
+
+
+        this.add(toolBar,BorderLayout.NORTH);
+        toolBar.add(ajoutTicket);
+
         filDeChat.setEditable(false);
-
-        menuBarre.add(fichierMenu);
-        fichierMenu.add(ajoutTicket);
-        setJMenuBar(menuBarre);
-
-
+        toolBar.setFloatable(false);
+        sendField.setEnabled(false);
+        sendButton.setEnabled(false);
 
 
 
         if (c.getUtilisateurCourant().getPrivilege() == Utilisateur.Privilege.ADMIN){
-            fichierMenu.add(gestionUtilisateur);
-            fichierMenu.add(gestionGroupe);
+
+
+            toolBar.add(gestionUtilisateur);
+            toolBar.add(gestionGroupe);
 
             gestionUtilisateur.addActionListener(e -> {
                 GestionUtilisateurs gestion = new GestionUtilisateurs(c);
@@ -100,7 +112,30 @@ public class Chat extends JFrame {
 
 
         chatTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-        chatTree.addTreeSelectionListener(e -> majListMessage(c));
+        chatTree.addTreeSelectionListener(e -> {
+            majListMessage(c);
+            DefaultMutableTreeNode node = (DefaultMutableTreeNode) chatTree.getLastSelectedPathComponent();
+            if (node.getLevel() > 1){
+                sendField.setEnabled(true);
+                sendButton.setEnabled(true);
+            }else{
+                sendField.setEnabled(false);
+                sendButton.setEnabled(false);
+            }
+        });
+
+        ajoutTicket.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AjoutTicket ajout = new AjoutTicket(c);
+                ajout.pack();
+                ajout.setVisible(true);
+                buildTree(c);
+            }
+        });
+
+
+
 
         sendButton.addActionListener(e -> {
            okPressed(c);
@@ -110,14 +145,15 @@ public class Chat extends JFrame {
             okPressed(c);
         });
 
-        this.pack();
-        this.setLocationRelativeTo(null);
         // call onCancel() on ESCAPE
         contentPane.registerKeyboardAction(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel(c,t);
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
+        this.pack();
+        this.setLocationRelativeTo(null);
     }
 
 
@@ -127,8 +163,10 @@ public class Chat extends JFrame {
         DefaultMutableTreeNode node = (DefaultMutableTreeNode)chatTree.getLastSelectedPathComponent();
         if (node != null && node.getLevel()>1){
 
-
-            c.getGroupeName(node.getParent().toString()).getFilsDeDiscussion(node.toString()).ajouterMessage(c.getUtilisateurCourant(),chatField.getText());
+            GroupeNomme g = c.getGroupeName(node.getParent().toString());
+            FilDeDiscussion f = g.getFilsDeDiscussion(node.toString());
+            f.ajouterMessage(c.getUtilisateurCourant(),chatField.getText());
+            //c.getGroupeName(node.getParent().toString()).getFilsDeDiscussion(node.toString()).ajouterMessage(c.getUtilisateurCourant(),chatField.getText());
 
             chatField.setText("");
             c.upload();
@@ -186,9 +224,10 @@ public class Chat extends JFrame {
         //Nous créons, avec notre hiérarchie, un arbre
         this.chatTree = new JTree(racine);
         chatTree.setRootVisible(false);
-        chatTree.setPreferredSize(new Dimension(100,chatTree.getPreferredSize().height));
+        //chatTree.setPreferredSize(new Dimension(100,chatTree.getPreferredSize().height));
         //Que nous plaçons sur le ContentPane de notre JFrame à l'aide d'un scroll
-        this.add(new JScrollPane(chatTree),BorderLayout.WEST);
+        //this.add(new JScrollPane(chatTree),BorderLayout.WEST);
+        split.setLeftComponent(new JScrollPane(chatTree));
 
     }
 

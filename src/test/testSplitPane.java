@@ -1,27 +1,23 @@
-package Interface;
-
-import net.Client;
-import utilisateurs.Utilisateur;
+package test;
 
 import javax.swing.*;
 import java.awt.event.*;
-import java.util.NavigableSet;
 
-public class RetirerMembre extends JDialog {
+public class testSplitPane extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
-    private JFormattedTextField idField;
-    private JLabel idInvalideField;
+    private JTextField textField1;
+    private JTextField textField2;
 
-    public RetirerMembre(Client c) {
+    public testSplitPane() {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                onOK(c);
+                onOK();
             }
         });
 
@@ -38,46 +34,29 @@ public class RetirerMembre extends JDialog {
                 onCancel();
             }
         });
-        idInvalideField.setVisible(false);
+
         // call onCancel() on ESCAPE
         contentPane.registerKeyboardAction(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-
-        this.pack();
-        this.setLocationRelativeTo(null);
-
     }
 
-    private void onOK(Client c) {
-
-
-        if (idField.getText().matches(".*\\d+.*")){
-            if (c.getGroupeGlobal().getUtilisateur(Integer.parseInt(idField.getText())) != null){
-                idInvalideField.setVisible(false);
-                c.getGroupeGlobal().retirerMembres(new Utilisateur("","",Integer.parseInt(idField.getText()),"",null));
-                c.upload();
-            }else{
-                idInvalideField.setVisible(true);
-            }
-
-        }else{
-            idInvalideField.setVisible(true);
-
-        }
+    private void onOK() {
+        // add your code here
         dispose();
     }
 
     private void onCancel() {
+        // add your code here if necessary
         dispose();
     }
 
- /*   public static void main(String[] args) {
-        RetirerMembre dialog = new RetirerMembre(new Client());
+    public static void main(String[] args) {
+        testSplitPane dialog = new testSplitPane();
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);
-    }*/
+    }
 }

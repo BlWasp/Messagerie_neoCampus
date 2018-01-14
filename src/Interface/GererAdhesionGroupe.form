@@ -57,7 +57,7 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="4cd71" class="javax.swing.JLabel" binding="labelID">
+          <component id="4cd71" class="javax.swing.JLabel">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -65,7 +65,7 @@
               <text value="ID de l'utilisateur :"/>
             </properties>
           </component>
-          <component id="3eb62" class="javax.swing.JLabel" binding="NomLabel">
+          <component id="3eb62" class="javax.swing.JLabel">
             <constraints>
               <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -83,7 +83,7 @@
               <text value="label"/>
             </properties>
           </component>
-          <component id="c6065" class="javax.swing.JLabel" binding="prenomLabel">
+          <component id="c6065" class="javax.swing.JLabel">
             <constraints>
               <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -101,7 +101,7 @@
               <text value="Label"/>
             </properties>
           </component>
-          <component id="87c6b" class="javax.swing.JLabel" binding="groupeLabel">
+          <component id="87c6b" class="javax.swing.JLabel">
             <constraints>
               <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>

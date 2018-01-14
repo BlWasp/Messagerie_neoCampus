@@ -1,20 +1,20 @@
 package Interface;
 
+import discussion.FilDeDiscussion;
 import net.Client;
-import utilisateurs.Utilisateur;
+import utilisateurs.GroupeNomme;
 
 import javax.swing.*;
 import java.awt.event.*;
-import java.util.NavigableSet;
 
-public class RetirerMembre extends JDialog {
+public class AjoutTicket extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
-    private JFormattedTextField idField;
-    private JLabel idInvalideField;
+    private JTextField groupe;
+    private JTextField ticket;
 
-    public RetirerMembre(Client c) {
+    public AjoutTicket(Client c) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -38,7 +38,7 @@ public class RetirerMembre extends JDialog {
                 onCancel();
             }
         });
-        idInvalideField.setVisible(false);
+
         // call onCancel() on ESCAPE
         contentPane.registerKeyboardAction(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -48,36 +48,30 @@ public class RetirerMembre extends JDialog {
 
         this.pack();
         this.setLocationRelativeTo(null);
-
     }
 
     private void onOK(Client c) {
-
-
-        if (idField.getText().matches(".*\\d+.*")){
-            if (c.getGroupeGlobal().getUtilisateur(Integer.parseInt(idField.getText())) != null){
-                idInvalideField.setVisible(false);
-                c.getGroupeGlobal().retirerMembres(new Utilisateur("","",Integer.parseInt(idField.getText()),"",null));
+        if (!groupe.getText().isEmpty() && !ticket.getText().isEmpty()){
+            GroupeNomme g = c.getGroupeName(groupe.getText());
+            FilDeDiscussion f = g.getFilsDeDiscussion(ticket.getText());
+            if (g != null && f == null){
+                g.ajouterFilDeDiscussion(c.getUtilisateurCourant(),ticket.getText());
                 c.upload();
+
+                dispose();
             }else{
-                idInvalideField.setVisible(true);
+                JOptionPane.showMessageDialog(null,"Groupe inexistant ou ticket déjà crée");
             }
-
         }else{
-            idInvalideField.setVisible(true);
-
+            JOptionPane.showMessageDialog(null,"Veuillez entrer des informations valides");
         }
-        dispose();
+
     }
 
     private void onCancel() {
+        // add your code here if necessary
         dispose();
     }
 
- /*   public static void main(String[] args) {
-        RetirerMembre dialog = new RetirerMembre(new Client());
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
-    }*/
+
 }

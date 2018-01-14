@@ -10,16 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class GererAdhesionGroupe extends JDialog {
+public class GererAdhesionGroupe extends JFrame {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
-    private JLabel labelID;
     private JLabel nom;
-    private JLabel NomLabel;
-    private JLabel prenomLabel;
     private JLabel prenom;
-    private JLabel groupeLabel;
     private JTextField groupe;
     private JTextField ID;
     private JButton rechercherButton;
@@ -30,7 +26,6 @@ public class GererAdhesionGroupe extends JDialog {
 
     public GererAdhesionGroupe(Client c) {
         setContentPane(contentPane);
-        setModal(true);
         c.download();
         getRootPane().setDefaultButton(buttonOK);
         groupeInexistantLabel.setVisible(false);
@@ -78,6 +73,10 @@ public class GererAdhesionGroupe extends JDialog {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
+
+        this.pack();
+        this.setLocationRelativeTo(null);
     }
 
     private void changerGroupe(Client c){
@@ -91,8 +90,8 @@ public class GererAdhesionGroupe extends JDialog {
             groupeInexistantLabel.setVisible(false);
             this.pack();
             GroupeNomme g = c.getGroupeName(groupe.getText());
-            Utilisateur ajout = g.getUtilisateur(Integer.parseInt(ID.getText()));
-            g.ajouterMembres(g);
+            Utilisateur ajout = c.getGroupeGlobal().getUtilisateur(Integer.parseInt(ID.getText()));
+            g.ajouterMembres(ajout);
         }
         c.upload();
 
