@@ -1,5 +1,7 @@
 package BDD;
 
+import discussion.FilDeDiscussion;
+import discussion.Message;
 import org.apache.log4j.Logger;
 import utilisateurs.GroupeNomme;
 import utilisateurs.TypeUtilisateur;
@@ -19,68 +21,14 @@ public class ExtractDataBDD {
 
     private static Logger LOGGER = Logger.getLogger(ExtractDataBDD.class);
 
-    /*public static ResultSet launchQuery(String query) throws SQLException {
-
-
-
-        Connection conn = null;
-        Statement state = null;
-        ResultSet result = null;
-
-
-        try {
-            Class.forName("org.postgresql.Driver");
-            String url = "jdbc:postgresql://localhost:5432/Messenger";
-            conn = DriverManager.getConnection(url, "postgres", "1234");
-
-            //Création d'un objet Statement
-            state = conn.createStatement();
-
-            //L'objet ResultSet contient le résultat de la requête SQL
-            result = state.executeQuery(query);
-
-            //On récupère les MetaData
-
-
-
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-        } finally {
-            if (conn != null) {
-                conn.close();
-            }
-            if (state != null) {
-                state.close();
-            }
-            if (result != null) {
-                result.close();
-            }
-        }
-        return result;
-
-    }*/
-
-
-    /*public static List<Utilisateur> shapeUserList(ResultSet result) throws SQLException {
-        List<Utilisateur> list = new ArrayList<>();
-        while (result.next()) {
-
-            String nom = result.getString("nom");
-            String prenom = result.getString("prenom");
-            int identifiant = Integer.parseInt(result.getString("ident"));
-            String mdp = result.getString("mdp");
-            //String type = result.getString("type"); A voir comment resoudre ce probleme
-            Utilisateur u = new Utilisateur(nom,prenom,identifiant,mdp,null);
-            list.add(u);
-        }
-        return list;
-    }*/
-
     public static Paquet download() throws SQLException {
         Paquet paquet = null;
         Connection conn = null;
         Statement state = null;
         ResultSet result = null;
+        ResultSet resultGr = null;
+        ResultSet resultFil = null;
+        ResultSet resultMess = null;
         Utilisateur.Privilege privilege;
 
         try {
@@ -109,29 +57,56 @@ public class ExtractDataBDD {
                 paquet.getGlobal().ajouterMembres(new Utilisateur(nom,prenom,identifiant,mdp,typeU,privilege));
             }
 
-            //Ajout des groupes au paquet
-            result = state.executeQuery("SELECT id,nom FROM GroupeNomme");
-            while(result.next()) {
-                int id = result.getInt("id");
-                String nom = result.getString("nom");
+            GroupeNomme[] listGr = null;
+            int cptGr = 0;
+            FilDeDiscussion[] listFil = null;
+            int cptFil = 0;
+            Message[] listMess = null;
+            int cptMess = 0;
 
-                paquet.getListeGroupe().add(new GroupeNomme(nom));
+            //Creation liste de tous les groupes
+            resultGr = state.executeQuery("SELECT id,nom FROM GroupeNomme");
+            while (resultGr.next()) {
+                String nom = resultGr.getString("nom");
+                listGr[cptGr] = new GroupeNomme(nom);
+                cptGr++;
             }
 
-            //Ajout des fils de discussion à chaque groupe
-            result = state.executeQuery("SELECT sujet,id,id_GroupeNomme,identifiant FROM FilDiscussion");
-            while(result.next()) {
-                String sujet = result.getString("sujet");
-                int id = result.getInt("id");
-                int id_GroupeNomme = result.getInt("id_GroupeNomme");
-                int identifiant = result.getInt("identifiant");
+            //Creation liste de tous les fils de discussion
+            resultFil = state.executeQuery("SELECT sujet,id,id_GroupeNomme,identifiant FROM FilDiscussion");
+            while (resultFil.next()) {
+                String sujet = resultFil.getString("sujet");
+                int id_GroupeNomme = resultFil.getInt("id_GroupeNomme");
+                int identifiant = resultFil.getInt("identifiant");
 
-                for (Iterator<GroupeNomme> itr = paquet.getListeGroupe().iterator();itr.hasNext();) {
-                    GroupeNomme groupe = itr.next();
-                    if (itr.next().getId().equals(id_GroupeNomme)) {
-                        groupe.ajouterFilDeDiscussion(paquet.getGlobal().getUtilisateur(identifiant),sujet);
-                        paquet.getListeGroupe().remove(groupe);
-                        paquet.getListeGroupe().add(groupe);
+                for (int i = 0; i < cptGr; i++) {
+                    if (listGr[i].getId().equals(id_GroupeNomme)) {
+                        listFil[cptFil] = new FilDeDiscussion(sujet, listGr[i], paquet.getGlobal().getUtilisateur(identifiant));
+                    }
+                }
+                cptFil++;
+            }
+
+            //Ajout des messages aux fils de discussion
+            resultMess = state.executeQuery("SELECT message,id,id_FilDiscussion,identifiant FROM Message");
+            while(resultMess.next()) {
+                String message = resultMess.getString("message");
+                int id_FilDiscussion = resultMess.getInt("id_FilDiscussion");
+                int identifiant = resultMess.getInt("identifiant");
+
+                for (int i=0;i<cptFil;i++) {
+                    if (listFil[i].getId().equals(id_FilDiscussion)) {
+                        listFil[i].ajouterMessage(paquet.getGlobal().getUtilisateur(identifiant),message);
+                    }
+                }
+            }
+
+
+            //Ajout des fils de discussion au groupe
+            for (int i=0;i<cptGr;i++) {
+                for (int j=0;j<cptFil;j++) {
+                    if (listGr[i].equals(listFil[j].getGroupe())) {
+                        listGr[i].ajouterFilDeDiscussion(listFil[j].);
                     }
                 }
             }
