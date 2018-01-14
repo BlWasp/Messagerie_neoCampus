@@ -51,9 +51,13 @@ public class ModifierMembre extends JDialog {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
+        this.pack();
+        this.setLocationRelativeTo(null);
     }
 
     private void onOK(Client c,Utilisateur u) {
+        c.getGroupeGlobal().retirerMembres(u);
         if (u.getNom() != nom.getText()){
             u.setNom(textFieldNom.getText());
         }
@@ -67,6 +71,9 @@ public class ModifierMembre extends JDialog {
         }
         //TODO a ajouter quand upload fonctionnera
         //c.majMembres(u);
+        c.getGroupeGlobal().ajouterMembres(u);
+        c.upload();
+
         dispose();
     }
 

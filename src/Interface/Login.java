@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class Login extends JDialog {
+public class Login extends JFrame {
     private JPanel contentPane;
     private JButton buttonOK;
     private JTextField ident;
@@ -21,13 +21,13 @@ public class Login extends JDialog {
 
     public Login() {
         setContentPane(contentPane);
-        this.setPreferredSize(new Dimension(200,300));
-        setModal(true);
+        this.setPreferredSize(new Dimension(250,350));
         getRootPane().setDefaultButton(buttonOK);
         ipField.setText("127.0.0.1");
         portField.setText("12700");
         loginFailed.setVisible(false);
         adressePortIncorrect.setVisible(false);
+        setTitle("LogIn");
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onOK();

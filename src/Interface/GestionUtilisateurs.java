@@ -25,6 +25,7 @@ public class GestionUtilisateurs extends JFrame {
         setContentPane(contentPane);
         //setModal(true);
         this.setPreferredSize(new Dimension(800,800));
+        setTitle("Gestion des utilisateurs");
         majTab(c);
 
         // call onCancel() when cross is clicked
@@ -73,6 +74,9 @@ public class GestionUtilisateurs extends JFrame {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         System.out.println(table1.getSelectedRow());
 
+        this.pack();
+        this.setLocationRelativeTo(null);
+
     }
 
     private void modifierMembre(Client c){
@@ -82,8 +86,9 @@ public class GestionUtilisateurs extends JFrame {
             System.out.println(u.toString());
             ModifierMembre modif = new ModifierMembre(c,u);
             modif.pack();
-            modif.toFront();
             modif.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(null, "Veuillez sélectionner un utilisateur");
         }
 
     }
