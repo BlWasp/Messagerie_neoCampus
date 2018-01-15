@@ -5,7 +5,7 @@ import java.io.*;
 /**
  * Permet la communication avec la BDD
  */
-public class communicationBDD {
+public class CommunicationBDD {
 
     /**
      * Permet d'envoyer un paquet au serveur pour le synchroniser avec le client
@@ -70,12 +70,12 @@ public class communicationBDD {
         Paquet paquet= new Paquet(null,null,listeGroupe,global);
 
 
-        communicationBDD.upload(paquet);
+        CommunicationBDD.upload(paquet);
 
         ConcurrentSkipListSet<GroupeNomme> listeGroupe2;
         Groupe global2;
 
-        Paquet paquet1 = communicationBDD.download();
+        Paquet paquet1 = CommunicationBDD.download();
         listeGroupe2 = paquet1.getListeGroupe();
         global2 = paquet1.getGroupeGlobal();
 

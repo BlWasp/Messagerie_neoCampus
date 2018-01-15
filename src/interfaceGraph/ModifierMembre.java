@@ -1,4 +1,4 @@
-package Interface;
+package interfaceGraph;
 
 import net.Client;
 import utilisateurs.Utilisateur;

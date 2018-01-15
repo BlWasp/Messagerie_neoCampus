@@ -1,38 +1,32 @@
-package Interface;
+package interfaceGraph;
 
 import net.Client;
-import utilisateurs.Utilisateur;
+import discussion.GroupeNomme;
 
 import javax.swing.*;
 import java.awt.event.*;
-import java.util.NavigableSet;
 
-public class RetirerMembre extends JDialog {
+public class AjouterGroupe extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
-    private JFormattedTextField idField;
+    private JTextField nomGroupe;
+    private JLabel labelNomGroupe;
+    private JButton gestionDeGroupeValideButton;
+    private JLabel errorNomGroupe;
 
     /**
      *
      * @param c Client connecte
      */
-    public RetirerMembre(Client c) {
+    public AjouterGroupe(Client c) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
+        errorNomGroupe.setVisible(false);
+        buttonOK.addActionListener(e -> onOK(c));
 
-        buttonOK.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onOK(c);
-            }
-        });
-
-        buttonCancel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        });
+        buttonCancel.addActionListener(e -> onCancel());
 
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -41,6 +35,7 @@ public class RetirerMembre extends JDialog {
                 onCancel();
             }
         });
+
         // call onCancel() on ESCAPE
         contentPane.registerKeyboardAction(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -50,7 +45,6 @@ public class RetirerMembre extends JDialog {
 
         this.pack();
         this.setLocationRelativeTo(null);
-
     }
 
     /**
@@ -59,18 +53,15 @@ public class RetirerMembre extends JDialog {
      */
     private void onOK(Client c) {
         c.download();
-        if (idField.getText().matches(".*\\d+.*")){
-            if (c.getGroupeGlobal().getUtilisateur(Integer.parseInt(idField.getText())) != null){
-                c.getGroupeGlobal().retirerMembres(new Utilisateur("","",Integer.parseInt(idField.getText()),"",null));
-                c.upload();
-                dispose();
-            }else{
-                JOptionPane.showMessageDialog(null,"Veuillez entrer un ID valide");
-            }
+        if (!nomGroupe.getText().isEmpty()) {
+            errorNomGroupe.setVisible(false);
 
+            GroupeNomme g = new GroupeNomme(nomGroupe.getText());
+            c.getListeGroupe().add(g);
+            c.upload();
+            dispose();
         }else{
-            JOptionPane.showMessageDialog(null,"Veuillez entrer un ID valide");
-
+            errorNomGroupe.setVisible(true);
         }
     }
 
@@ -78,11 +69,12 @@ public class RetirerMembre extends JDialog {
      *
      */
     private void onCancel() {
+        // add your code here if necessary
         dispose();
     }
 
- /*   public static void main(String[] args) {
-        RetirerMembre dialog = new RetirerMembre(new Client());
+   /* public static void main(String[] args) {
+        AjouterGroupe dialog = new AjouterGroupe();
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);

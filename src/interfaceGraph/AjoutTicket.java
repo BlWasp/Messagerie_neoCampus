@@ -1,4 +1,4 @@
-package Interface;
+package interfaceGraph;
 
 import discussion.FilDeDiscussion;
 import net.Client;

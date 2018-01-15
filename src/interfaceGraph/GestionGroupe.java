@@ -1,4 +1,4 @@
-package Interface;
+package interfaceGraph;
 
 import net.Client;
 import discussion.GroupeNomme;
@@ -29,7 +29,7 @@ public class GestionGroupe extends JFrame {
      */
     public GestionGroupe(Client c) {
         setContentPane(contentPane);
-        c.download();
+
         this.setPreferredSize(new Dimension(1000,800));
         this.setTitle("Gestion des groupes");
         buildListGroupe(c);
@@ -216,7 +216,7 @@ public class GestionGroupe extends JFrame {
                        System.out.println(retour);
 
                        c.upload();
-                       buildListUtilisateurGroupe(c, listeGroupe.getSelectedValue().toString());
+                       //buildListUtilisateurGroupe(c, listeGroupe.getSelectedValue().toString());
                    }
                }else{
                    JOptionPane.showMessageDialog(null, "Veuillez sélectionner un utilisateur");

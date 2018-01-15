@@ -60,7 +60,7 @@ public class Serveur {
         listeGroupe.add(m2);
         // FIN zone de TEST
 
-        communicationBDD.upload(new Paquet(null,null,listeGroupe,global));
+        CommunicationBDD.upload(new Paquet(null,null,listeGroupe,global));
 
         this.port = port;
     }

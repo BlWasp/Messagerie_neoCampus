@@ -1,32 +1,37 @@
-package Interface;
+package interfaceGraph;
 
 import net.Client;
-import discussion.GroupeNomme;
+import utilisateurs.Utilisateur;
 
 import javax.swing.*;
 import java.awt.event.*;
 
-public class AjouterGroupe extends JDialog {
+public class RetirerMembre extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
-    private JTextField nomGroupe;
-    private JLabel labelNomGroupe;
-    private JButton gestionDeGroupeValideButton;
-    private JLabel errorNomGroupe;
+    private JFormattedTextField idField;
 
     /**
      *
      * @param c Client connecte
      */
-    public AjouterGroupe(Client c) {
+    public RetirerMembre(Client c) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
-        errorNomGroupe.setVisible(false);
-        buttonOK.addActionListener(e -> onOK(c));
 
-        buttonCancel.addActionListener(e -> onCancel());
+        buttonOK.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                onOK(c);
+            }
+        });
+
+        buttonCancel.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                onCancel();
+            }
+        });
 
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -35,7 +40,6 @@ public class AjouterGroupe extends JDialog {
                 onCancel();
             }
         });
-
         // call onCancel() on ESCAPE
         contentPane.registerKeyboardAction(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -45,6 +49,7 @@ public class AjouterGroupe extends JDialog {
 
         this.pack();
         this.setLocationRelativeTo(null);
+
     }
 
     /**
@@ -53,15 +58,18 @@ public class AjouterGroupe extends JDialog {
      */
     private void onOK(Client c) {
         c.download();
-        if (!nomGroupe.getText().isEmpty()) {
-            errorNomGroupe.setVisible(false);
+        if (idField.getText().matches(".*\\d+.*")){
+            if (c.getGroupeGlobal().getUtilisateur(Integer.parseInt(idField.getText())) != null){
+                c.getGroupeGlobal().retirerMembres(new Utilisateur("","",Integer.parseInt(idField.getText()),"",null));
+                c.upload();
+                dispose();
+            }else{
+                JOptionPane.showMessageDialog(null,"Veuillez entrer un ID valide");
+            }
 
-            GroupeNomme g = new GroupeNomme(nomGroupe.getText());
-            c.getListeGroupe().add(g);
-            c.upload();
-            dispose();
         }else{
-            errorNomGroupe.setVisible(true);
+            JOptionPane.showMessageDialog(null,"Veuillez entrer un ID valide");
+
         }
     }
 
@@ -69,12 +77,11 @@ public class AjouterGroupe extends JDialog {
      *
      */
     private void onCancel() {
-        // add your code here if necessary
         dispose();
     }
 
-   /* public static void main(String[] args) {
-        AjouterGroupe dialog = new AjouterGroupe();
+ /*   public static void main(String[] args) {
+        RetirerMembre dialog = new RetirerMembre(new Client());
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);

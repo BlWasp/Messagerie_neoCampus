@@ -63,7 +63,7 @@ public class ThreadServeur implements Runnable {
                     System.out.println("Demande de téléchargement de "+paquet.getUtilisateur().getIdentifiant());
 
 //                  Paquet retour = new Paquet(Paquet.Action.REPONSE,paquet.getUtilisateur(),listeGroupe,global);
-                    Paquet retour = communicationBDD.download();
+                    Paquet retour = CommunicationBDD.download();
                     /*Paquet retour = null;
                     try {
                         retour = ExtractDataBDD.download();
@@ -78,7 +78,7 @@ public class ThreadServeur implements Runnable {
 
                     System.out.println("Envoi infos depuis le Client " + paquet.getUtilisateur().getIdentifiant());
                     // serveur.maj(paquet.getListeGroupe(),paquet.getGroupeGlobal());
-                    communicationBDD.upload(new Paquet(null,null,paquet.getListeGroupe(),paquet.getGlobal()));
+                    CommunicationBDD.upload(new Paquet(null,null,paquet.getListeGroupe(),paquet.getGlobal()));
                     if ( ! paquet.getListeGroupe().isEmpty()) {
                         System.out.println(paquet.getListeGroupe().first().getFilsDeDiscussion());
                     }
@@ -110,7 +110,7 @@ public class ThreadServeur implements Runnable {
     synchronized Paquet authentification(Paquet paquet){
         Groupe global;
 
-        Paquet bdd = communicationBDD.download();
+        Paquet bdd = CommunicationBDD.download();
         global = bdd.getGlobal();
         Utilisateur co =null;
         for(Utilisateur u : global.getMembres() ){
