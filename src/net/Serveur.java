@@ -44,12 +44,11 @@ public class Serveur {
         GroupeNomme l2 = new GroupeNomme("L2");
         GroupeNomme m2 = new GroupeNomme("M2");
 
-        listeGroupe.add(l3);
-        listeGroupe.add(l2);
-        listeGroupe.add(m2);
-
 
         l3.ajouterFilDeDiscussion(admin,"WAZA");
+        l3.ajouterFilDeDiscussion(admin,"Coucou");
+        l3.ajouterFilDeDiscussion(admin,"Erreur réseau");
+
 
         listeGroupe.add(l3);
         listeGroupe.add(l2);

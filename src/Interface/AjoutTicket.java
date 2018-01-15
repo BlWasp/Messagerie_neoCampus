@@ -19,6 +19,7 @@ public class AjoutTicket extends JDialog {
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
 
+        this.setTitle("Ajouter un ticket");
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onOK(c);
@@ -53,14 +54,22 @@ public class AjoutTicket extends JDialog {
     private void onOK(Client c) {
         if (!groupe.getText().isEmpty() && !ticket.getText().isEmpty()){
             GroupeNomme g = c.getGroupeName(groupe.getText());
-            FilDeDiscussion f = g.getFilsDeDiscussion(ticket.getText());
-            if (g != null && f == null){
-                g.ajouterFilDeDiscussion(c.getUtilisateurCourant(),ticket.getText());
-                c.upload();
+            if (g != null){
+                FilDeDiscussion f = g.getFilsDeDiscussion(ticket.getText());
+                if (f == null) {
+                    if (g.getMembres().contains(c.getUtilisateurCourant())) {
+                        g.ajouterFilDeDiscussion(c.getUtilisateurCourant(), ticket.getText());
+                        c.upload();
 
-                dispose();
+                        dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Vous n'appartenez pas au groupe");
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(null,"Ticket déjà crée");
+                }
             }else{
-                JOptionPane.showMessageDialog(null,"Groupe inexistant ou ticket déjà crée");
+                JOptionPane.showMessageDialog(null,"Groupe inexistant");
             }
         }else{
             JOptionPane.showMessageDialog(null,"Veuillez entrer des informations valides");

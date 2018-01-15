@@ -6,14 +6,15 @@ import utilisateurs.GroupeNomme;
 import utilisateurs.Utilisateur;
 import javax.swing.*;
 
+import javax.swing.Timer;
 import javax.swing.text.BadLocationException;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-
+import java.util.stream.Stream;
 
 
 public class Chat extends JFrame {
@@ -33,32 +34,33 @@ public class Chat extends JFrame {
     private JSplitPane split = new JSplitPane();
 
 
-    //private JMenu fichierMenu = new JMenu("Fichier");
+    private JButton rafraichir = new JButton("Rafraichir la liste des groupes");
     private JButton ajoutTicket = new JButton("Ajouter un ticket");
     private JButton gestionUtilisateur = new JButton("Gestion des utilisateurs");
     private JButton gestionGroupe = new JButton("Gestion des groupes");
     public Chat(Client c) {
 
         setContentPane(contentPane);
-        this.setPreferredSize(new Dimension(500,500));
+        this.setPreferredSize(new Dimension(800,800));
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
 
         int delay = 500; //milliseconds
-        ActionListener taskPerformer = new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                majListMessage(c);
-
-            }
-        };
+        ActionListener taskPerformer = evt -> majListMessage(c);
         Timer t = new Timer(delay, taskPerformer);
         t.start();
 
 
+        int delayTree = 10000; //milliseconds
+        ActionListener taskPerformerTree = evt -> buildTree(c);
+        Timer tTree = new Timer(delay, taskPerformer);
+        tTree.start();
+
+
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                onCancel(c,t);
+                onCancel(c,t,tTree);
             }
         });
         c.download();
@@ -67,7 +69,6 @@ public class Chat extends JFrame {
 
         //Fenetre de chat et zone d'envoi
 
-        //this.add(contenuFenetreChat,BorderLayout.CENTER);
         this.add(split);
         split.setRightComponent(contenuFenetreChat);
 
@@ -77,15 +78,17 @@ public class Chat extends JFrame {
 
         sendField.add(sendButton,BorderLayout.EAST);
 
-
-
-        this.add(toolBar,BorderLayout.NORTH);
-        toolBar.add(ajoutTicket);
-
         filDeChat.setEditable(false);
         toolBar.setFloatable(false);
         sendField.setEnabled(false);
         sendButton.setEnabled(false);
+
+
+
+        this.add(toolBar,BorderLayout.NORTH);
+        toolBar.add(ajoutTicket);
+        toolBar.add(rafraichir);
+
 
 
 
@@ -123,6 +126,16 @@ public class Chat extends JFrame {
                 sendButton.setEnabled(false);
             }
         });
+
+
+        rafraichir.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                buildTree(c);
+            }
+        });
+
+
 
         ajoutTicket.addActionListener(new ActionListener() {
             @Override
@@ -166,8 +179,6 @@ public class Chat extends JFrame {
             GroupeNomme g = c.getGroupeName(node.getParent().toString());
             FilDeDiscussion f = g.getFilsDeDiscussion(node.toString());
             f.ajouterMessage(c.getUtilisateurCourant(),chatField.getText());
-            //c.getGroupeName(node.getParent().toString()).getFilsDeDiscussion(node.toString()).ajouterMessage(c.getUtilisateurCourant(),chatField.getText());
-
             chatField.setText("");
             c.upload();
 
@@ -176,7 +187,6 @@ public class Chat extends JFrame {
     }
 
 
-    //TODO
     private void majListMessage(Client c ){
         filDeChat.setText("");
         c.download();
@@ -201,39 +211,56 @@ public class Chat extends JFrame {
     private void buildTree(Client c){
         c.download();
         //List groupe est vide
-        List<GroupeNomme> listGroupe = new ArrayList<>();
+        NavigableSet<GroupeNomme> listGroupe = new TreeSet<>(Comparator.comparing(GroupeNomme::getNom));
         listGroupe.addAll(c.getListeGroupe());
 
         //Création d'une racine
         DefaultMutableTreeNode racine = new DefaultMutableTreeNode();
 
         //Nous allons ajouter des branches et des feuilles à notre racine
-        for(int i = 0; i < listGroupe.size(); i++){
-            DefaultMutableTreeNode rep = new DefaultMutableTreeNode(listGroupe.get(i).getNom());
+        for(GroupeNomme g : listGroupe){
+            if (g.getMembres().contains(c.getUtilisateurCourant())) {
+                DefaultMutableTreeNode rep = new DefaultMutableTreeNode(g.getNom());
+                NavigableSet<FilDeDiscussion> fils = new TreeSet<>(new Comparator<FilDeDiscussion>() {
+                    @Override
+                    public int compare(FilDeDiscussion o1, FilDeDiscussion o2) {
 
-            //On rajoute 4 branches
-            for (FilDeDiscussion fil :
-                    listGroupe.get(i).getFilsDeDiscussion()) {
-                DefaultMutableTreeNode rep2 = new DefaultMutableTreeNode(fil.getSujet());
-                rep.add(rep2);
+
+                        if (o1.getListMessage().isEmpty()){
+                            return 1;
+                        }
+                        if (o2.getListMessage().isEmpty()){
+                            return -1;
+                        }
+
+                        return o2.getDernierMessage().getDateEnvoi().compareTo(o1.getDernierMessage().getDateEnvoi());
+                    }
+                });
+                fils.addAll(g.getFilsDeDiscussion());
+                //On rajoute 4 branches
+                for (FilDeDiscussion fil : fils) {
+                    DefaultMutableTreeNode rep2 = new DefaultMutableTreeNode(fil.getSujet());
+                    rep.add(rep2);
+                }
+
+                //On ajoute la feuille ou la branche à la racine
+                racine.add(rep);
             }
-
-            //On ajoute la feuille ou la branche à la racine
-            racine.add(rep);
         }
         //Nous créons, avec notre hiérarchie, un arbre
         this.chatTree = new JTree(racine);
         chatTree.setRootVisible(false);
-        //chatTree.setPreferredSize(new Dimension(100,chatTree.getPreferredSize().height));
         //Que nous plaçons sur le ContentPane de notre JFrame à l'aide d'un scroll
-        //this.add(new JScrollPane(chatTree),BorderLayout.WEST);
         split.setLeftComponent(new JScrollPane(chatTree));
+        split.setDividerLocation(200);
 
     }
 
-    private void onCancel(Client c,Timer t) {
+    private void onCancel(Client c,Timer... t) {
         // add your code here if necessary
-        t.stop();
+        for (Timer timer: t) {
+            timer.stop();
+        }
         c.deconnect();
         dispose();
     }

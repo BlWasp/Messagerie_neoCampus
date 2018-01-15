@@ -1,6 +1,7 @@
 package discussion;
 
 import java.awt.*;
+import java.io.FileDescriptor;
 import java.io.Serializable;
 
 import java.text.SimpleDateFormat;
@@ -23,7 +24,6 @@ public class FilDeDiscussion implements Serializable,Comparable<FilDeDiscussion>
     private UUID id = UUID.randomUUID();
     private static Logger LOGGER = Logger.getLogger(FilDeDiscussion.class);
 
-
     public FilDeDiscussion(String sujet, Groupe groupe, Utilisateur createur) {
         this.sujet = sujet;
         this.groupe = groupe;
@@ -43,6 +43,10 @@ public class FilDeDiscussion implements Serializable,Comparable<FilDeDiscussion>
             LOGGER.error("ERREUR : " + u.getPrenom() + " ne participe pas à cette conversation");
         }
         return messageajoute;
+    }
+
+    public Message getDernierMessage(){
+        return this.filsdediscussion.get(this.filsdediscussion.size()-1);
     }
 
     public int retirerMessage(Message m){
@@ -129,6 +133,7 @@ public class FilDeDiscussion implements Serializable,Comparable<FilDeDiscussion>
 
     }
 
+
     public List<Message> getListMessage() {
         return filsdediscussion;
     }
@@ -136,6 +141,26 @@ public class FilDeDiscussion implements Serializable,Comparable<FilDeDiscussion>
     @Override
     public int compareTo(FilDeDiscussion o) {
         return sujet.compareTo(o.sujet);
+    }
+
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof FilDeDiscussion)) return false;
+
+        FilDeDiscussion that = (FilDeDiscussion) o;
+
+        if (!getSujet().equals(that.getSujet())) return false;
+        return getId().equals(that.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getSujet().hashCode();
+        result = 31 * result + getId().hashCode();
+        return result;
     }
 
     @Override
