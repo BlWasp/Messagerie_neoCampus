@@ -16,6 +16,7 @@ public class Utilisateur implements Comparable<Utilisateur>,Serializable{
     private TypeUtilisateur type;
     public Privilege privilege = USER;
     public enum Privilege{USER,ADMIN}
+    private boolean connecte;
 
     public Utilisateur(String nom, String prenom, int identifiant,String motDePasse, TypeUtilisateur type) {
         this.nom = nom.toUpperCase();
@@ -24,6 +25,7 @@ public class Utilisateur implements Comparable<Utilisateur>,Serializable{
         //this.motDePasse = motDePasse; //TODO FAIRE SECURITE
         this.motDePasse = motDePasse;
         this.type = type;
+        this.connecte = false;
     }
 
     public Utilisateur(String nom, String prenom, int identifiant,String motDePasse, TypeUtilisateur type, Privilege priv) {
@@ -34,6 +36,7 @@ public class Utilisateur implements Comparable<Utilisateur>,Serializable{
         this.motDePasse = motDePasse;
         this.type = type;
         this.privilege = priv;
+        this.connecte = false;
     }
 
     public void setPrivilege(Privilege p){
@@ -74,6 +77,14 @@ public class Utilisateur implements Comparable<Utilisateur>,Serializable{
 
     public TypeUtilisateur getType() {
         return type;
+    }
+
+    public boolean isConnecte() {
+        return connecte;
+    }
+
+    public void setConnecte(boolean connecte) {
+        this.connecte = connecte;
     }
 
     @Override

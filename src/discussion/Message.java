@@ -33,6 +33,8 @@ public class Message implements Serializable{
     public Message(Utilisateur from, Groupe to, String message) {
         this.from = from;
         this.message = message;
+
+
         enAttente.ajouterMembres(to);
         enAttente.ajouterMembres(from);
         etat = Etat.ENVOIE_SERVEUR;
@@ -45,6 +47,7 @@ public class Message implements Serializable{
     public Utilisateur getFrom() {
         return from;
     }
+
     public void recu(Utilisateur u){
 
         if( ! enAttente.estMembre(u) ){
@@ -59,13 +62,14 @@ public class Message implements Serializable{
         this.enAttente.retirerMembres(u);
         this.recu.ajouterMembres(u);
     }
+
     public void lu(Utilisateur u){
 
-        if( ! recu.estMembre(u) ){
+        if( !recu.estMembre(u) ){
             LOGGER.error("ERREUR : lu() l'utilisateur désigné n'est pas dans la liste des messages recus");
             System.exit(5);
         }
-        if( lu.estMembre(u)){
+        if( lu.estMembre(u) ){
             LOGGER.error("ERREUR : lu() : l'utilisateur est déja dans lu ");
             System.exit(6);
         }

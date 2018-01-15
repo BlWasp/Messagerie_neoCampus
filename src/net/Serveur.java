@@ -41,6 +41,7 @@ public class Serveur {
         GroupeNomme l3 = new GroupeNomme("L3");
         l3.ajouterMembres(admin);
         l3.ajouterMembres(salim);
+        //l3.ajouterMembres(guillaume);
         GroupeNomme l2 = new GroupeNomme("L2");
         GroupeNomme m2 = new GroupeNomme("M2");
 
