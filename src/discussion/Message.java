@@ -127,14 +127,25 @@ public class Message implements Serializable{
      */
     @Override
     public String toString() {
-        return "Message{" +
-                "from=" + from.getPrenom() +
-                ", message='" + message + '\'' +
-                ", enAttente=" + enAttente._listeUtisateurToString() +
-                ", recu=" + recu._listeUtisateurToString() +
-                ", lu=" + lu._listeUtisateurToString() +
-                ", etat=" + etat +
-                '}';
+
+        String cat = "";
+        cat += this.getFrom().getPrenom()+": "+this.getMessage()+"\n";
+        cat += "... Membres en Attente : ";
+        for (Utilisateur u : this.getEnAttente().getMembres()){
+            cat += u.getPrenom()+", ";
+        }
+        cat += "\n";
+        cat += "... Membres qui ont recu : ";
+        for (Utilisateur u : this.getRecu().getMembres()){
+            cat += u.getPrenom()+", ";
+        }
+        cat += "\n";
+        cat += "... Membres qui ont lu : ";
+        for (Utilisateur u : this.getLu().getMembres()){
+            cat += u.getPrenom()+", ";
+        }
+        cat += "\n";
+        return  cat;
     }
 
     /**
