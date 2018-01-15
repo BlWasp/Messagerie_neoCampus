@@ -257,22 +257,7 @@ public class FilDeDiscussion implements Serializable,Comparable<FilDeDiscussion>
     public String toString() {
         String cat ="" + this.sujet+"\n";
         for(Message m: this.getListMessage()){
-            cat += m.getFrom()+": "+m.getMessage()+"\n";
-            cat += "... Membres en Attente : ";
-            for (Utilisateur u : m.getEnAttente().getMembres()){
-                cat += u.getPrenom()+", ";
-            }
-            cat += "\n";
-            cat += "... Membres qui ont recu : ";
-            for (Utilisateur u : m.getRecu().getMembres()){
-                cat += u.getPrenom()+", ";
-            }
-            cat += "\n";
-            cat += "... Membres qui ont lu : ";
-            for (Utilisateur u : m.getLu().getMembres()){
-                cat += u.getPrenom()+", ";
-            }
-            cat += "\n";
+          cat +=  m.toString();
         }
         return cat;
     }
