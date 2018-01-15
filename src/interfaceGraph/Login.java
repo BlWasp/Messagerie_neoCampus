@@ -23,7 +23,7 @@ public class Login extends JFrame {
     private JLabel adressePortIncorrect;
 
     /**
-     *
+     * Page de login
      */
     public Login() {
         setContentPane(contentPane);
@@ -61,7 +61,7 @@ public class Login extends JFrame {
     }
 
     /**
-     *
+     * Opération du bouton ok
      */
     private void onOK() {
 
@@ -121,7 +121,7 @@ public class Login extends JFrame {
     }
 
     /**
-     *
+     * Action du bouton cancel
      */
     private void onCancel() {
         dispose();

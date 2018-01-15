@@ -15,7 +15,7 @@ public class AjoutTicket extends JDialog {
     private JTextField ticket;
 
     /**
-     *
+     * Fenetre d'ajout de ticket
      * @param c Client connecte
      */
     public AjoutTicket(Client c) {
@@ -56,7 +56,7 @@ public class AjoutTicket extends JDialog {
     }
 
     /**
-     *
+     * Opération lorsqu'on appuie sur OK
      * @param c Client connecte
      */
     private void onOK(Client c) {
@@ -86,7 +86,7 @@ public class AjoutTicket extends JDialog {
     }
 
     /**
-     *
+     * Opération lorsqu'on appuie sur Cancel
      */
     private void onCancel() {
         // add your code here if necessary

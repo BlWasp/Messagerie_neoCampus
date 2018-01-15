@@ -21,7 +21,7 @@ public class GestionUtilisateurs extends JFrame {
     private JButton modifierButton;
 
     /**
-     *
+     * Page de gestion des utilisateurs
      * @param c Client connecte
      */
     public GestionUtilisateurs(Client c) {
@@ -82,7 +82,7 @@ public class GestionUtilisateurs extends JFrame {
     }
 
     /**
-     *
+     * Moification des informations du memebre
      * @param c Client connecte
      */
     private void modifierMembre(Client c){
@@ -99,7 +99,7 @@ public class GestionUtilisateurs extends JFrame {
     }
 
     /**
-     *
+     * Retirer un memebre selon son ID
      * @param c Client connecte
      */
     private void retirerMembre(Client c){
@@ -113,7 +113,7 @@ public class GestionUtilisateurs extends JFrame {
     }
 
     /**
-     *
+     *  Mettre a jour les utilisateurs du tableau
      * @param c Client connecte
      */
     private void majTab(Client c){
@@ -140,7 +140,7 @@ public class GestionUtilisateurs extends JFrame {
     }
 
     /**
-     *
+     * Opération du bouton cancel
      */
     private void onCancel() {
         // add your code here if necessary

@@ -13,18 +13,24 @@ import java.util.List;
 
 public class GestionGroupe extends JFrame {
     private JPanel contentPane;
+    /**
+     * Liste des utilisateurs du groupe sélectionné
+     */
     private JTable listeUtilisateurGroupe;
     private JButton ajouterUnMembreExistantButton;
     private JButton supprimerGroupeButton;
     private JButton supprimerMembreButton;
     private JButton modifierAppartenanceAuGroupeButton;
+    /**
+     * Liste des groupes
+     */
     private JList listeGroupe;
     private JTextField idMembreAajouter;
     private JButton ajouterUnGroupeButton;
     private JButton rafraichirButton;
 
     /**
-     *
+     * Page de gestion du groupe
      * @param c Client connecte
      */
     public GestionGroupe(Client c) {
@@ -55,7 +61,9 @@ public class GestionGroupe extends JFrame {
         });
 
 
-
+        /**
+         * Action lorsqu'on clique sur la liste des groupes
+         */
         this.listeGroupe.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -264,7 +272,7 @@ public class GestionGroupe extends JFrame {
     }
 
     /**
-     *
+     * Afficher la liste des utilisateurs du groupe
      * @param c Client connecte
      * @param selectedGroupe
      */
@@ -286,7 +294,7 @@ public class GestionGroupe extends JFrame {
     }
 
     /**
-     *
+     * Afficher la liste des groupes
      * @param c Client connecte
      */
     private void buildListGroupe(Client c){
@@ -303,16 +311,9 @@ public class GestionGroupe extends JFrame {
         }
     }
 
-    /**
-     *
-     */
-    private void onOK() {
-        // add your code here
-        dispose();
-    }
 
     /**
-     *
+     * Opération du bouton cancel
      */
     private void onCancel() {
         // add your code here if necessary

@@ -24,7 +24,7 @@ public class GererAdhesionGroupe extends JFrame {
     UUID idOldGroupe;
 
     /**
-     *
+     * Fenetre de la gestion de l'adhésion au groupes
      * @param c Client connecte
      */
     public GererAdhesionGroupe(Client c) {
@@ -42,6 +42,9 @@ public class GererAdhesionGroupe extends JFrame {
         });
 
 
+        /**
+         * Recherche des informations de l'utilisateur et attribution de ces valeurs aux champs
+         */
         rechercherButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -78,7 +81,7 @@ public class GererAdhesionGroupe extends JFrame {
     }
 
     /**
-     *
+     *  Changer le groupe par newgroupe
      * @param c Client connecte
      */
     private void changerGroupe(Client c){
@@ -100,7 +103,7 @@ public class GererAdhesionGroupe extends JFrame {
     }
 
     /**
-     *
+     * Initialiser la valeur des champs avec les informations de l'utilisateur lorsqu'on appuie sur rechercher
      * @param c Client connecte
      * @param id Id du groupe
      */
@@ -134,7 +137,7 @@ public class GererAdhesionGroupe extends JFrame {
     }
 
     /**
-     *
+     * Opération du bouton cancel
      */
     private void onCancel() {
         // add your code here if necessary

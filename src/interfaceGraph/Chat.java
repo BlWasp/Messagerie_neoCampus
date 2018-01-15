@@ -349,7 +349,7 @@ public class Chat extends JFrame {
     }
 
     /**
-     *
+     * Lancer lors de la fermeture de la fenetre
      * @param c Client connecte
      * @param t Timer avant deconnection
      */
@@ -365,10 +365,4 @@ public class Chat extends JFrame {
         dispose();
     }
 
-   /* public static void main(String[] args) {
-        Chat dialog = new Chat();
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
-    }*/
 }

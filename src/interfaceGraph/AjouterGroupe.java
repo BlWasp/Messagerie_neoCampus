@@ -16,7 +16,7 @@ public class AjouterGroupe extends JDialog {
     private JLabel errorNomGroupe;
 
     /**
-     *
+     *  Constructeur de la fenetre d'ajout de groupe dans la grsiton des groupes
      * @param c Client connecte
      */
     public AjouterGroupe(Client c) {
@@ -48,7 +48,7 @@ public class AjouterGroupe extends JDialog {
     }
 
     /**
-     *
+     * Opération lorsqu'on appuie sur OK
      * @param c Client connecte
      */
     private void onOK(Client c) {
@@ -66,7 +66,7 @@ public class AjouterGroupe extends JDialog {
     }
 
     /**
-     *
+     * Opération lors de la fermeture de la fenetre
      */
     private void onCancel() {
         // add your code here if necessary

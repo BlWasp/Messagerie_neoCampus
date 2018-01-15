@@ -20,7 +20,7 @@ public class AjoutUtilisateur extends JDialog {
     private JTextField confirmPasswd;
 
     /**
-     *
+     * Fenetre d'ajout d'utilisateur
      * @param c Client connecte
      */
     public AjoutUtilisateur(Client c) {
@@ -87,7 +87,7 @@ public class AjoutUtilisateur extends JDialog {
     }
 
     /**
-     *
+     * Opération du bouton cancel
      */
     private void onCancel() {
         // add your code here if necessary
