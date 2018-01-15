@@ -1,10 +1,9 @@
 package BDD;
 
 import discussion.FilDeDiscussion;
-import discussion.Message;
 import org.apache.log4j.Logger;
 import utilisateurs.Groupe;
-import utilisateurs.GroupeNomme;
+import discussion.GroupeNomme;
 import utilisateurs.TypeUtilisateur;
 import utilisateurs.Utilisateur;
 import net.Paquet;

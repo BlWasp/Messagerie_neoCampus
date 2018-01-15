@@ -1,16 +1,13 @@
 package discussion;
 
 import java.awt.*;
-import java.io.FileDescriptor;
 import java.io.Serializable;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import utilisateurs.Groupe;
-import utilisateurs.GroupeNomme;
 import utilisateurs.TypeUtilisateur;
 import utilisateurs.Utilisateur;
 

@@ -12,7 +12,6 @@ public class RetirerMembre extends JDialog {
     private JButton buttonOK;
     private JButton buttonCancel;
     private JFormattedTextField idField;
-    private JLabel idInvalideField;
 
     /**
      *
@@ -42,7 +41,6 @@ public class RetirerMembre extends JDialog {
                 onCancel();
             }
         });
-        idInvalideField.setVisible(false);
         // call onCancel() on ESCAPE
         contentPane.registerKeyboardAction(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -60,21 +58,20 @@ public class RetirerMembre extends JDialog {
      * @param c Client connecte
      */
     private void onOK(Client c) {
-
+        c.download();
         if (idField.getText().matches(".*\\d+.*")){
             if (c.getGroupeGlobal().getUtilisateur(Integer.parseInt(idField.getText())) != null){
-                idInvalideField.setVisible(false);
                 c.getGroupeGlobal().retirerMembres(new Utilisateur("","",Integer.parseInt(idField.getText()),"",null));
                 c.upload();
+                dispose();
             }else{
-                idInvalideField.setVisible(true);
+                JOptionPane.showMessageDialog(null,"Veuillez entrer un ID valide");
             }
 
         }else{
-            idInvalideField.setVisible(true);
+            JOptionPane.showMessageDialog(null,"Veuillez entrer un ID valide");
 
         }
-        dispose();
     }
 
     /**

@@ -1,6 +1,7 @@
-package utilisateurs;
+package discussion;
 
-import discussion.FilDeDiscussion;
+import utilisateurs.Groupe;
+import utilisateurs.Utilisateur;
 
 import java.io.Serializable;
 import java.util.UUID;
@@ -44,7 +45,7 @@ public class GroupeNomme extends Groupe implements Serializable,Comparable<Group
      * @param createur Personne n'appartenant pas forcément au GroupeNomme voulant lancer une conversation avec le groupe
      * @param sujet Titre de la conversation
      */
-    public void ajouterFilDeDiscussion(Utilisateur createur,String sujet){
+    public void ajouterFilDeDiscussion(Utilisateur createur, String sujet){
         FilDeDiscussion f = new FilDeDiscussion(sujet,this,createur);
         filsDeDiscussion.add(f);
     }

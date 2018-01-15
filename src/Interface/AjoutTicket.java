@@ -2,7 +2,7 @@ package Interface;
 
 import discussion.FilDeDiscussion;
 import net.Client;
-import utilisateurs.GroupeNomme;
+import discussion.GroupeNomme;
 
 import javax.swing.*;
 import java.awt.event.*;

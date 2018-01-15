@@ -1,12 +1,6 @@
 package net;
 
-import utilisateurs.Groupe;
-import utilisateurs.GroupeNomme;
-import utilisateurs.TypeUtilisateur;
-import utilisateurs.Utilisateur;
-
 import java.io.*;
-import java.util.concurrent.ConcurrentSkipListSet;
 
 /**
  * Permet la communication avec la BDD

@@ -1,7 +1,7 @@
 package Interface;
 
 import net.Client;
-import utilisateurs.GroupeNomme;
+import discussion.GroupeNomme;
 import utilisateurs.Utilisateur;
 
 import javax.swing.*;
@@ -20,7 +20,6 @@ public class GererAdhesionGroupe extends JFrame {
     private JTextField ID;
     private JButton rechercherButton;
     private JLabel utilisateurInconnu;
-    private JButton changerButton;
     private JLabel groupeInexistantLabel;
     UUID idOldGroupe;
 
@@ -35,7 +34,7 @@ public class GererAdhesionGroupe extends JFrame {
         groupeInexistantLabel.setVisible(false);
         utilisateurInconnu.setVisible(false);
 
-        changerButton.addActionListener(new ActionListener() {
+        buttonOK.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 changerGroupe(c);
@@ -50,12 +49,7 @@ public class GererAdhesionGroupe extends JFrame {
             }
         });
 
-        buttonOK.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-            }
-        });
+
 
         buttonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -89,7 +83,6 @@ public class GererAdhesionGroupe extends JFrame {
      */
     private void changerGroupe(Client c){
         GroupeNomme oldGroupe = c.getGroupeID(idOldGroupe);
-        oldGroupe.retirerMembre(Integer.parseInt(ID.getText()));
         GroupeNomme newGroupe = c.getGroupeName(groupe.getText());
         if (newGroupe == null){
             groupeInexistantLabel.setVisible(true);
@@ -97,11 +90,12 @@ public class GererAdhesionGroupe extends JFrame {
         }else{
             groupeInexistantLabel.setVisible(false);
             this.pack();
-            GroupeNomme g = c.getGroupeName(groupe.getText());
-            Utilisateur ajout = c.getGroupeGlobal().getUtilisateur(Integer.parseInt(ID.getText()));
-            g.ajouterMembres(ajout);
+            System.out.println(oldGroupe);
+            oldGroupe.retirerMembres(c.getGroupeGlobal().getUtilisateur(Integer.parseInt(ID.getText().toString())));
+            newGroupe.ajouterMembres(c.getGroupeGlobal().getUtilisateur(Integer.parseInt(ID.getText())));
+            c.upload();
+            dispose();
         }
-        c.upload();
 
     }
 

@@ -1,7 +1,7 @@
 package net;
 
 import utilisateurs.Groupe;
-import utilisateurs.GroupeNomme;
+import discussion.GroupeNomme;
 import utilisateurs.Utilisateur;
 
 import java.io.Serializable;

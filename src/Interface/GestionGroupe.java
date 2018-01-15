@@ -1,13 +1,10 @@
 package Interface;
 
 import net.Client;
-import net.Paquet;
-import utilisateurs.GroupeNomme;
+import discussion.GroupeNomme;
 import utilisateurs.Utilisateur;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.*;
@@ -182,17 +179,28 @@ public class GestionGroupe extends JFrame {
 
 
        ajouterUnMembreExistantButton.addActionListener(e -> {
+           if (!idMembreAajouter.getText().isEmpty()){
                if (c.getGroupeGlobal().getUtilisateur(Integer.parseInt(idMembreAajouter.getText())) != null){
-                   if (c.getGroupeGlobal().getUtilisateur(Integer.parseInt(idMembreAajouter.getText())) == null) {
-                       c.getGroupeName(listeGroupe.getSelectedValue().toString()).ajouterMembres(c.getGroupeGlobal().getUtilisateur(Integer.parseInt(idMembreAajouter.getText())));
+
+                   if (c.getGroupeName(listeGroupe.getSelectedValue().toString()).getUtilisateur(Integer.parseInt(idMembreAajouter.getText())) == null) {
+                       GroupeNomme g = c.getGroupeName(listeGroupe.getSelectedValue().toString());
+                       System.out.println(g);
+                       Utilisateur ajout = c.getGroupeGlobal().getUtilisateur(Integer.parseInt(idMembreAajouter.getText().toString()));
+                       System.out.println(ajout);
+                       g.ajouterMembres(ajout);
                        c.upload();
-                       buildListUtilisateurGroupe(c, listeGroupe.getSelectedValue().toString());
+                       JOptionPane.showMessageDialog(null,"Utilisateur ajouté");
+                       //buildListUtilisateurGroupe(c, listeGroupe.getSelectedValue().toString());
                    }else{
                        JOptionPane.showMessageDialog(null,"Utilisateur déjà présent dans ce groupe");
                    }
                }else{
                    JOptionPane.showMessageDialog(null,"Utilisateur inconnu");
                }
+
+           }else{
+               JOptionPane.showMessageDialog(null,"Veuillez remplir le champ");
+           }
        });
 
 
@@ -203,7 +211,10 @@ public class GestionGroupe extends JFrame {
                    int result = JOptionPane.showConfirmDialog(null,"Etes vous sur de vouloir supprimer l'utilisateur ?");
                    if (result == JOptionPane.YES_OPTION) {
                        int id = (int) listeUtilisateurGroupe.getValueAt(listeUtilisateurGroupe.getSelectedRow(), 0);
-                       c.getGroupeName(listeGroupe.getSelectedValue().toString()).retirerMembre(id);
+                       System.out.println(id);
+                       int retour = c.getGroupeName(listeGroupe.getSelectedValue().toString()).retirerMembres(c.getGroupeGlobal().getMembre(id));
+                       System.out.println(retour);
+
                        c.upload();
                        buildListUtilisateurGroupe(c, listeGroupe.getSelectedValue().toString());
                    }

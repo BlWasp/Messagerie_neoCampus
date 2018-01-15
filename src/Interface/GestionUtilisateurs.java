@@ -90,7 +90,6 @@ public class GestionUtilisateurs extends JFrame {
         if (table1.getSelectedRow() != -1){
             int idSelected = (int)table1.getValueAt(table1.getSelectedRow(),0);
             Utilisateur u = c.getGroupeGlobal().getUtilisateur(idSelected);
-            System.out.println(u.toString());
             ModifierMembre modif = new ModifierMembre(c,u);
             modif.pack();
             modif.setVisible(true);
@@ -125,8 +124,6 @@ public class GestionUtilisateurs extends JFrame {
         tableModel.addRow(col);
 
         this.add(table1);
-
-
 
         NavigableSet<Utilisateur> users = new TreeSet<>(Comparator.comparing(Utilisateur::getNom));
         users.addAll(c.getGroupeGlobal().getMembres());

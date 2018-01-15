@@ -20,6 +20,16 @@ public class Groupe implements Serializable {
         return membres.contains(u);
     }
 
+    public Utilisateur getMembre(int ID){
+        for (Utilisateur u :
+                this.membres) {
+            if (u.getIdentifiant() == ID) {
+                return u;
+            }
+        }
+        return null;
+    }
+
     /**
      * Setter d'ajout d'Utilisateur(s) au Groupe groupe.
      * @param m Utilisateur à ajouter au groupe (s'il n'est pas déjà présent).
@@ -123,9 +133,7 @@ public class Groupe implements Serializable {
      * @param id Retirer le ou les Utilisateur(s) en paramètre (s'il(s) existe(nt))
      * @return le nombre d'utilisateur réelement retiré
      */
-    public int retirerMembre(int id){
-        return retirerMembres(new Utilisateur("","",id,"",null));
-    }
+
 
 
     /**

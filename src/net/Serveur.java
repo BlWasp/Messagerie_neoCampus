@@ -2,7 +2,7 @@ package net;
 
 
 import utilisateurs.Groupe;
-import utilisateurs.GroupeNomme;
+import discussion.GroupeNomme;
 import utilisateurs.TypeUtilisateur;
 import utilisateurs.Utilisateur;
 
@@ -32,7 +32,7 @@ public class Serveur {
         // Zone de TEST
         Utilisateur admin = new Utilisateur("Admin", "admin", 0, "admin", null);
         admin.setPrivilege(Utilisateur.Privilege.ADMIN);
-        Utilisateur sylvain =new Utilisateur("DEKER","Sylvain",21400536,"123", TypeUtilisateur.ETUDIANT);
+        Utilisateur sylvain =new Utilisateur("DEKER","Sylvain",21400536,"123",null);
         Utilisateur salim =new Utilisateur("CHERIFI","Salim",21400537,"123", TypeUtilisateur.ETUDIANT);
         Utilisateur guillaume =new Utilisateur("DAUMAS","Guillaume",21400538,"123", TypeUtilisateur.ETUDIANT);
 

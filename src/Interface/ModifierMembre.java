@@ -67,7 +67,6 @@ public class ModifierMembre extends JDialog {
      * @param u Utilisateur voulu
      */
     private void onOK(Client c,Utilisateur u) {
-        c.getGroupeGlobal().retirerMembres(u);
         if (u.getNom() != nom.getText()){
             u.setNom(textFieldNom.getText());
         }
@@ -79,8 +78,8 @@ public class ModifierMembre extends JDialog {
         }else{
             u.setMotDePasse(u.getMotDePasse());
         }
-        //TODO a ajouter quand upload fonctionnera
-        //c.majMembres(u);
+        c.getGroupeGlobal().retirerMembres(u);
+
         c.getGroupeGlobal().ajouterMembres(u);
         c.upload();
 

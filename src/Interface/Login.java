@@ -4,7 +4,7 @@ import discussion.FilDeDiscussion;
 import discussion.Message;
 import net.Client;
 
-import utilisateurs.GroupeNomme;
+import discussion.GroupeNomme;
 import utilisateurs.Utilisateur;
 
 import javax.swing.*;

@@ -1,7 +1,7 @@
 package net;
 
 import utilisateurs.Groupe;
-import utilisateurs.GroupeNomme;
+import discussion.GroupeNomme;
 import utilisateurs.Utilisateur;
 
 import java.io.IOException;
@@ -10,8 +10,6 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentSkipListSet;
-
-import static utilisateurs.TypeUtilisateur.ENSEIGNANT;
 
 /**
  * Client, voir exemple d'utilisation dans le main

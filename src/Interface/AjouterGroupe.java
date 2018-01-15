@@ -1,7 +1,7 @@
 package Interface;
 
 import net.Client;
-import utilisateurs.GroupeNomme;
+import discussion.GroupeNomme;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -42,6 +42,9 @@ public class AjouterGroupe extends JDialog {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
+        this.pack();
+        this.setLocationRelativeTo(null);
     }
 
     /**
