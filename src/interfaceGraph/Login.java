@@ -5,6 +5,7 @@ import discussion.Message;
 import net.Client;
 
 import discussion.GroupeNomme;
+import net.Serveur;
 import utilisateurs.Utilisateur;
 
 import javax.swing.*;
@@ -72,14 +73,13 @@ public class Login extends JFrame {
                 portField.getText().matches(".*\\d+.*")){
             Client c = new Client(ipField.getText(),Integer.parseInt(portField.getText()));
             int errno = c.connect();
-            //TODO AJOUTER VERIF ADRESSE
             if (errno == 1){
                 adressePortIncorrect.setVisible(false);
                 errno = c.authentification(new Utilisateur("","",Integer.parseInt(ident.getText()),mdp.getText(),null));
                 if (errno == 1){
+                    c.download();
                     loginFailed.setVisible(false);
                     System.out.println("Authentification Reussi!");
-
                     Chat chat = new Chat(c);
                     chat.pack();
                     chat.setTitle(c.getUtilisateurCourant().getPrenom()+"."+c.getUtilisateurCourant().getPrenom()+"@"+c.getHost()+":"+c.getPort());
