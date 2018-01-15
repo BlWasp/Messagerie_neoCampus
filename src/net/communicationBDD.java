@@ -50,20 +50,22 @@ public class communicationBDD {
         return paquet;
     }
 
-    public static void main(String[] args) {
-        /*ConcurrentSkipListSet<GroupeNomme> listeGroupe= new ConcurrentSkipListSet<>();
+    /**
+     * Test et exemples d'utilisation
+     * @param args
+     */
+    /*public static void main(String[] args) {
+        ConcurrentSkipListSet<GroupeNomme> listeGroupe= new ConcurrentSkipListSet<>();
         Groupe global = new Groupe();
 
-        Utilisateur admin = new Utilisateur("Admin", "admin", 0, "admin", null);
+        Utilisateur admin = new Utilisateur("Admin", "Admin", 0, "admin", null);
         admin.setPrivilege(Utilisateur.Privilege.ADMIN);
         Utilisateur sylvain =new Utilisateur("DEKER","Sylvain",21400536,"123", TypeUtilisateur.ETUDIANT);
         Utilisateur salim =new Utilisateur("CHERIFI","Salim",21400537,"123", TypeUtilisateur.ETUDIANT);
-        Utilisateur guillaume =new Utilisateur("DAUMAS","GUILLAUME",21400538,"123", TypeUtilisateur.ETUDIANT);
+        Utilisateur guillaume =new Utilisateur("DAUMAS","Guillaume",21400538,"123", TypeUtilisateur.ETUDIANT);
 
         Utilisateur nadege = new Utilisateur("Lamarque","Nadege",0,"123",TypeUtilisateur.ADMINISTRATIF);
-        Utilisateur nadege2 = new Utilisateur("Lamarque2","Nadege2",2,"123",TypeUtilisateur.ADMINISTRATIF);
-        Utilisateur nadege3 = new Utilisateur("Lamarque3","Nadege3",3,"123",TypeUtilisateur.ADMINISTRATIF);
-        global.ajouterMembres(admin,sylvain,guillaume,salim,nadege,nadege2,nadege3);
+        global.ajouterMembres(admin,sylvain,guillaume,salim,nadege);
 
 
         GroupeNomme l3 = new GroupeNomme("L3");
@@ -84,12 +86,7 @@ public class communicationBDD {
         global2 = paquet1.getGroupeGlobal();
 
         System.out.println(listeGroupe2);
-        System.out.println(global2);*/
-
-
-
-
-
-    }
+        System.out.println(global2);
+    }*/
 
 }

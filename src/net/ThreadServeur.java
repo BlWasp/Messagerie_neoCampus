@@ -62,7 +62,7 @@ public class ThreadServeur implements Runnable {
 
                     System.out.println("Demande de téléchargement de "+paquet.getUtilisateur().getIdentifiant());
 
-//                    Paquet retour = new Paquet(Paquet.Action.REPONSE,paquet.getUtilisateur(),listeGroupe,global);
+//                  Paquet retour = new Paquet(Paquet.Action.REPONSE,paquet.getUtilisateur(),listeGroupe,global);
                     Paquet retour = communicationBDD.download();
                     /*Paquet retour = null;
                     try {
