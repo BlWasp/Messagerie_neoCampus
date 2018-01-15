@@ -10,6 +10,8 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import utilisateurs.Groupe;
+import utilisateurs.GroupeNomme;
+import utilisateurs.TypeUtilisateur;
 import utilisateurs.Utilisateur;
 
 import javax.swing.*;
@@ -256,10 +258,65 @@ public class FilDeDiscussion implements Serializable,Comparable<FilDeDiscussion>
      */
     @Override
     public String toString() {
-        return "FilDeDiscussion{" +
-                "sujet='" + sujet + '\'' +
-                ", filsdediscussion=" + filsdediscussion +
-                ", id=" + id +
-                '}';
+        String cat ="" + this.sujet+"\n";
+        for(Message m: this.getListMessage()){
+            cat += m.getFrom()+": "+m.getMessage()+"\n";
+            cat += "... Membres en Attente : ";
+            for (Utilisateur u : m.getEnAttente().getMembres()){
+                cat += u.getPrenom()+", ";
+            }
+            cat += "\n";
+            cat += "... Membres qui ont recu : ";
+            for (Utilisateur u : m.getRecu().getMembres()){
+                cat += u.getPrenom()+", ";
+            }
+            cat += "\n";
+            cat += "... Membres qui ont lu : ";
+            for (Utilisateur u : m.getLu().getMembres()){
+                cat += u.getPrenom()+", ";
+            }
+            cat += "\n";
+        }
+        return cat;
+    }
+
+
+
+    public static void main(String[] args) {
+        Utilisateur admin = new Utilisateur("Admin", "admin", 0, "admin", null);
+        admin.setPrivilege(Utilisateur.Privilege.ADMIN);
+        Utilisateur sylvain =new Utilisateur("DEKER","Sylvain",21400536,"123", TypeUtilisateur.ETUDIANT);
+        Utilisateur salim =new Utilisateur("CHERIFI","Salim",21400537,"123", TypeUtilisateur.ETUDIANT);
+        Utilisateur guillaume =new Utilisateur("DAUMAS","Guillaume",21400538,"123", TypeUtilisateur.ETUDIANT);
+
+        Utilisateur nadege = new Utilisateur("Lamarque","Nadege",0,"123",TypeUtilisateur.ADMINISTRATIF);
+        GroupeNomme l3 = new GroupeNomme("L3");
+        l3.ajouterMembres(sylvain,salim,guillaume);
+
+        FilDeDiscussion f = new FilDeDiscussion("Inscription truchchose",l3,nadege);
+        Message message = f.ajouterMessage(nadege,"Coucou Reunion dans 5 min");
+        System.out.println(f);
+
+        message.recu(sylvain);
+        message.recu(salim);
+        message.recu(guillaume);
+
+
+        System.out.println(f);
+
+        message.lu(sylvain);
+        message.lu(salim);
+        message.lu(guillaume);
+
+        System.out.println(f);
+
+
+
+
+
+
+
+
+
     }
 }
