@@ -49,7 +49,7 @@ public class Client {
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
         } catch (IOException e){
-            //e.printStackTrace();
+            e.printStackTrace();
             return 0;
         }
         return 1;

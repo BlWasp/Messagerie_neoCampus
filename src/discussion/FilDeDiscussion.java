@@ -57,6 +57,7 @@ public class FilDeDiscussion implements Serializable,Comparable<FilDeDiscussion>
         }
         else{
             LOGGER.error("ERREUR : " + u.getPrenom() + " ne participe pas à cette conversation");
+            System.exit(1);
         }
         return null;
     }
