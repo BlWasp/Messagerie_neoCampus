@@ -3,16 +3,14 @@ package BDD;
 import discussion.FilDeDiscussion;
 import discussion.Message;
 import org.apache.log4j.Logger;
+import utilisateurs.Groupe;
 import utilisateurs.GroupeNomme;
 import utilisateurs.TypeUtilisateur;
 import utilisateurs.Utilisateur;
 import net.Paquet;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.UUID;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 import static utilisateurs.Utilisateur.Privilege.ADMIN;
 import static utilisateurs.Utilisateur.Privilege.USER;
@@ -40,6 +38,8 @@ public class ExtractDataBDD {
             state = conn.createStatement();
 
             //Ajout des utilisateurs global au paquet
+            Utilisateur[] listU = null;
+            int cptU = 0;
             result = state.executeQuery("SELECT nom,prenom,identifiant,mdp,privilege,typeU FROM Utilisateur");
             while(result.next()) {
                 String nom = result.getString("nom");
@@ -54,7 +54,8 @@ public class ExtractDataBDD {
                 }
                 TypeUtilisateur typeU = (TypeUtilisateur)result.getObject("typeU");
 
-                paquet.getGlobal().ajouterMembres(new Utilisateur(nom,prenom,identifiant,mdp,typeU,privilege));
+                listU[cptU] = new Utilisateur(nom,prenom,identifiant,mdp,typeU,privilege);
+                cptU++;
             }
 
             GroupeNomme[] listGr = null;
@@ -79,7 +80,11 @@ public class ExtractDataBDD {
 
                 for (int i = 0; i < cptGr; i++) {
                     if (listGr[i].getId().equals(id_GroupeNomme)) {
-                        listFil[cptFil] = new FilDeDiscussion(sujet, listGr[i], paquet.getGlobal().getUtilisateur(identifiant));
+                        for (int j=0;j<cptU;j++) {
+                            if (listU[j].getIdentifiant() == identifiant) {
+                                listFil[cptFil] = new FilDeDiscussion(sujet, listGr[i], listU[j]);
+                            }
+                        }
                     }
                 }
                 cptFil++;
@@ -94,21 +99,37 @@ public class ExtractDataBDD {
 
                 for (int i=0;i<cptFil;i++) {
                     if (listFil[i].getId().equals(id_FilDiscussion)) {
-                        listFil[i].ajouterMessage(paquet.getGlobal().getUtilisateur(identifiant),message);
+                        for (int j=0;j<cptU;j++) {
+                            if (listU[j].getIdentifiant() == identifiant) {
+                                listFil[i].ajouterMessage(listU[j],message);
+                            }
+                        }
                     }
                 }
             }
 
 
-            //Ajout des fils de discussion aux groupes puis ajout groupe au paquet
+            //Ajout des fils de discussion aux groupes
             for (int i=0;i<cptGr;i++) {
                 for (int j = 0; j < cptFil; j++) {
                     if (listGr[i].equals(listFil[j].getGroupe())) {
                         listGr[i].ajouterFilDeDiscussion(listFil[j].getCreateur(), listFil[i].getSujet());
                     }
                 }
-                paquet.getListeGroupe().add(listGr[i]);
             }
+
+            //Creation nouveau paquet avec ajout des groupes et users
+            ConcurrentSkipListSet<GroupeNomme> skipListGr = new ConcurrentSkipListSet<>();
+            Groupe global = new Groupe();
+
+            for (int i=0;i<cptGr;i++) {
+                skipListGr.add(listGr[i]);
+            }
+            for (int i=0;i<cptU;i++) {
+                global.ajouterMembres(listU[i]);
+            }
+
+            paquet = new Paquet(null,null,skipListGr,global);
 
 
         } catch (Exception e) {
