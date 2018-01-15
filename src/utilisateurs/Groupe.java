@@ -143,13 +143,18 @@ public class Groupe implements Serializable {
         return null;
     }
 
-
-
+    /**
+     *
+     * @return la liste des membres du groupe
+     */
     public NavigableSet<Utilisateur> getMembres() {
         return membres;
     }
 
-
+    /**
+     *
+     * @return toString de la liste des utilisateurs
+     */
     public String _listeUtisateurToString(){
         StringBuilder cat = new StringBuilder();
         cat.append("Groupe " + this + " :");
@@ -159,6 +164,10 @@ public class Groupe implements Serializable {
         return cat.toString();
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         String cat = "";

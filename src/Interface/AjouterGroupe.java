@@ -15,6 +15,10 @@ public class AjouterGroupe extends JDialog {
     private JButton gestionDeGroupeValideButton;
     private JLabel errorNomGroupe;
 
+    /**
+     *
+     * @param c Client connecte
+     */
     public AjouterGroupe(Client c) {
         setContentPane(contentPane);
         setModal(true);
@@ -40,6 +44,10 @@ public class AjouterGroupe extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
+    /**
+     *
+     * @param c Client connecte
+     */
     private void onOK(Client c) {
         c.download();
         if (!nomGroupe.getText().isEmpty()) {
@@ -54,6 +62,9 @@ public class AjouterGroupe extends JDialog {
         }
     }
 
+    /**
+     *
+     */
     private void onCancel() {
         // add your code here if necessary
         dispose();

@@ -19,6 +19,11 @@ public class ExtractDataBDD {
 
     private static Logger LOGGER = Logger.getLogger(ExtractDataBDD.class);
 
+    /**
+     * Recupère la base de donnee en SQL
+     * @return paquet contenant la BDD pret à être envoyé au client
+     * @throws SQLException
+     */
     public static Paquet download() throws SQLException {
         Paquet paquet = null;
         Connection conn = null;

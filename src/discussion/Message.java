@@ -29,7 +29,12 @@ public class Message implements Serializable{
         LU_PAR_TOUS, // [VERT] le message est lu par tout les destinataires
     }
 
-
+    /**
+     * Constructeur
+     * @param from
+     * @param to
+     * @param message
+     */
     public Message(Utilisateur from, Groupe to, String message) {
         this.from = from;
         this.message = message;
@@ -44,10 +49,21 @@ public class Message implements Serializable{
         this.dateEnvoi = formater.format(auj);
     }
 
+    /**
+     *
+     * @return utilisateur à l'origine du message
+     */
     public Utilisateur getFrom() {
         return from;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     *
+     * @param u Utilisateur à tester
+     */
+>>>>>>> 4bdbd5e799f365f1857d64d0e490401d7fe70c25
     public void recu(Utilisateur u){
 
         if( ! enAttente.estMembre(u) ){
@@ -63,6 +79,13 @@ public class Message implements Serializable{
         this.recu.ajouterMembres(u);
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     *
+     * @param u Utilisateur à tester
+     */
+>>>>>>> 4bdbd5e799f365f1857d64d0e490401d7fe70c25
     public void lu(Utilisateur u){
 
         if( !recu.estMembre(u) ){
@@ -78,18 +101,34 @@ public class Message implements Serializable{
         this.lu.ajouterMembres(u);
     }
 
+    /**
+     *
+     * @return l'etat du message
+     */
     public Etat getEtat() {
         return etat;
     }
 
+    /**
+     *
+     * @param etat Etat à appliquer au message
+     */
     public void setEtat(Etat etat) {
         this.etat = etat;
     }
 
+    /**
+     *
+     * @return le message voulu
+     */
     public String getMessage() {
         return message;
     }
 
+    /**
+     *
+     * @return toString d'un message
+     */
     @Override
     public String toString() {
         return "Message{" +
@@ -102,22 +141,42 @@ public class Message implements Serializable{
                 '}';
     }
 
+    /**
+     *
+     * @return groupe des messages en attente
+     */
     public Groupe getEnAttente() {
         return enAttente;
     }
 
+    /**
+     *
+     * @return groupe des messages reçu
+     */
     public Groupe getRecu() {
         return recu;
     }
 
+    /**
+     *
+     * @return groupe des messages lu
+     */
     public Groupe getLu() {
         return lu;
     }
 
+    /**
+     *
+     * @return id d'un message
+     */
     public UUID getId() {
         return id;
     }
 
+    /**
+     *
+     * @return date d'envoi d'un message
+     */
     public String getDateEnvoi() {
         return dateEnvoi;
     }

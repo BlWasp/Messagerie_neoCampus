@@ -14,6 +14,10 @@ public class AjoutTicket extends JDialog {
     private JTextField groupe;
     private JTextField ticket;
 
+    /**
+     *
+     * @param c Client connecte
+     */
     public AjoutTicket(Client c) {
         setContentPane(contentPane);
         setModal(true);
@@ -51,6 +55,10 @@ public class AjoutTicket extends JDialog {
         this.setLocationRelativeTo(null);
     }
 
+    /**
+     *
+     * @param c Client connecte
+     */
     private void onOK(Client c) {
         if (!groupe.getText().isEmpty() && !ticket.getText().isEmpty()){
             GroupeNomme g = c.getGroupeName(groupe.getText());
@@ -77,6 +85,9 @@ public class AjoutTicket extends JDialog {
 
     }
 
+    /**
+     *
+     */
     private void onCancel() {
         // add your code here if necessary
         dispose();

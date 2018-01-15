@@ -18,6 +18,9 @@ import java.util.List;
 import java.util.stream.Stream;
 
 
+/**
+ * Classe gérant l'interface du chat
+ */
 public class Chat extends JFrame {
     private JPanel contentPane = new JPanel(new BorderLayout());
     private JPanel treePanel = new JPanel(new GridLayout());
@@ -39,6 +42,11 @@ public class Chat extends JFrame {
     private JButton ajoutTicket = new JButton("Ajouter un ticket");
     private JButton gestionUtilisateur = new JButton("Gestion des utilisateurs");
     private JButton gestionGroupe = new JButton("Gestion des groupes");
+
+    /**
+     *
+     * @param c Client connecte
+     */
     public Chat(Client c) {
 
         setContentPane(contentPane);
@@ -131,6 +139,10 @@ public class Chat extends JFrame {
 
 
         rafraichir.addActionListener(new ActionListener() {
+            /**
+             *
+             * @param e
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 buildTree(c);
@@ -140,6 +152,10 @@ public class Chat extends JFrame {
 
 
         ajoutTicket.addActionListener(new ActionListener() {
+            /**
+             *
+             * @param e
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 AjoutTicket ajout = new AjoutTicket(c);
@@ -162,6 +178,10 @@ public class Chat extends JFrame {
 
         // call onCancel() on ESCAPE
         contentPane.registerKeyboardAction(new ActionListener() {
+            /**
+             *
+             * @param e
+             */
             public void actionPerformed(ActionEvent e) {
                 onCancel(c,t);
             }
@@ -172,7 +192,10 @@ public class Chat extends JFrame {
     }
 
 
-
+    /**
+     *
+     * @param c Client connecte
+     */
     public void okPressed(Client c){
         c.download();
         DefaultMutableTreeNode node = (DefaultMutableTreeNode)chatTree.getLastSelectedPathComponent();
@@ -188,8 +211,15 @@ public class Chat extends JFrame {
         majListMessage(c);
     }
 
+<<<<<<< HEAD
 
 
+=======
+    /**
+     *
+     * @param c Client connecte
+     */
+>>>>>>> 4bdbd5e799f365f1857d64d0e490401d7fe70c25
     private void majListMessage(Client c ){
         filDeChat.setText("");
         c.download();
@@ -220,7 +250,10 @@ public class Chat extends JFrame {
     }
 
 
-
+    /**
+     *
+     * @param c Client connecte
+     */
     private void buildTree(Client c){
         c.download();
         //List groupe est vide
@@ -269,6 +302,11 @@ public class Chat extends JFrame {
 
     }
 
+    /**
+     *
+     * @param c Client connecte
+     * @param t Timer avant deconnection
+     */
     private void onCancel(Client c,Timer... t) {
         // add your code here if necessary
         for (Timer timer: t) {

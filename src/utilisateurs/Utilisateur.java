@@ -18,6 +18,14 @@ public class Utilisateur implements Comparable<Utilisateur>,Serializable{
     public enum Privilege{USER,ADMIN}
     private boolean connecte;
 
+    /**
+     * Constructeur sans privilège
+     * @param nom de l'utilisateur
+     * @param prenom de l'utilisateur
+     * @param identifiant de l'utilisateur
+     * @param motDePasse de l'utilisateur
+     * @param type de l'utilisateur
+     */
     public Utilisateur(String nom, String prenom, int identifiant,String motDePasse, TypeUtilisateur type) {
         this.nom = nom.toUpperCase();
         this.prenom = prenom;
@@ -28,6 +36,15 @@ public class Utilisateur implements Comparable<Utilisateur>,Serializable{
         this.connecte = false;
     }
 
+    /**
+     * Constructeur avec privilège
+     * @param nom de l'utilisateur
+     * @param prenom de l'utilisateur
+     * @param identifiant de l'utilisateur
+     * @param motDePasse de l'utilisateur
+     * @param type de l'utilisateur
+     * @param priv de l'utilisateur
+     */
     public Utilisateur(String nom, String prenom, int identifiant,String motDePasse, TypeUtilisateur type, Privilege priv) {
         this.nom = nom.toUpperCase();
         this.prenom = prenom;
@@ -39,46 +56,87 @@ public class Utilisateur implements Comparable<Utilisateur>,Serializable{
         this.connecte = false;
     }
 
+    /**
+     *
+     * @param p Privilège à appliquer à l'Utilisateur
+     */
     public void setPrivilege(Privilege p){
         this.privilege = p;
     }
 
+    /**
+     *
+     * @param nom Nom à appliquer à l'Utilisateur
+     */
     public void setNom(String nom) {
         this.nom = nom;
     }
 
+    /**
+     *
+     * @param prenom Prenom à appliquer à l'Utilisateur
+     */
     public void setPrenom(String prenom) {
         this.prenom = prenom;
     }
 
+    /**
+     *
+     * @param motDePasse Mot De Passe à appliquer à l'Utilisateur
+     */
     public void setMotDePasse(String motDePasse) {
         this.motDePasse = EncodePasswd.encode(motDePasse);
     }
 
+    /**
+     *
+     * @return les privilèges de l'Utilisateur
+     */
     public Privilege getPrivilege() {
         return privilege;
     }
 
+    /**
+     *
+     * @return le nom de l'Utilisateur
+     */
     public String getNom() {
         return nom;
     }
 
+    /**
+     *
+     * @return le prenom de l'Utilisateur
+     */
     public String getPrenom() {
         return prenom;
     }
 
+    /**
+     *
+     * @return l'id de l'Utilisateur
+     */
     public int getIdentifiant() {
         return identifiant;
     }
 
+    /**
+     *
+     * @return le Mot De Passe de l'Utilisateur
+     */
     public String getMotDePasse() {
         return motDePasse;
     }
 
+    /**
+     *
+     * @return le type de l'Utilisateur
+     */
     public TypeUtilisateur getType() {
         return type;
     }
 
+<<<<<<< HEAD
     public boolean isConnecte() {
         return connecte;
     }
@@ -87,12 +145,24 @@ public class Utilisateur implements Comparable<Utilisateur>,Serializable{
         this.connecte = connecte;
     }
 
+=======
+    /**
+     *
+     * @param o Utilisateur à tester
+     * @return redéfinition de compareTo
+     */
+>>>>>>> 4bdbd5e799f365f1857d64d0e490401d7fe70c25
     @Override
     public int compareTo(Utilisateur o) {
 
         return this.identifiant-o.identifiant;
     }
 
+    /**
+     *
+     * @param obj
+     * @return redéfinition de equals
+     */
     @Override
     public boolean equals(Object obj) {
         if(obj==null) return false;
@@ -101,6 +171,10 @@ public class Utilisateur implements Comparable<Utilisateur>,Serializable{
         return identifiant == u.identifiant;
     }
 
+    /**
+     *
+     * @return toString de l'Utilisateur
+     */
     @Override
     public String toString() {
         String str =   "Utilisateur{" +

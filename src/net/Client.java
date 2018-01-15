@@ -198,7 +198,7 @@ public class Client {
      * Test et exemples d'utilisation 
      * @param args
      */
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         Client c = new Client("127.0.0.1",12700);
         int errno;
         errno = c.connect();
@@ -213,7 +213,7 @@ public class Client {
             // Ajout de Membres
             errno = c.download();
             System.out.println(errno);
-            c.getGroupeGlobal().ajouterMembres(new Utilisateur("Patrick","BLURP",36985,"mot",ENSEIGNANT));
+            c.getGroupeGlobal().ajouterMembres(new Utilisateur("Martin","Dupont",21502663,"mdpTest",ENSEIGNANT));
             errno = c.upload();
             System.out.println(errno);
 
@@ -228,23 +228,12 @@ public class Client {
             //Ajout fil de discussion et message au fil
             errno = c.download();
             System.out.println(errno);
-            c.listeGroupe.first().ajouterFilDeDiscussion(c.utilisateurCourant,"La cuite, parlons-en");
-            c.listeGroupe.first().getFilsDeDiscussion("La cuite, parlons-en").ajouterMessage(c.utilisateurCourant,"Vomir c'est repartir");
+            c.listeGroupe.first().ajouterFilDeDiscussion(c.utilisateurCourant,"Fil de test");
+            c.listeGroupe.first().getFilsDeDiscussion("Fil de test").ajouterMessage(c.utilisateurCourant,"Premier message");
             errno = c.upload();
             System.out.println(errno);
-
-
-
         }
-
-
-
-
-
-
-
-
         c.deconnect();
-    }
+    }*/
 
 }

@@ -1,7 +1,5 @@
 package net;
 
-import BDD.ExtractDataBDD;
-import discussion.FilDeDiscussion;
 import utilisateurs.Groupe;
 import utilisateurs.GroupeNomme;
 import utilisateurs.Utilisateur;
@@ -10,9 +8,11 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.sql.SQLException;
 import java.util.concurrent.ConcurrentSkipListSet;
 
+/**
+ * Implements Runnable pour lancer des threads paralleles
+ */
 public class ThreadServeur implements Runnable {
 
     Socket socket;
@@ -21,6 +21,11 @@ public class ThreadServeur implements Runnable {
     boolean connecte;
     Serveur serveur;
 
+    /**
+     * Constructeur
+     * @param socket
+     * @param serveur Serveur sur lequel appliquer la parallelisme
+     */
     public ThreadServeur( Socket socket,Serveur serveur) {
         this.socket = socket;
         this.serveur = serveur;
@@ -37,6 +42,9 @@ public class ThreadServeur implements Runnable {
     }
 
 
+    /**
+     * Fonction redefinit qui permet de lancer plusieurs threads
+     */
     @Override
     public void run() {
         Groupe global;
@@ -54,15 +62,15 @@ public class ThreadServeur implements Runnable {
 
                     System.out.println("Demande de téléchargement de "+paquet.getUtilisateur().getIdentifiant());
 
-//                    Paquet retour = new Paquet(Paquet.Action.REPONSE,paquet.getUtilisateur(),listeGroupe,global);
-                    Paquet retour = SimuBDD.download();
+//                  Paquet retour = new Paquet(Paquet.Action.REPONSE,paquet.getUtilisateur(),listeGroupe,global);
+                    Paquet retour = communicationBDD.download();
                     /*Paquet retour = null;
                     try {
                         retour = ExtractDataBDD.download();
                     } catch (SQLException e) {
                         e.printStackTrace();
-                    }
-*/
+                    }*/
+
                     retour.setAction(Paquet.Action.REPONSE);
                     retour.setUtilisateur(paquet.utilisateur);
                     out.writeObject(retour);
@@ -70,7 +78,7 @@ public class ThreadServeur implements Runnable {
 
                     System.out.println("Envoi infos depuis le Client " + paquet.getUtilisateur().getIdentifiant());
                     // serveur.maj(paquet.getListeGroupe(),paquet.getGroupeGlobal());
-                    SimuBDD.upload(new Paquet(null,null,paquet.getListeGroupe(),paquet.getGlobal()));
+                    communicationBDD.upload(new Paquet(null,null,paquet.getListeGroupe(),paquet.getGlobal()));
                     if ( ! paquet.getListeGroupe().isEmpty()) {
                         System.out.println(paquet.getListeGroupe().first().getFilsDeDiscussion());
                     }
@@ -94,10 +102,15 @@ public class ThreadServeur implements Runnable {
 
     }
 
+    /**
+     * synchronized permet de synchroniser les threads
+     * @param paquet Paquet à tester
+     * @return un paquet avec authentification comme Action
+     */
     synchronized Paquet authentification(Paquet paquet){
         Groupe global;
 
-        Paquet bdd = SimuBDD.download();
+        Paquet bdd = communicationBDD.download();
         global = bdd.getGlobal();
         Utilisateur co =null;
         for(Utilisateur u : global.getMembres() ){

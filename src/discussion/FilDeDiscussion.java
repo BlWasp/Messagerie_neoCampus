@@ -24,12 +24,24 @@ public class FilDeDiscussion implements Serializable,Comparable<FilDeDiscussion>
     private UUID id = UUID.randomUUID();
     private static Logger LOGGER = Logger.getLogger(FilDeDiscussion.class);
 
+    /**
+     * Constructeur
+     * @param sujet du fil de discussion
+     * @param groupe du fil de discussion
+     * @param createur du fil de discussion
+     */
     public FilDeDiscussion(String sujet, Groupe groupe, Utilisateur createur) {
         this.sujet = sujet;
         this.groupe = groupe;
         this.createur = createur;
     }
 
+    /**
+     *
+     * @param u Utilisateur a l'origine du message
+     * @param m Texte du message
+     * @return le message ajoute (à null si erreur)
+     */
     public Message ajouterMessage(Utilisateur u, String m) {
         if(groupe.estMembre(u) || u.equals(createur) ){
             Groupe g = new Groupe();
@@ -47,30 +59,58 @@ public class FilDeDiscussion implements Serializable,Comparable<FilDeDiscussion>
         return null;
     }
 
+    /**
+     *
+     * @return le dernier message du fil de discussion
+     */
     public Message getDernierMessage(){
         return this.filsdediscussion.get(this.filsdediscussion.size()-1);
     }
 
+    /**
+     *
+     * @param m Message à supprimer
+     * @return 1 si le message est retire, 0 sinon
+     */
     public int retirerMessage(Message m){
         return  filsdediscussion.remove(m)?1:0;
     }
 
+    /**
+     *
+     * @return l'id du fil de discussion
+     */
     public UUID getId() {
         return id;
     }
 
+    /**
+     *
+     * @return le sujet du fil de discussion
+     */
     public String getSujet() {
         return sujet;
     }
 
+    /**
+     *
+     * @return le groupe du fil de discussion
+     */
     public Groupe getGroupe() {
         return groupe;
     }
 
+    /**
+     *
+     * @return le createur du fil de discussion
+     */
     public Utilisateur getCreateur() {
         return createur;
     }
 
+    /**
+     *
+     */
     public void printFil(){
         for (Message m : filsdediscussion){
             System.out.println("["+m.getFrom().getPrenom() + "] : " + m.getMessage());
@@ -94,6 +134,12 @@ public class FilDeDiscussion implements Serializable,Comparable<FilDeDiscussion>
         }
     }
 
+    /**
+     *
+     * @param utilisateurCourant Utilisateur courant
+     * @param pane
+     * @throws BadLocationException
+     */
     public void printMessage(Utilisateur utilisateurCourant,JTextPane pane) throws BadLocationException {
 
 
@@ -159,17 +205,29 @@ public class FilDeDiscussion implements Serializable,Comparable<FilDeDiscussion>
     }
 
 
+    /**
+     *
+     * @return le fil de discussion sous forme de liste de messages
+     */
     public List<Message> getListMessage() {
         return filsdediscussion;
     }
 
+    /**
+     *
+     * @param o Fil de discussion à comparer
+     * @return redefinition de compareTo
+     */
     @Override
     public int compareTo(FilDeDiscussion o) {
         return sujet.compareTo(o.sujet);
     }
 
-
-
+    /**
+     *
+     * @param o Object à tester
+     * @return redefinition de equals
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -181,6 +239,10 @@ public class FilDeDiscussion implements Serializable,Comparable<FilDeDiscussion>
         return getId().equals(that.getId());
     }
 
+    /**
+     *
+     * @return hashCode du sujet
+     */
     @Override
     public int hashCode() {
         int result = getSujet().hashCode();
@@ -188,6 +250,10 @@ public class FilDeDiscussion implements Serializable,Comparable<FilDeDiscussion>
         return result;
     }
 
+    /**
+     *
+     * @return toString du fil de discussion
+     */
     @Override
     public String toString() {
         return "FilDeDiscussion{" +

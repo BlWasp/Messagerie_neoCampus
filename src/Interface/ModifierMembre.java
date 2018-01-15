@@ -17,6 +17,11 @@ public class ModifierMembre extends JDialog {
     private JTextField textFieldmdp;
     private JLabel mdp;
 
+    /**
+     *
+     * @param c Client connecte
+     * @param u Utilisateur à modifier
+     */
     public ModifierMembre(Client c, Utilisateur u) {
         setContentPane(contentPane);
         setModal(true);
@@ -56,6 +61,11 @@ public class ModifierMembre extends JDialog {
         this.setLocationRelativeTo(null);
     }
 
+    /**
+     *
+     * @param c Client connecte
+     * @param u Utilisateur voulu
+     */
     private void onOK(Client c,Utilisateur u) {
         c.getGroupeGlobal().retirerMembres(u);
         if (u.getNom() != nom.getText()){
@@ -77,6 +87,9 @@ public class ModifierMembre extends JDialog {
         dispose();
     }
 
+    /**
+     *
+     */
     private void onCancel() {
         // add your code here if necessary
         dispose();

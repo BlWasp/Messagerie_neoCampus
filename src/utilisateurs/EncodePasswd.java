@@ -3,7 +3,16 @@ package utilisateurs;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * Classe permettant d'encoder un password
+ */
 public class EncodePasswd {
+
+    /**
+     *
+     * @param passwordToHash Password à encoder
+     * @return le password encode
+     */
     public static String encode(String passwordToHash){
         String generatedPassword = null;
         try {
