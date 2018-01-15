@@ -72,12 +72,21 @@ public class GroupeNomme extends Groupe implements Serializable,Comparable<Group
         return null;
     }
 
-
+    /**
+     *
+     * @param o GroupeNomme à tester
+     * @return redefinition de compareTo
+     */
     @Override
     public int compareTo(GroupeNomme o) {
         return this.nom.compareTo(o.nom);
     }
 
+    /**
+     *
+     * @param obj Object à tester
+     * @return redefinition de equals
+     */
     @Override
     public boolean equals(Object obj) {
         if(obj==null) return false;
@@ -86,6 +95,10 @@ public class GroupeNomme extends Groupe implements Serializable,Comparable<Group
         return id.equals(gr.id);
     }
 
+    /**
+     *
+     * @return toString de GroupeNomme
+     */
     @Override
     public String toString() {
         return "GroupeNomme{" +

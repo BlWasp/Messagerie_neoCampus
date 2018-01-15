@@ -1,7 +1,6 @@
 package net;
 
 
-import discussion.FilDeDiscussion;
 import utilisateurs.Groupe;
 import utilisateurs.GroupeNomme;
 import utilisateurs.TypeUtilisateur;
@@ -12,7 +11,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Comparator;
 import java.util.concurrent.ConcurrentSkipListSet;
 
 public class Serveur {
@@ -22,6 +20,10 @@ public class Serveur {
     ServerSocket socketServer = null;
     int port;
 
+    /**
+     * Constructeur
+     * @param port Port sur lequel se connecter
+     */
     public Serveur(int port){
 
         ConcurrentSkipListSet<GroupeNomme> listeGroupe= new ConcurrentSkipListSet<>();
@@ -56,11 +58,14 @@ public class Serveur {
 
         // FIN zone de TEST
 
-        SimuBDD.upload(new Paquet(null,null,listeGroupe,global));
+        communicationBDD.upload(new Paquet(null,null,listeGroupe,global));
 
         this.port = port;
     }
 
+    /**
+     * Fonction start pour lancer les threads
+     */
     public void start(){
 
         try {
@@ -92,6 +97,10 @@ public class Serveur {
     }
     */
 
+    /**
+     * Fonction main pour lancer le serveur
+     * @param args
+     */
     public static void main(String[] args) {
         Serveur s = new Serveur(12700);
         s.start();

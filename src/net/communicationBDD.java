@@ -8,8 +8,15 @@ import utilisateurs.Utilisateur;
 import java.io.*;
 import java.util.concurrent.ConcurrentSkipListSet;
 
-public class SimuBDD{
+/**
+ * Permet la communication avec la BDD
+ */
+public class communicationBDD {
 
+    /**
+     * Permet d'envoyer un paquet au serveur pour le synchroniser avec le client
+     * @param paquet Paquet à envoyer au serveur
+     */
     public static void upload(Paquet paquet){
         try {
             FileOutputStream fichier = new FileOutputStream("NeoCampus.bdd");
@@ -22,6 +29,10 @@ public class SimuBDD{
         }
     }
 
+    /**
+     * Permet de télécharger un paquet depuis le serveur pour se synchroniser
+     * @return le paquet télécharger
+     */
     public static Paquet download(){
         Paquet paquet = null;
         try {
@@ -40,7 +51,7 @@ public class SimuBDD{
     }
 
     public static void main(String[] args) {
-        ConcurrentSkipListSet<GroupeNomme> listeGroupe= new ConcurrentSkipListSet<>();
+        /*ConcurrentSkipListSet<GroupeNomme> listeGroupe= new ConcurrentSkipListSet<>();
         Groupe global = new Groupe();
 
         Utilisateur admin = new Utilisateur("Admin", "admin", 0, "admin", null);
@@ -63,17 +74,17 @@ public class SimuBDD{
         Paquet paquet= new Paquet(null,null,listeGroupe,global);
 
 
-        SimuBDD.upload(paquet);
+        communicationBDD.upload(paquet);
 
         ConcurrentSkipListSet<GroupeNomme> listeGroupe2;
         Groupe global2;
 
-        Paquet paquet1 = SimuBDD.download();
+        Paquet paquet1 = communicationBDD.download();
         listeGroupe2 = paquet1.getListeGroupe();
         global2 = paquet1.getGroupeGlobal();
 
         System.out.println(listeGroupe2);
-        System.out.println(global2);
+        System.out.println(global2);*/
 
 
 

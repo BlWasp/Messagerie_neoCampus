@@ -198,7 +198,7 @@ public class Client {
      * Test et exemples d'utilisation 
      * @param args
      */
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         Client c = new Client("127.0.0.1",12700);
         int errno;
         errno = c.connect();
@@ -245,6 +245,6 @@ public class Client {
 
 
         c.deconnect();
-    }
+    }*/
 
 }
