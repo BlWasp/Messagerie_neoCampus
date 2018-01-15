@@ -211,10 +211,7 @@ public class GestionGroupe extends JFrame {
                    int result = JOptionPane.showConfirmDialog(null,"Etes vous sur de vouloir supprimer l'utilisateur ?");
                    if (result == JOptionPane.YES_OPTION) {
                        int id = (int) listeUtilisateurGroupe.getValueAt(listeUtilisateurGroupe.getSelectedRow(), 0);
-                       System.out.println(id);
                        int retour = c.getGroupeName(listeGroupe.getSelectedValue().toString()).retirerMembres(c.getGroupeGlobal().getMembre(id));
-                       System.out.println(retour);
-
                        c.upload();
                        //buildListUtilisateurGroupe(c, listeGroupe.getSelectedValue().toString());
                    }

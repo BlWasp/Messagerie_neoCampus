@@ -160,7 +160,6 @@ public class FilDeDiscussion implements Serializable,Comparable<FilDeDiscussion>
 
         StringBuilder ch = new StringBuilder();
         for (Message m : this.getListMessage()) {
-            //m.lu(utilisateurCourant);
             ch.append(m.getDateEnvoi());
             ch.append("\n");
             ch.append(m.getFrom().getNom() + " " + m.getFrom().getPrenom() + " : ");
@@ -173,10 +172,8 @@ public class FilDeDiscussion implements Serializable,Comparable<FilDeDiscussion>
             if (!m.getEnAttente().getMembres().isEmpty()){
                 StyleConstants.setForeground(right, Color.RED);
                 StyleConstants.setForeground(left, Color.RED);
-
             }
-
-            if (m.getEnAttente().getMembres().isEmpty() && m.getLu().getMembres().size() == this.groupe.getMembres().size()){
+            if (m.getEnAttente().getMembres().isEmpty() && m.getLu().getMembres().size() != this.groupe.getMembres().size()){
                 StyleConstants.setForeground(right, Color.BLUE);
                 StyleConstants.setForeground(left, Color.BLUE);
             }
@@ -264,7 +261,7 @@ public class FilDeDiscussion implements Serializable,Comparable<FilDeDiscussion>
 
 
     public static void main(String[] args) {
-        Utilisateur admin = new Utilisateur("Admin", "admin", 0, "admin", null);
+       /* Utilisateur admin = new Utilisateur("Admin", "admin", 0, "admin", null);
         admin.setPrivilege(Utilisateur.Privilege.ADMIN);
         Utilisateur sylvain =new Utilisateur("DEKER","Sylvain",21400536,"123", TypeUtilisateur.ETUDIANT);
         Utilisateur salim =new Utilisateur("CHERIFI","Salim",21400537,"123", TypeUtilisateur.ETUDIANT);
@@ -291,7 +288,7 @@ public class FilDeDiscussion implements Serializable,Comparable<FilDeDiscussion>
 
         System.out.println(f);
 
-
+*/
 
 
 

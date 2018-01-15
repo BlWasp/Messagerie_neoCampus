@@ -79,7 +79,7 @@ public class Login extends JFrame {
                 if (errno == 1){
                     loginFailed.setVisible(false);
                     System.out.println("Authentification Reussi!");
-                    dispose();
+
                     Chat chat = new Chat(c);
                     chat.pack();
                     chat.setTitle(c.getUtilisateurCourant().getPrenom()+"."+c.getUtilisateurCourant().getPrenom()+"@"+c.getHost()+":"+c.getPort());
@@ -98,7 +98,9 @@ public class Login extends JFrame {
                         }
                     }
                     c.upload();
+                    dispose();
                     chat.setVisible(true);
+
                 }else{
                     c.deconnect();
                     loginFailed.setVisible(true);

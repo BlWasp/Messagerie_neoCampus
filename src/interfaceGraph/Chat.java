@@ -47,16 +47,17 @@ public class Chat extends JFrame {
      */
     public Chat(Client c) {
 
+        c.download();
         setContentPane(contentPane);
         this.setPreferredSize(new Dimension(800,800));
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
 
-        int delay = 5000; //milliseconds
+        int delay = 2000; //milliseconds
         ActionListener taskPerformer = evt ->{
+
             majListMessage(c);
-            majStatutMessage(c);
         };
         Timer t = new Timer(delay, taskPerformer);
         t.start();
@@ -128,9 +129,7 @@ public class Chat extends JFrame {
         chatTree.addTreeSelectionListener(e -> {
             DefaultMutableTreeNode node = (DefaultMutableTreeNode) chatTree.getLastSelectedPathComponent();
             if (node.getLevel() > 1){
-                t.stop();
                 majListMessage(c);
-                t.start();
                 sendField.setEnabled(true);
                 sendButton.setEnabled(true);
             }else{
@@ -141,10 +140,7 @@ public class Chat extends JFrame {
 
 
         rafraichir.addActionListener(new ActionListener() {
-            /**
-             *
-             * @param e
-             */
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 buildTree(c);
@@ -154,10 +150,7 @@ public class Chat extends JFrame {
 
 
         ajoutTicket.addActionListener(new ActionListener() {
-            /**
-             *
-             * @param e
-             */
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 AjoutTicket ajout = new AjoutTicket(c);
@@ -180,10 +173,7 @@ public class Chat extends JFrame {
 
         // call onCancel() on ESCAPE
         contentPane.registerKeyboardAction(new ActionListener() {
-            /**
-             *
-             * @param e
-             */
+
             public void actionPerformed(ActionEvent e) {
                 onCancel(c,t);
             }
@@ -220,8 +210,8 @@ public class Chat extends JFrame {
      */
 
     private void majListMessage(Client c ){
-        filDeChat.setText("");
         c.download();
+        filDeChat.setText("");
         DefaultMutableTreeNode node = (DefaultMutableTreeNode)chatTree.getLastSelectedPathComponent();
         if (node == null) return;
 
@@ -236,6 +226,7 @@ public class Chat extends JFrame {
                 e.printStackTrace();
             }
         }
+        majStatutMessage(c);
         c.upload();
     }
 
@@ -243,7 +234,6 @@ public class Chat extends JFrame {
 
 
     private void majStatutMessage(Client c){
-        c.download();
 
         DefaultMutableTreeNode node = (DefaultMutableTreeNode)chatTree.getLastSelectedPathComponent();
         if (node == null){
@@ -262,33 +252,21 @@ public class Chat extends JFrame {
                 }
 
             }
-        }else
-        if (node.getLevel()==1){
-            Object nodeInfo = node.getUserObject();
-            GroupeNomme g = c.getGroupeName(nodeInfo.toString());
-                if (g.estMembre(c.getUtilisateurCourant())) {
-                    for (FilDeDiscussion f :
-                            g.getFilsDeDiscussion()) {
-                        for (Message m :
-                                f.getListMessage()) {
-                            if (m.getEnAttente().estMembre(c.getUtilisateurCourant())) {
-                                m.recu(c.getUtilisateurCourant());
-                            }
-                        }
-                    }
-                }
 
 
-        }else{
-            Object nodeInfo = node.getUserObject();
+        }else if (node.getLevel()>1){
+
             GroupeNomme g = c.getGroupeName(node.getParent().toString());
 
             for (FilDeDiscussion f :
                     g.getFilsDeDiscussion()) {
                 for (Message m :
                         f.getListMessage()) {
-                    if (m.getEnAttente().estMembre(c.getUtilisateurCourant()) && m.getRecu().estMembre(c.getUtilisateurCourant())) {
+                    if (m.getEnAttente().estMembre(c.getUtilisateurCourant())){
                         m.recu(c.getUtilisateurCourant());
+                        m.lu(c.getUtilisateurCourant());
+                    }
+                    if (m.getRecu().estMembre(c.getUtilisateurCourant())) {
                         m.lu(c.getUtilisateurCourant());
                     }
                 }
@@ -296,7 +274,6 @@ public class Chat extends JFrame {
 
 
         }
-        c.upload();
     }
 
 
@@ -310,7 +287,6 @@ public class Chat extends JFrame {
      * @param c Client connecte
      */
     private void buildTree(Client c){
-        c.download();
         //List groupe est vide
         NavigableSet<GroupeNomme> listGroupe = new TreeSet<>(Comparator.comparing(GroupeNomme::getNom));
         listGroupe.addAll(c.getListeGroupe());
@@ -325,15 +301,12 @@ public class Chat extends JFrame {
                 NavigableSet<FilDeDiscussion> fils = new TreeSet<>(new Comparator<FilDeDiscussion>() {
                     @Override
                     public int compare(FilDeDiscussion o1, FilDeDiscussion o2) {
-
-
                         if (o1.getListMessage().isEmpty()){
                             return 1;
                         }
                         if (o2.getListMessage().isEmpty()){
                             return -1;
                         }
-
                         return o2.getDernierMessage().getDateEnvoi().compareTo(o1.getDernierMessage().getDateEnvoi());
                     }
                 });
