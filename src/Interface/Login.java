@@ -90,7 +90,7 @@ public class Login extends JFrame {
                         if (g.estMembre(c.getUtilisateurCourant())){
                             for (FilDeDiscussion f : g.getFilsDeDiscussion()) {
                                 for (Message m : f.getListMessage()) {
-                                    if (!m.getRecu().estMembre(c.getUtilisateurCourant())) {
+                                    if (m.getEnAttente().estMembre(c.getUtilisateurCourant())) {
                                         m.recu(c.getUtilisateurCourant());
                                     }
                                 }

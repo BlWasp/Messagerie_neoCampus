@@ -174,10 +174,7 @@ public class FilDeDiscussion implements Serializable,Comparable<FilDeDiscussion>
                 StyleConstants.setForeground(left, Color.RED);
 
             }*/
-            for (Utilisateur u :
-                    m.getRecu().getMembres()) {
-                System.out.println(u);
-            }
+
             if (!m.getRecu().getMembres().isEmpty()){
                 StyleConstants.setForeground(right, Color.BLUE);
                 StyleConstants.setForeground(left, Color.BLUE);

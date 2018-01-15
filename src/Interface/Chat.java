@@ -211,15 +211,10 @@ public class Chat extends JFrame {
         majListMessage(c);
     }
 
-<<<<<<< HEAD
-
-
-=======
     /**
      *
      * @param c Client connecte
      */
->>>>>>> 4bdbd5e799f365f1857d64d0e490401d7fe70c25
     private void majListMessage(Client c ){
         filDeChat.setText("");
         c.download();
@@ -233,8 +228,8 @@ public class Chat extends JFrame {
 
             for (Message m :
                     f.getListMessage()) {
-                if (!m.getRecu().estMembre(c.getUtilisateurCourant())) {
-                    m.recu(c.getUtilisateurCourant());
+                if (m.getRecu().estMembre(c.getUtilisateurCourant())) {
+                    //m.recu(c.getUtilisateurCourant());
                     m.lu(c.getUtilisateurCourant());
                 }
 

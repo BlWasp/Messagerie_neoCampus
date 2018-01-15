@@ -136,7 +136,7 @@ public class Utilisateur implements Comparable<Utilisateur>,Serializable{
         return type;
     }
 
-<<<<<<< HEAD
+
     public boolean isConnecte() {
         return connecte;
     }
@@ -145,13 +145,12 @@ public class Utilisateur implements Comparable<Utilisateur>,Serializable{
         this.connecte = connecte;
     }
 
-=======
+
     /**
      *
      * @param o Utilisateur à tester
      * @return redéfinition de compareTo
      */
->>>>>>> 4bdbd5e799f365f1857d64d0e490401d7fe70c25
     @Override
     public int compareTo(Utilisateur o) {
 
