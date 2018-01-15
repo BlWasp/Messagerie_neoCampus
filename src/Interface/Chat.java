@@ -215,6 +215,7 @@ public class Chat extends JFrame {
      *
      * @param c Client connecte
      */
+
     private void majListMessage(Client c ){
         filDeChat.setText("");
         c.download();

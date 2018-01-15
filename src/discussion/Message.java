@@ -57,10 +57,18 @@ public class Message implements Serializable{
         return from;
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 86e272c38854917d00fdf662a70e97c2bc2880f1
     /**
      *
      * @param u Utilisateur à tester
      */
+<<<<<<< HEAD
+=======
+
+>>>>>>> 86e272c38854917d00fdf662a70e97c2bc2880f1
     public void recu(Utilisateur u){
 
         if( ! enAttente.estMembre(u) ){
@@ -76,6 +84,10 @@ public class Message implements Serializable{
         this.recu.ajouterMembres(u);
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 86e272c38854917d00fdf662a70e97c2bc2880f1
     /**
      *
      * @param u Utilisateur à tester
