@@ -172,13 +172,13 @@ public class FilDeDiscussion implements Serializable,Comparable<FilDeDiscussion>
             ch.append("\n\n");
 
 
-            /*if (m.getRecu().getMembres().size() != this.groupe.getMembres().size()){
+            if (!m.getEnAttente().getMembres().isEmpty()){
                 StyleConstants.setForeground(right, Color.RED);
                 StyleConstants.setForeground(left, Color.RED);
 
-            }*/
+            }
 
-            if (!m.getRecu().getMembres().isEmpty()){
+            if (m.getEnAttente().getMembres().isEmpty() && m.getLu().getMembres().size() == this.groupe.getMembres().size()){
                 StyleConstants.setForeground(right, Color.BLUE);
                 StyleConstants.setForeground(left, Color.BLUE);
             }

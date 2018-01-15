@@ -54,8 +54,12 @@ public class Chat extends JFrame {
 
 
         int delay = 5000; //milliseconds
-        ActionListener taskPerformer = evt -> majListMessage(c);
+        ActionListener taskPerformer = evt ->{
+            majListMessage(c);
+            majStatutMessage(c);
+        };
         Timer t = new Timer(delay, taskPerformer);
+        t.start();
 
 
 
@@ -124,8 +128,9 @@ public class Chat extends JFrame {
         chatTree.addTreeSelectionListener(e -> {
             DefaultMutableTreeNode node = (DefaultMutableTreeNode) chatTree.getLastSelectedPathComponent();
             if (node.getLevel() > 1){
-                t.start();
+                t.stop();
                 majListMessage(c);
+                t.start();
                 sendField.setEnabled(true);
                 sendButton.setEnabled(true);
             }else{
@@ -224,16 +229,6 @@ public class Chat extends JFrame {
         if (node.getLevel()>1){
             GroupeNomme g = c.getGroupeName(node.getParent().toString());
             FilDeDiscussion f = g.getFilsDeDiscussion(nodeInfo.toString());
-
-            for (Message m :
-                    f.getListMessage()) {
-                if (m.getRecu().estMembre(c.getUtilisateurCourant())) {
-                    //m.recu(c.getUtilisateurCourant());
-                    m.lu(c.getUtilisateurCourant());
-                }
-
-            }
-            c.upload();
             filDeChat.setText("");
             try {
                 f.printMessage(c.getUtilisateurCourant(),this.filDeChat);
@@ -241,7 +236,73 @@ public class Chat extends JFrame {
                 e.printStackTrace();
             }
         }
+        c.upload();
     }
+
+
+
+
+    private void majStatutMessage(Client c){
+        c.download();
+
+        DefaultMutableTreeNode node = (DefaultMutableTreeNode)chatTree.getLastSelectedPathComponent();
+        if (node == null){
+            for (GroupeNomme g :
+                    c.getListeGroupe()) {
+                if (g.estMembre(c.getUtilisateurCourant())) {
+                    for (FilDeDiscussion f :
+                            g.getFilsDeDiscussion()) {
+                        for (Message m :
+                                f.getListMessage()) {
+                            if (m.getEnAttente().estMembre(c.getUtilisateurCourant())) {
+                                m.recu(c.getUtilisateurCourant());
+                            }
+                        }
+                    }
+                }
+
+            }
+        }else
+        if (node.getLevel()==1){
+            Object nodeInfo = node.getUserObject();
+            GroupeNomme g = c.getGroupeName(nodeInfo.toString());
+                if (g.estMembre(c.getUtilisateurCourant())) {
+                    for (FilDeDiscussion f :
+                            g.getFilsDeDiscussion()) {
+                        for (Message m :
+                                f.getListMessage()) {
+                            if (m.getEnAttente().estMembre(c.getUtilisateurCourant())) {
+                                m.recu(c.getUtilisateurCourant());
+                            }
+                        }
+                    }
+                }
+
+
+        }else{
+            Object nodeInfo = node.getUserObject();
+            GroupeNomme g = c.getGroupeName(node.getParent().toString());
+
+            for (FilDeDiscussion f :
+                    g.getFilsDeDiscussion()) {
+                for (Message m :
+                        f.getListMessage()) {
+                    if (m.getEnAttente().estMembre(c.getUtilisateurCourant()) && m.getRecu().estMembre(c.getUtilisateurCourant())) {
+                        m.recu(c.getUtilisateurCourant());
+                        m.lu(c.getUtilisateurCourant());
+                    }
+                }
+            }
+
+
+        }
+        c.upload();
+    }
+
+
+
+
+
 
 
     /**
