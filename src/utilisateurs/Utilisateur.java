@@ -16,6 +16,7 @@ public class Utilisateur implements Comparable<Utilisateur>,Serializable{
     private TypeUtilisateur type;
     public Privilege privilege = USER;
     public enum Privilege{USER,ADMIN}
+    private boolean connecte;
 
     /**
      * Constructeur sans privilège
@@ -32,6 +33,7 @@ public class Utilisateur implements Comparable<Utilisateur>,Serializable{
         //this.motDePasse = motDePasse; //TODO FAIRE SECURITE
         this.motDePasse = motDePasse;
         this.type = type;
+        this.connecte = false;
     }
 
     /**
@@ -51,6 +53,7 @@ public class Utilisateur implements Comparable<Utilisateur>,Serializable{
         this.motDePasse = motDePasse;
         this.type = type;
         this.privilege = priv;
+        this.connecte = false;
     }
 
     /**
@@ -132,6 +135,16 @@ public class Utilisateur implements Comparable<Utilisateur>,Serializable{
     public TypeUtilisateur getType() {
         return type;
     }
+
+
+    public boolean isConnecte() {
+        return connecte;
+    }
+
+    public void setConnecte(boolean connecte) {
+        this.connecte = connecte;
+    }
+
 
     /**
      *

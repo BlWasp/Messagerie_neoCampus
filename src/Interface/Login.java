@@ -1,7 +1,10 @@
 package Interface;
 
+import discussion.FilDeDiscussion;
+import discussion.Message;
 import net.Client;
 
+import utilisateurs.GroupeNomme;
 import utilisateurs.Utilisateur;
 
 import javax.swing.*;
@@ -72,8 +75,6 @@ public class Login extends JFrame {
             //TODO AJOUTER VERIF ADRESSE
             if (errno == 1){
                 adressePortIncorrect.setVisible(false);
-                System.out.println(ident.getText());
-                System.out.println(mdp.getText());
                 errno = c.authentification(new Utilisateur("","",Integer.parseInt(ident.getText()),mdp.getText(),null));
                 if (errno == 1){
                     loginFailed.setVisible(false);
@@ -82,6 +83,20 @@ public class Login extends JFrame {
                     Chat chat = new Chat(c);
                     chat.pack();
                     chat.setTitle(c.getUtilisateurCourant().getPrenom()+"."+c.getUtilisateurCourant().getPrenom()+"@"+c.getHost()+":"+c.getPort());
+
+                    c.getUtilisateurCourant().setConnecte(true);
+
+                    for (GroupeNomme g : c.getListeGroupe()) {
+                        if (g.estMembre(c.getUtilisateurCourant())){
+                            for (FilDeDiscussion f : g.getFilsDeDiscussion()) {
+                                for (Message m : f.getListMessage()) {
+                                    if (m.getEnAttente().estMembre(c.getUtilisateurCourant())) {
+                                        m.recu(c.getUtilisateurCourant());
+                                    }
+                                }
+                            }
+                        }
+                    }
                     chat.setVisible(true);
                 }else{
                     c.deconnect();

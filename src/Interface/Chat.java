@@ -1,6 +1,7 @@
 package Interface;
 
 import discussion.FilDeDiscussion;
+import discussion.Message;
 import net.Client;
 import utilisateurs.GroupeNomme;
 import utilisateurs.Utilisateur;
@@ -13,8 +14,6 @@ import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
-import java.util.List;
-import java.util.stream.Stream;
 
 
 /**
@@ -54,7 +53,7 @@ public class Chat extends JFrame {
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
 
-        int delay = 500; //milliseconds
+        int delay = 5000; //milliseconds
         ActionListener taskPerformer = evt -> majListMessage(c);
         Timer t = new Timer(delay, taskPerformer);
         t.start();
@@ -71,7 +70,6 @@ public class Chat extends JFrame {
                 onCancel(c,t,tTree);
             }
         });
-        c.download();
         buildTree(c);
 
 
@@ -124,9 +122,11 @@ public class Chat extends JFrame {
 
         chatTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         chatTree.addTreeSelectionListener(e -> {
-            majListMessage(c);
             DefaultMutableTreeNode node = (DefaultMutableTreeNode) chatTree.getLastSelectedPathComponent();
             if (node.getLevel() > 1){
+                t.stop();
+                majListMessage(c);
+                t.start();
                 sendField.setEnabled(true);
                 sendButton.setEnabled(true);
             }else{
@@ -213,6 +213,7 @@ public class Chat extends JFrame {
      *
      * @param c Client connecte
      */
+
     private void majListMessage(Client c ){
         filDeChat.setText("");
         c.download();
@@ -223,6 +224,16 @@ public class Chat extends JFrame {
         if (node.getLevel()>1){
             GroupeNomme g = c.getGroupeName(node.getParent().toString());
             FilDeDiscussion f = g.getFilsDeDiscussion(nodeInfo.toString());
+
+            for (Message m :
+                    f.getListMessage()) {
+                if (m.getRecu().estMembre(c.getUtilisateurCourant())) {
+                    //m.recu(c.getUtilisateurCourant());
+                    m.lu(c.getUtilisateurCourant());
+                }
+
+            }
+            c.upload();
             filDeChat.setText("");
             try {
                 f.printMessage(c.getUtilisateurCourant(),this.filDeChat);
@@ -295,6 +306,9 @@ public class Chat extends JFrame {
         for (Timer timer: t) {
             timer.stop();
         }
+        c.getUtilisateurCourant().setConnecte(false);
+
+        c.upload();
         c.deconnect();
         dispose();
     }

@@ -38,6 +38,8 @@ public class Message implements Serializable{
     public Message(Utilisateur from, Groupe to, String message) {
         this.from = from;
         this.message = message;
+
+
         enAttente.ajouterMembres(to);
         enAttente.ajouterMembres(from);
         etat = Etat.ENVOIE_SERVEUR;
@@ -55,10 +57,12 @@ public class Message implements Serializable{
         return from;
     }
 
+
     /**
      *
      * @param u Utilisateur à tester
      */
+
     public void recu(Utilisateur u){
 
         if( ! enAttente.estMembre(u) ){
@@ -73,18 +77,18 @@ public class Message implements Serializable{
         this.enAttente.retirerMembres(u);
         this.recu.ajouterMembres(u);
     }
-
+    
     /**
      *
      * @param u Utilisateur à tester
      */
     public void lu(Utilisateur u){
 
-        if( ! recu.estMembre(u) ){
+        if( !recu.estMembre(u) ){
             LOGGER.error("ERREUR : lu() l'utilisateur désigné n'est pas dans la liste des messages recus");
             System.exit(5);
         }
-        if( lu.estMembre(u)){
+        if( lu.estMembre(u) ){
             LOGGER.error("ERREUR : lu() : l'utilisateur est déja dans lu ");
             System.exit(6);
         }
@@ -123,14 +127,25 @@ public class Message implements Serializable{
      */
     @Override
     public String toString() {
-        return "Message{" +
-                "from=" + from.getPrenom() +
-                ", message='" + message + '\'' +
-                ", enAttente=" + enAttente._listeUtisateurToString() +
-                ", recu=" + recu._listeUtisateurToString() +
-                ", lu=" + lu._listeUtisateurToString() +
-                ", etat=" + etat +
-                '}';
+
+        String cat = "";
+        cat += this.getFrom().getPrenom()+": "+this.getMessage()+"\n";
+        cat += "... Membres en Attente : ";
+        for (Utilisateur u : this.getEnAttente().getMembres()){
+            cat += u.getPrenom()+", ";
+        }
+        cat += "\n";
+        cat += "... Membres qui ont recu : ";
+        for (Utilisateur u : this.getRecu().getMembres()){
+            cat += u.getPrenom()+", ";
+        }
+        cat += "\n";
+        cat += "... Membres qui ont lu : ";
+        for (Utilisateur u : this.getLu().getMembres()){
+            cat += u.getPrenom()+", ";
+        }
+        cat += "\n";
+        return  cat;
     }
 
     /**

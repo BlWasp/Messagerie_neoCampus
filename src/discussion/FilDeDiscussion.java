@@ -10,6 +10,8 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import utilisateurs.Groupe;
+import utilisateurs.GroupeNomme;
+import utilisateurs.TypeUtilisateur;
 import utilisateurs.Utilisateur;
 
 import javax.swing.*;
@@ -43,19 +45,21 @@ public class FilDeDiscussion implements Serializable,Comparable<FilDeDiscussion>
      * @return le message ajoute (à null si erreur)
      */
     public Message ajouterMessage(Utilisateur u, String m) {
-        Message messageajoute = null;
         if(groupe.estMembre(u) || u.equals(createur) ){
             Groupe g = new Groupe();
             g.ajouterMembres(groupe);
             g.ajouterMembres(createur);
-            messageajoute = new Message(u,g, m);
+            Message messageajoute = new Message(u,g, m);
+            messageajoute.recu(u);
+            messageajoute.lu(u);
             filsdediscussion.add(messageajoute);
+            return messageajoute;
         }
         else{
             LOGGER.error("ERREUR : " + u.getPrenom() + " ne participe pas à cette conversation");
             System.exit(1);
         }
-        return messageajoute;
+        return null;
     }
 
     /**
@@ -145,12 +149,12 @@ public class FilDeDiscussion implements Serializable,Comparable<FilDeDiscussion>
         MutableAttributeSet right = new SimpleAttributeSet();
         StyleConstants.setAlignment(right, StyleConstants.ALIGN_RIGHT);
         StyleConstants.setFontFamily(right,"Tahoma");
-        StyleConstants.setForeground(right, Color.BLUE);
+        //StyleConstants.setForeground(right, Color.BLUE);
 
         MutableAttributeSet left = new SimpleAttributeSet();
         StyleConstants.setAlignment(left, StyleConstants.ALIGN_LEFT);
         StyleConstants.setFontFamily(left,"Tahoma");
-        StyleConstants.setForeground(left, Color.RED);
+        //StyleConstants.setForeground(left, Color.RED);
 
         StyledDocument sDoc = new DefaultStyledDocument();
         pane.setStyledDocument(sDoc);
@@ -159,15 +163,35 @@ public class FilDeDiscussion implements Serializable,Comparable<FilDeDiscussion>
 
         StringBuilder ch = new StringBuilder();
         for (Message m : this.getListMessage()) {
+            //m.lu(utilisateurCourant);
             ch.append(m.getDateEnvoi());
             ch.append("\n");
             ch.append(m.getFrom().getNom() + " " + m.getFrom().getPrenom() + " : ");
             ch.append("\n");
-            ch.append(m.getMessage() + "  " + m.getLu());
+            ch.append(m.getMessage());
             ch.append("\n\n");
 
 
+            /*if (m.getRecu().getMembres().size() != this.groupe.getMembres().size()){
+                StyleConstants.setForeground(right, Color.RED);
+                StyleConstants.setForeground(left, Color.RED);
+
+            }*/
+
+            if (!m.getRecu().getMembres().isEmpty()){
+                StyleConstants.setForeground(right, Color.BLUE);
+                StyleConstants.setForeground(left, Color.BLUE);
+            }
+            if (m.getLu().getMembres().size() == this.groupe.getMembres().size()){
+                StyleConstants.setForeground(right, Color.GREEN);
+                StyleConstants.setForeground(left, Color.GREEN);
+            }
+
+
+
+
             if (utilisateurCourant.equals(m.getFrom())){
+
                 sDoc.setParagraphAttributes(sDoc.getLength(),ch.length(),right,true);
                 sDoc.insertString(sDoc.getLength(),ch.toString(),right);
             }else{
@@ -232,10 +256,50 @@ public class FilDeDiscussion implements Serializable,Comparable<FilDeDiscussion>
      */
     @Override
     public String toString() {
-        return "FilDeDiscussion{" +
-                "sujet='" + sujet + '\'' +
-                ", filsdediscussion=" + filsdediscussion +
-                ", id=" + id +
-                '}';
+        String cat ="" + this.sujet+"\n";
+        for(Message m: this.getListMessage()){
+          cat +=  m.toString();
+        }
+        return cat;
+    }
+
+
+
+    public static void main(String[] args) {
+        Utilisateur admin = new Utilisateur("Admin", "admin", 0, "admin", null);
+        admin.setPrivilege(Utilisateur.Privilege.ADMIN);
+        Utilisateur sylvain =new Utilisateur("DEKER","Sylvain",21400536,"123", TypeUtilisateur.ETUDIANT);
+        Utilisateur salim =new Utilisateur("CHERIFI","Salim",21400537,"123", TypeUtilisateur.ETUDIANT);
+        Utilisateur guillaume =new Utilisateur("DAUMAS","Guillaume",21400538,"123", TypeUtilisateur.ETUDIANT);
+
+        Utilisateur nadege = new Utilisateur("Lamarque","Nadege",0,"123",TypeUtilisateur.ADMINISTRATIF);
+        GroupeNomme l3 = new GroupeNomme("L3");
+        l3.ajouterMembres(sylvain,salim,guillaume);
+
+        FilDeDiscussion f = new FilDeDiscussion("Inscription truchchose",l3,nadege);
+        Message message = f.ajouterMessage(nadege,"Coucou Reunion dans 5 min");
+        System.out.println(f);
+
+        message.recu(sylvain);
+        message.recu(salim);
+        message.recu(guillaume);
+
+
+        System.out.println(f);
+
+        message.lu(sylvain);
+        message.lu(salim);
+        message.lu(guillaume);
+
+        System.out.println(f);
+
+
+
+
+
+
+
+
+
     }
 }
