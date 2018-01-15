@@ -190,7 +190,7 @@ public class GestionGroupe extends JFrame {
                        g.ajouterMembres(ajout);
                        c.upload();
                        JOptionPane.showMessageDialog(null,"Utilisateur ajouté");
-                       //buildListUtilisateurGroupe(c, listeGroupe.getSelectedValue().toString());
+                       buildListUtilisateurGroupe(c, listeGroupe.getSelectedValue().toString());
                    }else{
                        JOptionPane.showMessageDialog(null,"Utilisateur déjà présent dans ce groupe");
                    }
@@ -213,7 +213,7 @@ public class GestionGroupe extends JFrame {
                        int id = (int) listeUtilisateurGroupe.getValueAt(listeUtilisateurGroupe.getSelectedRow(), 0);
                        int retour = c.getGroupeName(listeGroupe.getSelectedValue().toString()).retirerMembres(c.getGroupeGlobal().getMembre(id));
                        c.upload();
-                       //buildListUtilisateurGroupe(c, listeGroupe.getSelectedValue().toString());
+                       buildListUtilisateurGroupe(c, listeGroupe.getSelectedValue().toString());
                    }
                }else{
                    JOptionPane.showMessageDialog(null, "Veuillez sélectionner un utilisateur");

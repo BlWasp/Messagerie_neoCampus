@@ -122,6 +122,23 @@ public class Chat extends JFrame {
             });
         }
 
+        this.addWindowFocusListener(new WindowFocusListener() {
+            @Override
+            public void windowGainedFocus(WindowEvent e) {
+                t.setDelay(10000);
+                t.stop();
+                tTree.start();
+
+            }
+
+            @Override
+            public void windowLostFocus(WindowEvent e) {
+                t.setDelay(2000);
+                t.stop();
+                tTree.stop();
+            }
+        });
+
 
 
 
@@ -185,7 +202,7 @@ public class Chat extends JFrame {
 
 
     /**
-     *
+     *  Action lance lors de l'appuie sur le bouton ok
      * @param c Client connecte
      */
     public void okPressed(Client c){
@@ -205,7 +222,7 @@ public class Chat extends JFrame {
     }
 
     /**
-     *
+     *  Methode lance toutes les 500ms et mets à jour la liste des messages
      * @param c Client connecte
      */
 
@@ -230,9 +247,10 @@ public class Chat extends JFrame {
         c.upload();
     }
 
-
-
-
+    /**
+     * Mise a jour du statut des messages (Lu, en attente, recu)
+     * @param c Client connecte
+     */
     private void majStatutMessage(Client c){
 
         DefaultMutableTreeNode node = (DefaultMutableTreeNode)chatTree.getLastSelectedPathComponent();
@@ -283,7 +301,7 @@ public class Chat extends JFrame {
 
 
     /**
-     *
+     * Construit l'arbre des messages et des fils de discussions
      * @param c Client connecte
      */
     private void buildTree(Client c){
