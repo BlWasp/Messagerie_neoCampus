@@ -15,9 +15,9 @@ public class AjoutUtilisateur extends JDialog {
     private JTextField lastName;
     private JTextField firstName;
     private JTextField ident;
-    private JPasswordField passwd;
-    private JPasswordField confirmPasswd;
     private JComboBox typeUtilisateur;
+    private JTextField passwd;
+    private JTextField confirmPasswd;
 
     /**
      *
@@ -40,12 +40,12 @@ public class AjoutUtilisateur extends JDialog {
                 if (!lastName.getText().isEmpty() &&
                         !firstName.getText().isEmpty() &&
                         !ident.getText().isEmpty() &&
-                        !passwd.getPassword().toString().isEmpty() &&
-                        !confirmPasswd.getPassword().toString().isEmpty() &&
+                        !passwd.getText().isEmpty() &&
+                        !confirmPasswd.getText().toString().isEmpty() &&
                         !typeUtilisateur.getSelectedItem().toString().isEmpty()){
 
-                    if (Arrays.equals(passwd.getPassword(),confirmPasswd.getPassword())) {
-                        Utilisateur u = new Utilisateur(lastName.getText().toUpperCase(), firstName.getText(), Integer.parseInt(ident.getText()), passwd.getPassword().toString(), (TypeUtilisateur) typeUtilisateur.getSelectedItem());
+                    if (passwd.getText().equals(confirmPasswd.getText())) {
+                        Utilisateur u = new Utilisateur(lastName.getText().toUpperCase(), firstName.getText(), Integer.parseInt(ident.getText()), passwd.getText().toString(), (TypeUtilisateur) typeUtilisateur.getSelectedItem());
 
                         c.getGroupeGlobal().ajouterMembres(u);
                         c.upload();

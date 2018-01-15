@@ -75,7 +75,7 @@ public class Serveur {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        while(true) {
+        while(1==1) {
             try {
                 Socket socket = socketServer.accept();
                 System.out.println("Nouvelle connexion");

@@ -30,7 +30,6 @@ public class Utilisateur implements Comparable<Utilisateur>,Serializable{
         this.nom = nom.toUpperCase();
         this.prenom = prenom;
         this.identifiant = identifiant;
-        //this.motDePasse = motDePasse; //TODO FAIRE SECURITE
         this.motDePasse = motDePasse;
         this.type = type;
         this.connecte = false;
@@ -49,7 +48,6 @@ public class Utilisateur implements Comparable<Utilisateur>,Serializable{
         this.nom = nom.toUpperCase();
         this.prenom = prenom;
         this.identifiant = identifiant;
-        this.motDePasse = EncodePasswd.encode(motDePasse);
         this.motDePasse = motDePasse;
         this.type = type;
         this.privilege = priv;

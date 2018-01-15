@@ -99,4 +99,14 @@ public class Paquet implements Serializable{
     public void setGlobal(Groupe global) {
         this.global = global;
     }
+
+    @Override
+    public String toString() {
+        return "Paquet{" +
+                "action=" + action +
+                ", listeGroupe=" + listeGroupe +
+                ", utilisateur=" + utilisateur +
+                ", global=" + global +
+                '}';
+    }
 }

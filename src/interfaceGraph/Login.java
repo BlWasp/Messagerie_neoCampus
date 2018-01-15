@@ -74,6 +74,7 @@ public class Login extends JFrame {
             Client c = new Client(ipField.getText(),Integer.parseInt(portField.getText()));
             int errno = c.connect();
             if (errno == 1){
+
                 adressePortIncorrect.setVisible(false);
                 errno = c.authentification(new Utilisateur("","",Integer.parseInt(ident.getText()),mdp.getText(),null));
                 if (errno == 1){
