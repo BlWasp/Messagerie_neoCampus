@@ -19,6 +19,10 @@ public class AjoutUtilisateur extends JDialog {
     private JPasswordField confirmPasswd;
     private JComboBox typeUtilisateur;
 
+    /**
+     *
+     * @param c Client connecte
+     */
     public AjoutUtilisateur(Client c) {
         setContentPane(contentPane);
         setModal(true);
@@ -82,6 +86,9 @@ public class AjoutUtilisateur extends JDialog {
         this.setLocationRelativeTo(null);
     }
 
+    /**
+     *
+     */
     private void onCancel() {
         // add your code here if necessary
         dispose();

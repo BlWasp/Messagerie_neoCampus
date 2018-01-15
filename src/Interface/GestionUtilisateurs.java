@@ -20,7 +20,10 @@ public class GestionUtilisateurs extends JFrame {
     private JButton retirerMembreButton;
     private JButton modifierButton;
 
-
+    /**
+     *
+     * @param c Client connecte
+     */
     public GestionUtilisateurs(Client c) {
         setContentPane(contentPane);
         //setModal(true);
@@ -79,6 +82,10 @@ public class GestionUtilisateurs extends JFrame {
 
     }
 
+    /**
+     *
+     * @param c Client connecte
+     */
     private void modifierMembre(Client c){
         if (table1.getSelectedRow() != -1){
             int idSelected = (int)table1.getValueAt(table1.getSelectedRow(),0);
@@ -93,9 +100,10 @@ public class GestionUtilisateurs extends JFrame {
 
     }
 
-
-
-
+    /**
+     *
+     * @param c Client connecte
+     */
     private void retirerMembre(Client c){
         RetirerMembre retirer = new RetirerMembre(c);
         retirer.toFront();
@@ -106,6 +114,10 @@ public class GestionUtilisateurs extends JFrame {
 
     }
 
+    /**
+     *
+     * @param c Client connecte
+     */
     private void majTab(Client c){
         c.download();
         String[] col = {"<html><b>Identifiant</b></html>","<html><b>Nom</b></html>","<html><b>Prenom</b></html>"};
@@ -131,11 +143,9 @@ public class GestionUtilisateurs extends JFrame {
 
     }
 
-
-
-
-
-
+    /**
+     *
+     */
     private void onCancel() {
         // add your code here if necessary
         dispose();

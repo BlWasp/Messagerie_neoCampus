@@ -26,6 +26,10 @@ public class GestionGroupe extends JFrame {
     private JButton ajouterUnGroupeButton;
     private JButton rafraichirButton;
 
+    /**
+     *
+     * @param c Client connecte
+     */
     public GestionGroupe(Client c) {
         setContentPane(contentPane);
         c.download();
@@ -251,8 +255,11 @@ public class GestionGroupe extends JFrame {
         this.setLocationRelativeTo(null);
     }
 
-
-
+    /**
+     *
+     * @param c Client connecte
+     * @param selectedGroupe
+     */
     private void buildListUtilisateurGroupe(Client c, String selectedGroupe){
         c.download();
         List<GroupeNomme> listGroupe = new ArrayList<>();
@@ -270,8 +277,10 @@ public class GestionGroupe extends JFrame {
         this.pack();
     }
 
-
-
+    /**
+     *
+     * @param c Client connecte
+     */
     private void buildListGroupe(Client c){
         c.download();
         DefaultListModel<String> model = new DefaultListModel<>();
@@ -286,11 +295,17 @@ public class GestionGroupe extends JFrame {
         }
     }
 
+    /**
+     *
+     */
     private void onOK() {
         // add your code here
         dispose();
     }
 
+    /**
+     *
+     */
     private void onCancel() {
         // add your code here if necessary
         dispose();

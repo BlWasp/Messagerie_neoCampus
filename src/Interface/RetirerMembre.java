@@ -14,6 +14,10 @@ public class RetirerMembre extends JDialog {
     private JFormattedTextField idField;
     private JLabel idInvalideField;
 
+    /**
+     *
+     * @param c Client connecte
+     */
     public RetirerMembre(Client c) {
         setContentPane(contentPane);
         setModal(true);
@@ -51,8 +55,11 @@ public class RetirerMembre extends JDialog {
 
     }
 
+    /**
+     *
+     * @param c Client connecte
+     */
     private void onOK(Client c) {
-
 
         if (idField.getText().matches(".*\\d+.*")){
             if (c.getGroupeGlobal().getUtilisateur(Integer.parseInt(idField.getText())) != null){
@@ -70,6 +77,9 @@ public class RetirerMembre extends JDialog {
         dispose();
     }
 
+    /**
+     *
+     */
     private void onCancel() {
         dispose();
     }

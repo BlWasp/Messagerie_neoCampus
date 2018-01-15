@@ -24,6 +24,10 @@ public class GererAdhesionGroupe extends JFrame {
     private JLabel groupeInexistantLabel;
     UUID idOldGroupe;
 
+    /**
+     *
+     * @param c Client connecte
+     */
     public GererAdhesionGroupe(Client c) {
         setContentPane(contentPane);
         c.download();
@@ -79,6 +83,10 @@ public class GererAdhesionGroupe extends JFrame {
         this.setLocationRelativeTo(null);
     }
 
+    /**
+     *
+     * @param c Client connecte
+     */
     private void changerGroupe(Client c){
         GroupeNomme oldGroupe = c.getGroupeID(idOldGroupe);
         oldGroupe.retirerMembre(Integer.parseInt(ID.getText()));
@@ -97,7 +105,11 @@ public class GererAdhesionGroupe extends JFrame {
 
     }
 
-
+    /**
+     *
+     * @param c Client connecte
+     * @param id Id du groupe
+     */
     private void setFields(Client c, int id){
         c.download();
         Utilisateur u = c.getGroupeGlobal().getUtilisateur(id);
@@ -127,9 +139,9 @@ public class GererAdhesionGroupe extends JFrame {
         }
     }
 
-
-
-
+    /**
+     *
+     */
     private void onCancel() {
         // add your code here if necessary
         dispose();

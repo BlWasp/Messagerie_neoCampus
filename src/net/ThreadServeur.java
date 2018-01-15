@@ -61,8 +61,8 @@ public class ThreadServeur implements Runnable {
                         retour = ExtractDataBDD.download();
                     } catch (SQLException e) {
                         e.printStackTrace();
-                    }
-*/
+                    }*/
+
                     retour.setAction(Paquet.Action.REPONSE);
                     retour.setUtilisateur(paquet.utilisateur);
                     out.writeObject(retour);

@@ -18,7 +18,9 @@ public class Login extends JFrame {
     private JTextField portField;
     private JLabel adressePortIncorrect;
 
-
+    /**
+     *
+     */
     public Login() {
         setContentPane(contentPane);
         this.setPreferredSize(new Dimension(250,350));
@@ -54,6 +56,9 @@ public class Login extends JFrame {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
+    /**
+     *
+     */
     private void onOK() {
 
         if (!ident.getText().isEmpty()  &&
@@ -96,10 +101,17 @@ public class Login extends JFrame {
 
     }
 
+    /**
+     *
+     */
     private void onCancel() {
         dispose();
     }
 
+    /**
+     * Methode main a lance pour lancer l'interface, l'utilisateur etc
+     * @param args Arguments voulu si necessaire
+     */
     public static void main(String[] args) {
 
         Login dialog = new Login();
