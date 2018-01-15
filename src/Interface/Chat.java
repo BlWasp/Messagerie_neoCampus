@@ -56,7 +56,7 @@ public class Chat extends JFrame {
         int delay = 5000; //milliseconds
         ActionListener taskPerformer = evt -> majListMessage(c);
         Timer t = new Timer(delay, taskPerformer);
-        t.start();
+
 
 
         int delayTree = 10000; //milliseconds
@@ -124,9 +124,8 @@ public class Chat extends JFrame {
         chatTree.addTreeSelectionListener(e -> {
             DefaultMutableTreeNode node = (DefaultMutableTreeNode) chatTree.getLastSelectedPathComponent();
             if (node.getLevel() > 1){
-                t.stop();
-                majListMessage(c);
                 t.start();
+                majListMessage(c);
                 sendField.setEnabled(true);
                 sendButton.setEnabled(true);
             }else{
@@ -202,6 +201,7 @@ public class Chat extends JFrame {
             GroupeNomme g = c.getGroupeName(node.getParent().toString());
             FilDeDiscussion f = g.getFilsDeDiscussion(node.toString());
             f.ajouterMessage(c.getUtilisateurCourant(),chatField.getText());
+
             chatField.setText("");
             c.upload();
 

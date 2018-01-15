@@ -77,7 +77,7 @@ public class Message implements Serializable{
         this.enAttente.retirerMembres(u);
         this.recu.ajouterMembres(u);
     }
-    
+
     /**
      *
      * @param u Utilisateur à tester
