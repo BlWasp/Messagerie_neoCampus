@@ -43,7 +43,6 @@ public class Serveur {
         GroupeNomme l3 = new GroupeNomme("L3");
         l3.ajouterMembres(admin);
         l3.ajouterMembres(salim);
-        //l3.ajouterMembres(guillaume);
         GroupeNomme l2 = new GroupeNomme("L2");
         l2.ajouterMembres(sylvain);
         GroupeNomme m2 = new GroupeNomme("M2");
@@ -53,9 +52,6 @@ public class Serveur {
         l3.ajouterFilDeDiscussion(admin,"Fil 1");
         l3.ajouterFilDeDiscussion(admin,"Fil 2");
         l3.ajouterFilDeDiscussion(admin,"Erreur réseau");
-
-        m2.ajouterFilDeDiscussion(salim,"Coucou");
-
         l2.ajouterFilDeDiscussion(sylvain,"Fil 3");
 
         listeGroupe.add(l3);

@@ -47,7 +47,8 @@ public class Chat extends JFrame {
      */
     public Chat(Client c) {
 
-        c.download();
+
+        buildTree(c);
         setContentPane(contentPane);
         this.setPreferredSize(new Dimension(800,800));
         // call onCancel() when cross is clicked
@@ -63,15 +64,11 @@ public class Chat extends JFrame {
         t.start();
 
 
-        int delayTree = 10000; //milliseconds
-        ActionListener taskPerformerTree = evt -> buildTree(c);
-        Timer tTree = new Timer(delay, taskPerformer);
-        tTree.start();
 
 
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                onCancel(c,t,tTree);
+                onCancel(c,t);
             }
         });
 
@@ -124,7 +121,6 @@ public class Chat extends JFrame {
             public void windowGainedFocus(WindowEvent e) {
                 t.setDelay(2000);
                 t.start();
-                tTree.start();
 
             }
 
@@ -132,7 +128,6 @@ public class Chat extends JFrame {
             public void windowLostFocus(WindowEvent e) {
                 t.setDelay(10000);
                 t.stop();
-                tTree.stop();
             }
         });
 
@@ -143,13 +138,13 @@ public class Chat extends JFrame {
         chatTree.addTreeSelectionListener(e -> {
             DefaultMutableTreeNode node = (DefaultMutableTreeNode) chatTree.getLastSelectedPathComponent();
             if (node.getLevel() > 1){
-                majListMessage(c);
                 sendField.setEnabled(true);
                 sendButton.setEnabled(true);
-            }else{
+                majListMessage(c);
+            }/*else{
                 sendField.setEnabled(false);
                 sendButton.setEnabled(false);
-            }
+            }*/
         });
 
 
@@ -170,7 +165,7 @@ public class Chat extends JFrame {
                 AjoutTicket ajout = new AjoutTicket(c);
                 ajout.pack();
                 ajout.setVisible(true);
-                buildTree(c);
+                //buildTree(c);
             }
         });
 
@@ -178,12 +173,13 @@ public class Chat extends JFrame {
 
 
         sendButton.addActionListener(e -> {
-           okPressed(c);
+            okPressed(c);
         });
 
         chatField.addActionListener(e -> {
             okPressed(c);
         });
+
 
         // call onCancel() on ESCAPE
         contentPane.registerKeyboardAction(new ActionListener() {
@@ -329,6 +325,7 @@ public class Chat extends JFrame {
                 fils.addAll(g.getFilsDeDiscussion());
                 //On rajoute 4 branches
                 for (FilDeDiscussion fil : fils) {
+
                     if (fil.getCreateur().equals(c.getUtilisateurCourant()) || g.estMembre(c.getUtilisateurCourant())) {
                         DefaultMutableTreeNode rep2 = new DefaultMutableTreeNode(fil.getSujet());
                         rep.add(rep2);
