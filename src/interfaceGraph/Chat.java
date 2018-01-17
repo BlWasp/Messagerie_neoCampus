@@ -63,7 +63,6 @@ public class Chat extends JFrame {
         t.start();
 
 
-
         int delayTree = 10000; //milliseconds
         ActionListener taskPerformerTree = evt -> buildTree(c);
         Timer tTree = new Timer(delay, taskPerformer);
@@ -75,7 +74,6 @@ public class Chat extends JFrame {
                 onCancel(c,t,tTree);
             }
         });
-        buildTree(c);
 
 
         //Fenetre de chat et zone d'envoi
@@ -121,19 +119,18 @@ public class Chat extends JFrame {
                 gestion.setVisible(true);
             });
         }
-
         this.addWindowFocusListener(new WindowFocusListener() {
             @Override
             public void windowGainedFocus(WindowEvent e) {
-                t.setDelay(10000);
-                t.stop();
+                t.setDelay(2000);
+                t.start();
                 tTree.start();
 
             }
 
             @Override
             public void windowLostFocus(WindowEvent e) {
-                t.setDelay(2000);
+                t.setDelay(10000);
                 t.stop();
                 tTree.stop();
             }
@@ -211,12 +208,15 @@ public class Chat extends JFrame {
         if (node != null && node.getLevel()>1){
 
             GroupeNomme g = c.getGroupeName(node.getParent().toString());
-            FilDeDiscussion f = g.getFilsDeDiscussion(node.toString());
-            f.ajouterMessage(c.getUtilisateurCourant(),chatField.getText());
+            if (g.estMembre(c.getUtilisateurCourant()) || g.getFilsDeDiscussion(node.toString()).getCreateur().equals(c.getUtilisateurCourant())){
+                FilDeDiscussion f = g.getFilsDeDiscussion(node.toString());
+                f.ajouterMessage(c.getUtilisateurCourant(), chatField.getText());
 
-            chatField.setText("");
-            c.upload();
-
+                chatField.setText("");
+                c.upload();
+            }else{
+                JOptionPane.showMessageDialog(null,"Vous n'appartenez pas au groupe");
+            }
         }
         majListMessage(c);
     }
@@ -306,6 +306,7 @@ public class Chat extends JFrame {
      */
     private void buildTree(Client c){
         //List groupe est vide
+        c.download();
         NavigableSet<GroupeNomme> listGroupe = new TreeSet<>(Comparator.comparing(GroupeNomme::getNom));
         listGroupe.addAll(c.getListeGroupe());
 
@@ -314,30 +315,28 @@ public class Chat extends JFrame {
 
         //Nous allons ajouter des branches et des feuilles à notre racine
         for(GroupeNomme g : listGroupe){
-            if (g.getMembres().contains(c.getUtilisateurCourant())) {
+
                 DefaultMutableTreeNode rep = new DefaultMutableTreeNode(g.getNom());
-                NavigableSet<FilDeDiscussion> fils = new TreeSet<>(new Comparator<FilDeDiscussion>() {
-                    @Override
-                    public int compare(FilDeDiscussion o1, FilDeDiscussion o2) {
-                        if (o1.getListMessage().isEmpty()){
-                            return 1;
-                        }
-                        if (o2.getListMessage().isEmpty()){
-                            return -1;
-                        }
-                        return o2.getDernierMessage().getDateEnvoi().compareTo(o1.getDernierMessage().getDateEnvoi());
+                NavigableSet<FilDeDiscussion> fils = new TreeSet<>((o1, o2) -> {
+                    if (o1.getListMessage().isEmpty()){
+                        return 1;
                     }
+                    if (o2.getListMessage().isEmpty()){
+                        return -1;
+                    }
+                    return o2.getDernierMessage().getDateEnvoi().compareTo(o1.getDernierMessage().getDateEnvoi());
                 });
                 fils.addAll(g.getFilsDeDiscussion());
                 //On rajoute 4 branches
                 for (FilDeDiscussion fil : fils) {
-                    DefaultMutableTreeNode rep2 = new DefaultMutableTreeNode(fil.getSujet());
-                    rep.add(rep2);
+                    if (fil.getCreateur().equals(c.getUtilisateurCourant()) || g.estMembre(c.getUtilisateurCourant())) {
+                        DefaultMutableTreeNode rep2 = new DefaultMutableTreeNode(fil.getSujet());
+                        rep.add(rep2);
+                    }
                 }
-
                 //On ajoute la feuille ou la branche à la racine
                 racine.add(rep);
-            }
+
         }
         //Nous créons, avec notre hiérarchie, un arbre
         this.chatTree = new JTree(racine);

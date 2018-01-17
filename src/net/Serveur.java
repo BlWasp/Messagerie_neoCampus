@@ -49,9 +49,12 @@ public class Serveur {
         GroupeNomme m2 = new GroupeNomme("M2");
 
 
+
         l3.ajouterFilDeDiscussion(admin,"Fil 1");
         l3.ajouterFilDeDiscussion(admin,"Fil 2");
         l3.ajouterFilDeDiscussion(admin,"Erreur réseau");
+
+        m2.ajouterFilDeDiscussion(salim,"Coucou");
 
         l2.ajouterFilDeDiscussion(sylvain,"Fil 3");
 

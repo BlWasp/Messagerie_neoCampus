@@ -146,12 +146,10 @@ public class FilDeDiscussion implements Serializable,Comparable<FilDeDiscussion>
         MutableAttributeSet right = new SimpleAttributeSet();
         StyleConstants.setAlignment(right, StyleConstants.ALIGN_RIGHT);
         StyleConstants.setFontFamily(right,"Tahoma");
-        //StyleConstants.setForeground(right, Color.BLUE);
 
         MutableAttributeSet left = new SimpleAttributeSet();
         StyleConstants.setAlignment(left, StyleConstants.ALIGN_LEFT);
         StyleConstants.setFontFamily(left,"Tahoma");
-        //StyleConstants.setForeground(left, Color.RED);
 
         StyledDocument sDoc = new DefaultStyledDocument();
         pane.setStyledDocument(sDoc);

@@ -65,14 +65,10 @@ public class AjoutTicket extends JDialog {
             if (g != null){
                 FilDeDiscussion f = g.getFilsDeDiscussion(ticket.getText());
                 if (f == null) {
-                    if (g.getMembres().contains(c.getUtilisateurCourant())) {
                         g.ajouterFilDeDiscussion(c.getUtilisateurCourant(), ticket.getText());
                         c.upload();
 
                         dispose();
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Vous n'appartenez pas au groupe");
-                    }
                 }else{
                     JOptionPane.showMessageDialog(null,"Ticket déjà crée");
                 }
