@@ -161,6 +161,7 @@ public class FilDeDiscussion implements Serializable,Comparable<FilDeDiscussion>
             ch.append(m.getDateEnvoi());
             ch.append("\n");
             ch.append(m.getFrom().getNom() + " " + m.getFrom().getPrenom() + " : ");
+            ch.append(m);
             ch.append("\n");
             ch.append(m.getMessage());
             

@@ -165,7 +165,6 @@ public class Chat extends JFrame {
                 AjoutTicket ajout = new AjoutTicket(c);
                 ajout.pack();
                 ajout.setVisible(true);
-                //buildTree(c);
             }
         });
 
